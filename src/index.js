@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 
 import App from '~/App';
 import GlobalStyle from '~/components/GlobalStyle/GlobalStyle';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -11,6 +13,7 @@ root.render(
   <React.StrictMode>
     <GlobalStyle>
       <App />
+      <ToastContainer />
     </GlobalStyle>
   </React.StrictMode>,
 );
