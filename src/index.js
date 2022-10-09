@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import { Provider } from 'react-redux';
+import { persistor, store } from '~/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import App from '~/App';
 import GlobalStyle from '~/components/GlobalStyle/GlobalStyle';
 import { ToastContainer } from 'react-toastify';
@@ -11,10 +15,14 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GlobalStyle>
-      <App />
-      <ToastContainer />
-    </GlobalStyle>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <GlobalStyle>
+          <App />
+          <ToastContainer />
+        </GlobalStyle>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
 );
 
