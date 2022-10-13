@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
 
-import './AccountButton.scss';
+import styles from './MiniAccount.module.scss';
 
 import { AiOutlineUser } from 'react-icons/ai';
 
-const AccountButton = () => {
+const cx = classNames.bind(styles);
+
+const MiniAccount = () => {
   return (
-    <div className="account-button ml-6">
+    <div className={cx('mini-account', 'ml-6 hidden lg:block')}>
       <AiOutlineUser className="text-3xl cursor-pointer" />
       <ul>
         <li>
@@ -20,4 +23,4 @@ const AccountButton = () => {
   );
 };
 
-export default AccountButton;
+export default MiniAccount;

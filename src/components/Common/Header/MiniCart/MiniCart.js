@@ -1,14 +1,18 @@
-import './MiniCart.scss';
+import classNames from 'classnames/bind';
+import styles from './MiniCart.module.scss';
 
 import { BsCart } from 'react-icons/bs';
-import ListItem from './ListItem/ListItem';
+
+import ContentBox from './ContentBox/ContentBox';
+
+const cx = classNames.bind(styles);
 
 const MiniCart = () => {
   return (
-    <div className="cart-button ml-6">
-      <div className="cart__total-item">0</div>
-      <BsCart className="text-2xl" />
-      <ListItem />
+    <div className={cx('mini-cart', 'ml-6')}>
+      <div className={cx('total-items')}>0</div>
+      <BsCart className={cx('text-2xl')} />
+      <ContentBox />
     </div>
   );
 };

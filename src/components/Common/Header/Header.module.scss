@@ -1,9 +1,9 @@
-.header-container {
+.header {
   position: relative;
   padding-top: 0px;
   animation: padding-top-70-0 0.3s ease;
 
-  &.active-search-bar {
+  &.active {
     padding-top: 70px;
     animation: padding-top-0-70 0.3s ease;
 

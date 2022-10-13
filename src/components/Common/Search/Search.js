@@ -1,9 +1,14 @@
-import './Search.scss';
+import { useRef } from 'react';
+import classNames from 'classnames/bind';
+
+import styles from './Search.module.scss';
+
 import AnimateInput from './AnimateInput/AnimateInput';
 
 import { BiSearch } from 'react-icons/bi';
 import { IoClose } from 'react-icons/io5';
-import { useRef } from 'react';
+
+const cx = classNames.bind(styles);
 
 const Search = ({ isShowSearchBar, setIsShowSearchBar }) => {
   const inputRef = useRef(null);
@@ -16,8 +21,11 @@ const Search = ({ isShowSearchBar, setIsShowSearchBar }) => {
   return (
     <>
       <div
-        className={`search-bar flex justify-center items-center absolute w-full h-[70px] z-[100] bg-white 
-        ${isShowSearchBar ? 'active' : ''}`}
+        className={cx(
+          'search-bar',
+          { active: isShowSearchBar },
+          'flex justify-center items-center absolute w-full h-[70px] z-[100] bg-white',
+        )}
       >
         <form
           action="search"
@@ -37,7 +45,7 @@ const Search = ({ isShowSearchBar, setIsShowSearchBar }) => {
         </button>
       </div>
       <div
-        className={`backdrop fixed left-0 top-0 w-full h-full bg-black opacity-50 ${isShowSearchBar ? 'active' : ''}`}
+        className={cx('backdrop', { active: isShowSearchBar }, 'fixed left-0 top-0 w-full h-full bg-black opacity-50')}
         onClick={() => setIsShowSearchBar(false)}
       ></div>
     </>
