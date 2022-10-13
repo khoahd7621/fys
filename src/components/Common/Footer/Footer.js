@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
+
 import styles from './Footer.module.scss';
 
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
-
 import payment1 from '~/assets/images/payment/payment1.svg';
+
+import BackToTop from './BackToTop/BackToTop';
 
 const cx = classNames.bind(styles);
 
@@ -118,6 +120,7 @@ const Footer = () => {
           &#169; Copyright by Young Black | Designed by YG SHOP with ❤️
         </div>
       </div>
+      <BackToTop />
     </footer>
   );
 };
