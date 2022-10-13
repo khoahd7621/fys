@@ -32,6 +32,7 @@
     box-shadow: 0 2px 6px 0 #32323254;
     cursor: default;
     display: none;
+    z-index: 2;
 
     &::before {
       content: '';
