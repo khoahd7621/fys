@@ -1,0 +1,95 @@
+.footer {
+  background-color: #000;
+  color: #fff;
+  padding-top: 8px;
+
+  .widget {
+    h3 {
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 13px 0;
+    }
+
+    ul {
+      li {
+        height: 24px;
+        display: block;
+
+        a {
+          transition: all 0.15s ease-in-out;
+
+          &:hover {
+            color: #000;
+          }
+        }
+      }
+
+      li + li {
+        margin-top: 4px;
+      }
+    }
+
+    .social {
+      display: flex;
+      gap: 16px;
+      padding: 12px 0;
+
+      a {
+        font-size: 32px;
+        transition: all 0.15s ease-in-out;
+      }
+
+      .facebook {
+        &:hover {
+          color: #3b5998;
+        }
+      }
+
+      .twitter {
+        &:hover {
+          color: #1da1f2;
+        }
+      }
+
+      .instagram {
+        &:hover {
+          color: #e1306c;
+        }
+      }
+
+      .youtube {
+        &:hover {
+          color: #f00;
+        }
+      }
+    }
+
+    .mailchimp {
+      form {
+        display: flex;
+
+        input {
+          height: 40px;
+          flex: 1;
+          padding: 0 10px;
+          color: #666;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        button {
+          padding: 0 20px;
+          background-color: #333f48;
+          transition: all 0.15s ease-in-out;
+
+          &:hover {
+            background-color: #000;
+          }
+        }
+      }
+    }
+  }
+}
