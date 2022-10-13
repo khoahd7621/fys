@@ -5,7 +5,7 @@ import './Header.scss';
 
 import Search from '../Search/Search';
 import AccountButton from './AccountButton/AccountButton';
-import CartButton from './CartButton/CartButton';
+import MiniCart from './MiniCart/MiniCart';
 
 import { BsSearch } from 'react-icons/bs';
 
@@ -38,7 +38,7 @@ const Header = () => {
               </button>
             </div>
             <AccountButton />
-            <CartButton />
+            <MiniCart />
           </div>
         </div>
       </div>

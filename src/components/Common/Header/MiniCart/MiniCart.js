@@ -1,9 +1,9 @@
-import './CartButton.scss';
+import './MiniCart.scss';
 
 import { BsCart } from 'react-icons/bs';
 import ListItem from './ListItem/ListItem';
 
-const CartButton = () => {
+const MiniCart = () => {
   return (
     <div className="cart-button ml-6">
       <div className="cart__total-item">0</div>
@@ -13,4 +13,4 @@ const CartButton = () => {
   );
 };
 
-export default CartButton;
+export default MiniCart;
