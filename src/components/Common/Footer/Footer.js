@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <footer className={cx('footer')}>
       <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] px-3">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-2 pb-5">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             <div className={cx('widget')}>
               <h3>Customer</h3>
@@ -104,7 +104,7 @@ const Footer = () => {
                   <FaYoutube />
                 </a>
               </div>
-              <div className={cx('mailchimp')}>
+              <div className={cx('mailchimp', 'mb-5')}>
                 <h3>Sign up to get news from Young Black</h3>
                 <form>
                   <input type="text" placeholder="Your email" />
