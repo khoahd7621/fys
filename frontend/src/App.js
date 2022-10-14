@@ -7,7 +7,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Default />}>
           <Route index element={<Home />} />
-          <Route path="/collection/:type" element={<Collection />} />
+          <Route path="collection/:type" element={<Collection />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

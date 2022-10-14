@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 
 import styles from './Header.module.scss';
 
-import Search from '../Search/Search';
+import Search from './Search/Search';
 import MiniAccount from './MiniAccount/MiniAccount';
 import MiniCart from './MiniCart/MiniCart';
 
