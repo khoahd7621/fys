@@ -12,22 +12,22 @@ const Navbar = () => {
     <nav className={cx('main-nav', 'container mx-auto hidden lg:block lg:max-w-[970px] xl:max-w-[1150px] px-3')}>
       <div className="grid grid-cols-3">
         <div className={cx('nav-item')}>
-          <Link className={cx('nav-link')} to={''}>
+          <Link className={cx('nav-link')} to={'/'}>
             Home page
           </Link>
         </div>
         <div className={cx('nav-item')}>
-          <Link className={cx('nav-link')} to={''}>
+          <Link className={cx('nav-link')} to={'/collection/all'}>
             Products <MdOutlineKeyboardArrowDown className={cx('arrow-down')} />
           </Link>
           <ul className={cx('list-items')}>
             <li className={cx('item')}>
-              <Link className={cx('link')} to={''}>
+              <Link className={cx('link')} to={'/collection/sale'}>
                 Sale 🔥
               </Link>
             </li>
             <li className={cx('item')}>
-              <Link className={cx('link')} to={''}>
+              <Link className={cx('link')} to={'/collection/t-shirt'}>
                 T-shirt
               </Link>
             </li>
