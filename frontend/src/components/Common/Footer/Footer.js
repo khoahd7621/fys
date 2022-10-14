@@ -54,16 +54,24 @@ const Footer = () => {
               <h3>E-commerce floor</h3>
               <ul>
                 <li>
-                  <Link to={''}>Shopee Ho Chi Minh</Link>
+                  <a href="https://shopee.vn/" target="_blank" title="Shopee">
+                    Shopee Ho Chi Minh
+                  </a>
                 </li>
                 <li>
-                  <Link to={''}>Shopee Hanoi</Link>
+                  <a href="https://shopee.vn/" target="_blank" title="Shopee">
+                    Shopee Hanoi
+                  </a>
                 </li>
                 <li>
-                  <Link to={''}>Shopee Da Nang</Link>
+                  <a href="https://shopee.vn/" target="_blank" title="Shopee">
+                    Shopee Da Nang
+                  </a>
                 </li>
                 <li>
-                  <Link to={''}>Lazada - LazMall</Link>
+                  <a href="https://www.lazada.vn/" target="_blank" title="Lazada">
+                    Lazada - LazMall
+                  </a>
                 </li>
               </ul>
             </div>
@@ -80,13 +88,13 @@ const Footer = () => {
               <ul>
                 <li className="pb-32">
                   Address: <br />
-                  718 Cách Mạng Tháng 8, Tân Bình, HCM
+                  718 Điện Biên Phủ, Tân Bình, HCM
                   <br />
-                  95A Nguyễn Trọng Tuyển, Phú Nhuận, HCM
+                  95A Hoàng Hữu Nam, Phú Nhuận, HCM
                   <br />
-                  180 Đông Các, Đống Đa, Hà Nội
+                  180 Hồ Gươm, Đống Đa, Hà Nội
                   <br />
-                  488 Hoàng Diệu, Đà Nẵng
+                  488 Nguyễn Tri Phương, Đà Nẵng
                 </li>
                 <li>
                   Phone number: <a href="tel:1800 1234">1800 1234</a>

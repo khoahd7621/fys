@@ -4,6 +4,8 @@ import classNames from 'classnames/bind';
 
 import styles from './Header.module.scss';
 
+import { publicRoutePath } from '~/routes/constVars';
+
 import Search from './Search/Search';
 import MiniAccount from './MiniAccount/MiniAccount';
 import MiniCart from './MiniCart/MiniCart';
@@ -29,7 +31,7 @@ const Header = () => {
             Free shipping for orders over <b className="ml-1 font-semibold">500.000đ</b>
           </div>
           <div className="flex items-center justify-center">
-            <Link to={'/'}>
+            <Link to={publicRoutePath.home}>
               <img className="h-[20px] md:h-[24px] lg:h-[30px]" src={logo} alt="logo" />
             </Link>
           </div>

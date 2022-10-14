@@ -6,13 +6,15 @@ import { Link } from 'react-router-dom';
 import { BsLink45Deg } from 'react-icons/bs';
 import { FaCartArrowDown, FaCartPlus } from 'react-icons/fa';
 
+import { publicRoutePath } from '~/routes/constVars';
+
 const cx = classNames.bind(styles);
 
 const Product = () => {
   return (
     <div className={cx('product-block')} title={'Product'}>
       <div className={cx('thumb')}>
-        <Link className={cx('primary-img')} to={'/collection/type/productname'}>
+        <Link className={cx('primary-img')} to={`${publicRoutePath.collection}/type/productname`}>
           <img
             src={
               'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/308066421-5438382269603243-2253586239615982651-n.jpg?v=1663678985000'
@@ -20,7 +22,7 @@ const Product = () => {
             alt="primary-img"
           />
         </Link>
-        <Link className={cx('secondary-img')} to={'/collection/type/productname'}>
+        <Link className={cx('secondary-img')} to={`${publicRoutePath.collection}/type/productname`}>
           <img
             src={
               'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/307980002-5438382122936591-6042481426817014800-n.jpg?v=1663678985000'
@@ -46,7 +48,7 @@ const Product = () => {
       <div className={cx('content')}>
         <div className={cx('name')}>
           <h4>
-            <Link to={'/collection/type/productname'}>Lively & Active Cap</Link>
+            <Link to={`${publicRoutePath.collection}/type/productname`}>Lively & Active Cap</Link>
           </h4>
         </div>
         <div className={cx('price')}>

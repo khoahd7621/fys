@@ -1,16 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Collection, Default, Home, NotFound, ProductDetail } from './components';
+
+import { Collection, Default, Home, NotFound, ProductDetail } from '~/components';
+import { publicRoutePath } from '~/routes/constVars';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Default />}>
+        <Route path={publicRoutePath.home} element={<Default />}>
           <Route index element={<Home />} />
-          <Route path="collection/:type" element={<Collection />} />
-          <Route path="collection/:type/:productname" element={<ProductDetail />} />
+          <Route path={`${publicRoutePath.collection}/:type`} element={<Collection />} />
+          <Route path={`${publicRoutePath.collection}/:type/:productname`} element={<ProductDetail />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path={publicRoutePath.notFound} element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
