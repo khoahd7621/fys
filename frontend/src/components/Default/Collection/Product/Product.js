@@ -12,7 +12,7 @@ const Product = () => {
   return (
     <div className={cx('product-block')} title={'Product'}>
       <div className={cx('thumb')}>
-        <Link className={cx('primary-img')} to={''}>
+        <Link className={cx('primary-img')} to={'/collection/type/productname'}>
           <img
             src={
               'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/308066421-5438382269603243-2253586239615982651-n.jpg?v=1663678985000'
@@ -20,7 +20,7 @@ const Product = () => {
             alt="primary-img"
           />
         </Link>
-        <Link className={cx('secondary-img')} to={''}>
+        <Link className={cx('secondary-img')} to={'/collection/type/productname'}>
           <img
             src={
               'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/307980002-5438382122936591-6042481426817014800-n.jpg?v=1663678985000'
@@ -46,7 +46,7 @@ const Product = () => {
       <div className={cx('content')}>
         <div className={cx('name')}>
           <h4>
-            <Link to={''}>Lively & Active Cap</Link>
+            <Link to={'/collection/type/productname'}>Lively & Active Cap</Link>
           </h4>
         </div>
         <div className={cx('price')}>
