@@ -2,6 +2,8 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Tabs.module.scss';
 
+import sizeTableImg from '~/assets/images/product/sizetable.webp';
+
 const cx = classNames.bind(styles);
 
 const Tabs = () => {
@@ -36,7 +38,16 @@ const Tabs = () => {
           Review Product
         </div>
       </div>
-      <div className="content"></div>
+      <div className="content mb-6">
+        {+index === 1 && <div>Product description ...</div>}
+        {+index === 2 && (
+          <div>
+            <div className="font-medium uppercase">Note: Size table does not apply to all products</div>
+            <img className="max-w-[600px] mx-auto" src={sizeTableImg} alt={'Size chart'} title="size chart" />
+          </div>
+        )}
+        {+index === 3 && <div>Ratings product ...</div>}
+      </div>
     </>
   );
 };
