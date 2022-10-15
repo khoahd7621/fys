@@ -8,7 +8,7 @@ import { publicRoutePath } from '~/routes/constVars';
 
 const cx = classNames.bind(styles);
 
-const BreadCrumb = ({ current = '', prevLink = [] }) => {
+const BreadCrumb = ({ current = '', children }) => {
   return (
     <div className={cx('bread-crumb')}>
       <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] px-3">
@@ -16,6 +16,7 @@ const BreadCrumb = ({ current = '', prevLink = [] }) => {
           <li className={cx('item', 'link')}>
             <Link to={publicRoutePath.home}>Home page</Link>
           </li>
+          {children}
           <li className={cx('item', 'active')}>
             <span>
               <RiArrowRightSLine />
@@ -25,6 +26,17 @@ const BreadCrumb = ({ current = '', prevLink = [] }) => {
         </ul>
       </div>
     </div>
+  );
+};
+
+export const Nested = ({ path = '', name = '' }) => {
+  return (
+    <li className={cx('item', 'link')}>
+      <span>
+        <RiArrowRightSLine />
+      </span>
+      <Link to={path}>{name.toUpperCase()}</Link>
+    </li>
   );
 };
 
