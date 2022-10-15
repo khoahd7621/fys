@@ -16,6 +16,7 @@
   transition: all 0.15s ease-in-out;
   opacity: 1;
   display: none;
+  background-color: #000;
 
   &:hover {
     border-color: #000;
@@ -23,12 +24,12 @@
 
   &.active {
     display: flex;
-    animation: slip-down 0.2s ease-in-out;
+    animation: slip-down 0.3s ease-in-out;
   }
 
   @keyframes slip-down {
     from {
-      bottom: 200px;
+      bottom: 150px;
       opacity: 0;
     }
 
