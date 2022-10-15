@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
+
 import BreadCrumb, { Nested } from '~/components/Common/BreadCrumb/BreadCrumb';
 import DetailBlock from './DetailBlock/DetailBlock';
+import ImageBlock from './ImageBlock/ImageBlock';
 
 import { publicRoutePath } from '~/routes/constVars';
 
@@ -13,8 +15,8 @@ const ProductDetail = () => {
         <BreadCrumb current={productname}>
           <Nested path={`${publicRoutePath.collection}/${type}`} name={type} />
         </BreadCrumb>
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="image-block">Image here</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <ImageBlock />
           <DetailBlock />
         </div>
         <div className="grid grid-cols-1">
