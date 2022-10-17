@@ -2,6 +2,8 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Tabs.module.scss';
 
+import { ProductRating } from '~/components';
+
 import sizeTableImg from '~/assets/images/product/sizetable.webp';
 
 const cx = classNames.bind(styles);
@@ -46,7 +48,7 @@ const Tabs = () => {
             <img className="max-w-[600px] mx-auto" src={sizeTableImg} alt={'Size chart'} title="size chart" />
           </div>
         )}
-        {+index === 3 && <div>Ratings product ...</div>}
+        {+index === 3 && <ProductRating />}
       </div>
     </>
   );

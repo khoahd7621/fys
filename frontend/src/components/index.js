@@ -9,3 +9,4 @@ export { default as Carousel } from './Carousel/Carousel';
 export { default as Service } from './Service/Service';
 
 export { default as ProductCard } from './ProductCard/ProductCard';
+export { default as ProductRating } from './ProductRating/ProductRating';
