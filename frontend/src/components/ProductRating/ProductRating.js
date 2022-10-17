@@ -6,10 +6,14 @@ import styles from './ProductRating.module.scss';
 
 import { AiFillStar } from 'react-icons/ai';
 import { HiOutlineUserCircle } from 'react-icons/hi';
+import RatingModal from '../RatingModal/RatingModal';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 const ProductRating = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className={cx('product-rating')}>
       <div className={cx('rating')}>
@@ -86,18 +90,23 @@ const ProductRating = () => {
             </ul>
           </div>
           <div className={cx('right', 'flex justify-end items-start')}>
-            <button className="text-base uppercase p-2 bg-black text-white hover:bg-slate-700">Write ratings</button>
+            <button
+              className="text-base uppercase p-2 bg-black text-white hover:bg-slate-700"
+              onClick={() => setShowModal(true)}
+            >
+              Write ratings
+            </button>
+            <RatingModal show={showModal} setShow={setShowModal} />
           </div>
         </div>
       </div>
-      <div className={cx('comments')}>
+      <div className={cx('comments', 'pb-3')}>
         <div className={cx('comment', 'border-t pt-3')}>
           <div className={cx('top', 'flex items-center gap-2 mb-2')}>
             <div className="text-4xl">
               <HiOutlineUserCircle />
             </div>
             <div>
-              {' '}
               <div className={cx('title')}>Khoa</div>
               <div className={cx('rate', 'flex gap-2 items-end')}>
                 <div className={cx('star')}>
