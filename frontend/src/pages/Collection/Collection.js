@@ -4,8 +4,7 @@ import classNames from 'classnames/bind';
 
 import styles from './Collection.module.scss';
 
-import BreadCrumb from '~/components/Common/BreadCrumb/BreadCrumb';
-import Product from './Product/Product';
+import { BreadCrumb, ProductCard } from '~/components';
 
 const cx = classNames.bind(styles);
 
@@ -40,13 +39,13 @@ const Collection = () => {
               </ul>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-              <Product />
-              <Product />
-              <Product />
-              <Product />
-              <Product />
-              <Product />
-              <Product />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
             </div>
           </div>
         </div>

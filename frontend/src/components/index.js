@@ -1,6 +1,11 @@
 export { default as GlobalStyle } from './GlobalStyle/GlobalStyle';
-export { default as Collection } from './Default/Collection/Collection';
-export { default as Home } from './Default/Home/Home';
-export { default as NotFound } from './NotFound/NotFound';
-export { default as Default } from './Default/Default';
-export { default as ProductDetail } from './Default/Collection/ProductDetail/ProductDetail';
+export { default as Header } from './Header/Header';
+export { default as Navbar } from './Navbar/Navbar';
+export { default as Footer } from './Footer/Footer';
+export { default as BackToTop } from './BackToTop/BackToTop';
+
+export { default as BreadCrumb } from './BreadCrumb/BreadCrumb';
+export { default as Carousel } from './Carousel/Carousel';
+export { default as Service } from './Service/Service';
+
+export { default as ProductCard } from './ProductCard/ProductCard';

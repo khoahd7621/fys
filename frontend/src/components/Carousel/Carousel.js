@@ -20,6 +20,7 @@ const Carousel = () => {
     autoplaySpeed: 5000,
     customPaging: () => <div className="custom-dot"></div>,
   };
+
   return (
     <Slider {...settings}>
       <Link to={'/collection/all'}>

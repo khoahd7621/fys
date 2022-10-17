@@ -6,7 +6,7 @@ import styles from './Footer.module.scss';
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import payment1 from '~/assets/images/payment/payment1.svg';
 
-import BackToTop from './BackToTop/BackToTop';
+import BackToTop from '../BackToTop/BackToTop';
 
 const cx = classNames.bind(styles);
 

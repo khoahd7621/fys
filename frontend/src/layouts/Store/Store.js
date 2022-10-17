@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { Footer, Header, Navbar } from '../Common';
+import { Footer, Header, Navbar } from '~/components';
 
-const Default = () => {
+const Store = () => {
   return (
-    <div className="Default">
+    <div className="Store">
       <Header />
       <Navbar />
       <Outlet />
@@ -12,4 +12,4 @@ const Default = () => {
   );
 };
 
-export default Default;
+export default Store;

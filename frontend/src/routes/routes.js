@@ -1,7 +1,7 @@
-const publicRoutePath = {
+const publicRoutes = {
   home: '/',
   collection: '/collection',
   notFound: '*',
 };
 
-export { publicRoutePath };
+export { publicRoutes };

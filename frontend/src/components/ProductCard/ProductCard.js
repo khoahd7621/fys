@@ -1,20 +1,20 @@
 import classNames from 'classnames/bind';
-import styles from './Product.module.scss';
+import styles from './ProductCard.module.scss';
 
 import { Link } from 'react-router-dom';
 
 import { BsLink45Deg } from 'react-icons/bs';
 import { FaCartArrowDown, FaCartPlus } from 'react-icons/fa';
 
-import { publicRoutePath } from '~/routes/constVars';
+import { publicRoutes } from '~/routes/routes';
 
 const cx = classNames.bind(styles);
 
-const Product = () => {
+const ProductCard = () => {
   return (
     <div className={cx('product-block')} title={'Product'}>
       <div className={cx('thumb')}>
-        <Link className={cx('primary-img')} to={`${publicRoutePath.collection}/type/productname`}>
+        <Link className={cx('primary-img')} to={`${publicRoutes.collection}/type/productname`}>
           <img
             src={
               'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/308066421-5438382269603243-2253586239615982651-n.jpg?v=1663678985000'
@@ -22,7 +22,7 @@ const Product = () => {
             alt="primary-img"
           />
         </Link>
-        <Link className={cx('secondary-img')} to={`${publicRoutePath.collection}/type/productname`}>
+        <Link className={cx('secondary-img')} to={`${publicRoutes.collection}/type/productname`}>
           <img
             src={
               'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/307980002-5438382122936591-6042481426817014800-n.jpg?v=1663678985000'
@@ -48,7 +48,7 @@ const Product = () => {
       <div className={cx('content')}>
         <div className={cx('name')}>
           <h4>
-            <Link to={`${publicRoutePath.collection}/type/productname`}>Lively & Active Cap</Link>
+            <Link to={`${publicRoutes.collection}/type/productname`}>Lively & Active Cap</Link>
           </h4>
         </div>
         <div className={cx('price')}>
@@ -60,4 +60,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default ProductCard;

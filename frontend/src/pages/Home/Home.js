@@ -3,8 +3,7 @@ import { GiCardboardBox } from 'react-icons/gi';
 import { FiPhoneCall } from 'react-icons/fi';
 import { BiStoreAlt } from 'react-icons/bi';
 
-import Carousel from './Carousel/Carousel';
-import Service from './Service/Service';
+import { Carousel, Service } from '~/components';
 
 const Home = () => {
   return (

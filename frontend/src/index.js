@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { Provider } from 'react-redux';
-import { persistor, store } from '~/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from '~/redux/store';
 
-import App from '~/App';
 import GlobalStyle from '~/components/GlobalStyle/GlobalStyle';
+import Router from '~/routes/Router';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,7 +19,7 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <GlobalStyle>
-          <App />
+          <Router />
           <ToastContainer />
         </GlobalStyle>
       </PersistGate>
