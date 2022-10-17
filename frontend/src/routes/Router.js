@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { NotFound, Store } from '~/layouts';
 import { publicRoutes } from '~/routes/routes';
 
-import { Collection, Home, ProductDetail } from '~/pages';
+import { Cart, Collection, Home, ProductDetail } from '~/pages';
 
 const Router = () => {
   return (
@@ -13,6 +13,7 @@ const Router = () => {
           <Route index element={<Home />} />
           <Route path={`${publicRoutes.collection}/:type`} element={<Collection />} />
           <Route path={`${publicRoutes.collection}/:type/:productname`} element={<ProductDetail />} />
+          <Route path={`${publicRoutes.cart}`} element={<Cart />} />
         </Route>
         <Route path={publicRoutes.notFound} element={<NotFound />} />
       </Routes>
