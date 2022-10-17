@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import DetailBlock from './DetailBlock/DetailBlock';
 import ImageBlock from './ImageBlock/ImageBlock';
 import Tabs from './Tabs/Tabs';
-import { BreadCrumb } from '~/components';
+import { BreadCrumb, RelatedProduct } from '~/components';
 import { Nested } from '~/components/BreadCrumb/BreadCrumb';
 
 import { publicRoutes } from '~/routes/routes';
@@ -47,9 +47,7 @@ const ProductDetail = () => {
             <div>Delivery to your place</div>
           </button>
         </div>
-        <div className="grid grid-cols-1">
-          <div className="related-product"></div>
-        </div>
+        <RelatedProduct />
       </div>
     </div>
   );

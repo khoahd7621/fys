@@ -10,3 +10,4 @@ export { default as Service } from './Service/Service';
 
 export { default as ProductCard } from './ProductCard/ProductCard';
 export { default as ProductRating } from './ProductRating/ProductRating';
+export { default as RelatedProduct } from './RelatedProduct/RelatedProduct';
