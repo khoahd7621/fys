@@ -24,6 +24,29 @@ const ProductDetail = () => {
         <div className="product-tab">
           <Tabs />
         </div>
+        <div className="product-anchor block md:flex items-center p-3 border border-[#f5f5f5]">
+          <div className="flex items-center">
+            <div className="image relative w-[100px] h-[100px] mr-3">
+              <img
+                className="absolute top-0 bottom-0 left-0 right-0 max-h-full w-auto m-auto"
+                src={
+                  'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/312080676-5515792315195571-1246325261985329414-n.jpg?v=1665978000173'
+                }
+                alt="Product anchor"
+              />
+            </div>
+            <div className="content">
+              <h3 className="font-bold uppercase mr-5">INVADER T-SHIRT</h3>
+              <div className="text-sm font-light">
+                Price: <span className="text-lg font-medium">320.000đ</span>
+              </div>
+            </div>
+          </div>
+          <button className="bg-black text-white block w-full md:w-[250px] mt-4 md:mt-0 ml-auto px-4 py-1 rounded-sm">
+            <div className="uppercase font-medium">Buy now</div>
+            <div>Delivery to your place</div>
+          </button>
+        </div>
         <div className="grid grid-cols-1">
           <div className="related-product"></div>
         </div>
