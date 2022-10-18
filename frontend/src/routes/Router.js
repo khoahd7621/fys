@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { NotFound, Store } from '~/layouts';
-import { publicRoutes } from '~/routes/routes';
+import { privateRoutes, publicRoutes } from '~/routes/routes';
 
-import { Cart, Collection, Home, ProductDetail, SearchResult } from '~/pages';
+import { Cart, Collection, Home, ProductDetail, SearchResult, Login } from '~/pages';
 
 const Router = () => {
   return (
@@ -15,6 +15,7 @@ const Router = () => {
           <Route path={`${publicRoutes.collection}/:type/:productname`} element={<ProductDetail />} />
           <Route path={`${publicRoutes.cart}`} element={<Cart />} />
           <Route path={publicRoutes.search} element={<SearchResult />} />
+          <Route path={privateRoutes.login} element={<Login />} />
         </Route>
         <Route path={publicRoutes.notFound} element={<NotFound />} />
       </Routes>

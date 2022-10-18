@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './MiniAccount.module.scss';
 
 import { AiOutlineUser } from 'react-icons/ai';
+import { privateRoutes } from '~/routes/routes';
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +14,7 @@ const MiniAccount = () => {
       <AiOutlineUser className="text-3xl cursor-pointer" />
       <ul>
         <li>
-          <Link to={''}>Sign in</Link>
+          <Link to={privateRoutes.login}>Sign in</Link>
         </li>
         <li>
           <Link to={''}>Register</Link>

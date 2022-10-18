@@ -6,4 +6,8 @@ const publicRoutes = {
   notFound: '*',
 };
 
-export { publicRoutes };
+const privateRoutes = {
+  login: '/login',
+};
+
+export { publicRoutes, privateRoutes };
