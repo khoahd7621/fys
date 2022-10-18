@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './Search.module.scss';
@@ -7,15 +8,33 @@ import AnimateInput from './AnimateInput/AnimateInput';
 
 import { BiSearch } from 'react-icons/bi';
 import { IoClose } from 'react-icons/io5';
+import { toast } from 'react-toastify';
+import { publicRoutes } from '~/routes/routes';
 
 const cx = classNames.bind(styles);
 
 const Search = ({ isShowSearchBar, setIsShowSearchBar }) => {
+  const navigate = useNavigate();
+
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isShowSearchBar) {
+      inputRef.current.focus();
+    } else {
+      inputRef.current.value = '';
+    }
+  }, [isShowSearchBar]);
 
   const handleSubmitSearch = (event) => {
     event.preventDefault();
-    console.log('Input value: ', inputRef.current.value);
+    if (inputRef.current.value.trim().length === 0) {
+      toast.error('Please enter a keyword to search');
+    } else {
+      setIsShowSearchBar(false);
+      navigate(`${publicRoutes.search}?query=${inputRef.current.value.trim()}`);
+      inputRef.current.value = '';
+    }
   };
 
   return (
@@ -27,11 +46,7 @@ const Search = ({ isShowSearchBar, setIsShowSearchBar }) => {
           'flex justify-center items-center absolute w-full h-[70px] z-[100] bg-white',
         )}
       >
-        <form
-          action="search"
-          className="flex justify-center items-center"
-          onSubmit={(event) => handleSubmitSearch(event)}
-        >
+        <form className="flex justify-center items-center" onSubmit={(event) => handleSubmitSearch(event)}>
           <AnimateInput ref={inputRef} />
           <button className="h-10 flex justify-center items-center">
             <BiSearch className="text-xl" />
