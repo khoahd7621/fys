@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { NotFound, Store } from '~/layouts';
 import { privateRoutes, publicRoutes } from '~/routes/routes';
 
-import { Cart, Collection, Home, ProductDetail, SearchResult, Login } from '~/pages';
+import { Cart, Collection, Home, ProductDetail, SearchResult, Login, Register } from '~/pages';
 
 const Router = () => {
   return (
@@ -16,6 +16,7 @@ const Router = () => {
           <Route path={`${publicRoutes.cart}`} element={<Cart />} />
           <Route path={publicRoutes.search} element={<SearchResult />} />
           <Route path={privateRoutes.login} element={<Login />} />
+          <Route path={privateRoutes.register} element={<Register />} />
         </Route>
         <Route path={publicRoutes.notFound} element={<NotFound />} />
       </Routes>

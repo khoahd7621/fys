@@ -8,6 +8,7 @@ const publicRoutes = {
 
 const privateRoutes = {
   login: '/login',
+  register: '/register',
 };
 
 export { publicRoutes, privateRoutes };

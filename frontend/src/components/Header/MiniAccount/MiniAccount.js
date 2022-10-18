@@ -17,7 +17,7 @@ const MiniAccount = () => {
           <Link to={privateRoutes.login}>Sign in</Link>
         </li>
         <li>
-          <Link to={''}>Register</Link>
+          <Link to={privateRoutes.register}>Register</Link>
         </li>
       </ul>
     </div>
