@@ -1,8 +1,11 @@
 import { BreadCrumb } from '~/components';
 import { AiOutlineGoogle } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { privateRoutes } from '~/routes/routes';
 
 const Login = () => {
+  const location = useLocation();
+
   return (
     <div className="login">
       <BreadCrumb current="Login an account" />
@@ -38,7 +41,12 @@ const Login = () => {
                   <p className="form-text"></p>
                 </div>
                 <div>
-                  <Link to={''} className="text-sm font-medium text-[#06b2eb] hover:text-black">
+                  <Link
+                    to={privateRoutes.recoverPassword}
+                    state={{ from: location }}
+                    replace
+                    className="text-sm font-medium text-[#06b2eb] hover:text-black"
+                  >
                     Forgot password?
                   </Link>
                 </div>

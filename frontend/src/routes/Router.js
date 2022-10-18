@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { NotFound, Store } from '~/layouts';
 import { privateRoutes, publicRoutes } from '~/routes/routes';
 
-import { Cart, Collection, Home, ProductDetail, SearchResult, Login, Register } from '~/pages';
+import { Cart, Collection, Home, ProductDetail, SearchResult, Login, Register, RecoverPassword } from '~/pages';
 
 const Router = () => {
   return (
@@ -17,6 +17,7 @@ const Router = () => {
           <Route path={publicRoutes.search} element={<SearchResult />} />
           <Route path={privateRoutes.login} element={<Login />} />
           <Route path={privateRoutes.register} element={<Register />} />
+          <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
         </Route>
         <Route path={publicRoutes.notFound} element={<NotFound />} />
       </Routes>

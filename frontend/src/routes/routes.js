@@ -9,6 +9,7 @@ const publicRoutes = {
 const privateRoutes = {
   login: '/login',
   register: '/register',
+  recoverPassword: '/recover-password',
 };
 
 export { publicRoutes, privateRoutes };
