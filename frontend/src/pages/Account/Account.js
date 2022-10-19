@@ -46,13 +46,6 @@ const Account = () => {
                 >
                   <Link to={privateRoutes.changePassword}>Change password</Link>
                 </li>
-                <li
-                  className={classNames('my-2', {
-                    'font-semibold': location.pathname === privateRoutes.addressNotebook,
-                  })}
-                >
-                  <Link to={privateRoutes.addressNotebook}>Address notebook (1)</Link>
-                </li>
               </ul>
             </section>
           </div>

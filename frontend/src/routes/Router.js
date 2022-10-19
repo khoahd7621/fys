@@ -16,7 +16,7 @@ import {
   CheckoutSuccess,
   Account,
 } from '~/pages';
-import { AddressNotebook, ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
+import { ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
 
 const Router = () => {
   return (
@@ -36,7 +36,6 @@ const Router = () => {
             <Route path={privateRoutes.order} element={<Order />} />
             <Route path={privateRoutes.orderDetail} element={<OrderDetail />} />
             <Route path={privateRoutes.changePassword} element={<ChangePassword />} />
-            <Route path={privateRoutes.addressNotebook} element={<AddressNotebook />} />
           </Route>
         </Route>
         <Route path={publicRoutes.checkout} element={<Checkout />} />

@@ -16,7 +16,6 @@ const privateRoutes = {
   order: '/account/order',
   orderDetail: '/account/order/:orderId',
   changePassword: '/account/change-password',
-  addressNotebook: '/account/addresses',
 };
 
 export { publicRoutes, privateRoutes };

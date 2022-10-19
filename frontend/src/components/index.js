@@ -16,4 +16,3 @@ export { default as UserInfo } from './UserInfo/UserInfo';
 export { default as Order } from './Order/Order';
 export { default as OrderDetail } from './OrderDetail/OrderDetail';
 export { default as ChangePassword } from './ChangePassword/ChangePassword';
-export { default as AddressNotebook } from './AddressNotebook/AddressNotebook';
