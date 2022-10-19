@@ -21,13 +21,13 @@ const Account = () => {
       </BreadCrumb>
       <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] px-3 py-5 mb-8">
         <div className="grid grid-cols-12">
-          <div className="col-span-12 lg:col-span-3">
+          <div className="col-span-12 lg:col-span-4">
             <section className="side-bar">
               <div className="title">
                 <h2 className="text-xl uppercase mb-1">Account page</h2>
                 <p className="font-bold">Welcome, Hoang Dang Khoa!</p>
               </div>
-              <ul className="options mt-10">
+              <ul className="options mt-10 mb-10">
                 <li className={classNames('my-2', { 'font-semibold': location.pathname === privateRoutes.account })}>
                   <Link to={privateRoutes.account}>Account information</Link>
                 </li>
@@ -56,8 +56,7 @@ const Account = () => {
               </ul>
             </section>
           </div>
-          <div className="col-span-12 lg:col-span-9">
-            <span>Right</span>
+          <div className="col-span-12 lg:col-span-8">
             <Outlet />
           </div>
         </div>
