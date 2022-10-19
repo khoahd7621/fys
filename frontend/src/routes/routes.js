@@ -3,6 +3,7 @@ const publicRoutes = {
   collection: '/collection',
   cart: '/cart',
   search: '/search',
+  checkout: '/checkout',
   notFound: '*',
 };
 

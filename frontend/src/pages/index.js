@@ -6,3 +6,4 @@ export { default as SearchResult } from './SearchResult/SearchResult';
 export { default as Login } from './Login/Login';
 export { default as Register } from './Register/Register';
 export { default as RecoverPassword } from './RecoverPassword/RecoverPassword';
+export { default as Checkout } from './Checkout/Checkout';
