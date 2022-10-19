@@ -8,3 +8,4 @@ export { default as Register } from './Register/Register';
 export { default as RecoverPassword } from './RecoverPassword/RecoverPassword';
 export { default as Checkout } from './Checkout/Checkout';
 export { default as CheckoutSuccess } from './CheckoutSuccess/CheckoutSuccess';
+export { default as Account } from './Account/Account';

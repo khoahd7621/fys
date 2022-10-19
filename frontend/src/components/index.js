@@ -11,3 +11,9 @@ export { default as Service } from './Service/Service';
 export { default as ProductCard } from './ProductCard/ProductCard';
 export { default as ProductRating } from './ProductRating/ProductRating';
 export { default as RelatedProduct } from './RelatedProduct/RelatedProduct';
+
+export { default as UserInfo } from './UserInfo/UserInfo';
+export { default as Order } from './Order/Order';
+export { default as OrderDetail } from './OrderDetail/OrderDetail';
+export { default as ChangePassword } from './ChangePassword/ChangePassword';
+export { default as AddressNotebook } from './AddressNotebook/AddressNotebook';

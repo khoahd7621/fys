@@ -14,7 +14,9 @@ import {
   RecoverPassword,
   Checkout,
   CheckoutSuccess,
+  Account,
 } from '~/pages';
+import { AddressNotebook, ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
 
 const Router = () => {
   return (
@@ -29,6 +31,13 @@ const Router = () => {
           <Route path={privateRoutes.login} element={<Login />} />
           <Route path={privateRoutes.register} element={<Register />} />
           <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
+          <Route path={privateRoutes.account} element={<Account />}>
+            <Route index element={<UserInfo />} />
+            <Route path={privateRoutes.order} element={<Order />} />
+            <Route path={privateRoutes.orderDetail} element={<OrderDetail />} />
+            <Route path={privateRoutes.changePassword} element={<ChangePassword />} />
+            <Route path={privateRoutes.addressNotebook} element={<AddressNotebook />} />
+          </Route>
         </Route>
         <Route path={publicRoutes.checkout} element={<Checkout />} />
         <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
