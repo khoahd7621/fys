@@ -19,6 +19,12 @@ const MiniAccount = () => {
         <li>
           <Link to={privateRoutes.register}>Register</Link>
         </li>
+        <li>
+          <Link to={privateRoutes.account}>Welcome, Hoang Dang Khoa</Link>
+        </li>
+        <li>
+          <button>Logout</button>
+        </li>
       </ul>
     </div>
   );
