@@ -4,6 +4,7 @@ const publicRoutes = {
   cart: '/cart',
   search: '/search',
   checkout: '/checkout',
+  checkoutSuccess: '/checkout/thankyou',
   notFound: '*',
 };
 

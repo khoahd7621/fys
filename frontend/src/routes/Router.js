@@ -13,6 +13,7 @@ import {
   Register,
   RecoverPassword,
   Checkout,
+  CheckoutSuccess,
 } from '~/pages';
 
 const Router = () => {
@@ -30,6 +31,7 @@ const Router = () => {
           <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
         </Route>
         <Route path={publicRoutes.checkout} element={<Checkout />} />
+        <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
         <Route path={publicRoutes.notFound} element={<NotFound />} />
       </Routes>
     </BrowserRouter>
