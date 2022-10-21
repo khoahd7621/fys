@@ -1,5 +1,6 @@
 package com.khoahd7621.youngblack.models.user.mapper;
 
+import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ public class UserMapper {
                 .lastName(userDTORegisterRequest.getLastName())
                 .password(passwordEncoder.encode(userDTORegisterRequest.getPassword()))
                 .role(ERoles.USER)
+                .status(EAccountStatus.ACTIVE)
                 .build();
     }
 
@@ -34,7 +36,9 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .phone(user.getPhone())
                 .address(user.getAddress())
-                .role(user.getRole()).build();
+                .role(user.getRole())
+                .status(user.getStatus())
+                .build();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.khoahd7621.youngblack.models.user.dto;
 
+import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
 
 import lombok.Builder;
@@ -14,6 +15,7 @@ public class UserDTOResponse {
     private String phone;
     private String address;
     private ERoles role;
+    private EAccountStatus status;
     private String accessToken;
     private String refreshToken;
 }

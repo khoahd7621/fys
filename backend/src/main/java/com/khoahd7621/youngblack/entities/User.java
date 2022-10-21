@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
 
 import lombok.AllArgsConstructor;
@@ -35,4 +36,5 @@ public class User {
     private String lastName;
     private String address;
     private ERoles role;
+    private EAccountStatus status;
 }
