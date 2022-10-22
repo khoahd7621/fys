@@ -26,7 +26,6 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override
@@ -34,16 +33,17 @@ public class AuthServiceImpl implements AuthService {
         boolean isAuthed = false;
         Optional<User> userOpt = userRepository.findByEmail(userDTOLoginRequest.getEmail());
         if (userOpt.isPresent()) {
-            if (userOpt.get().getStatus() == EAccountStatus.ACTIVE) {
-                if (passwordEncoder.matches(userDTOLoginRequest.getPassword(), userOpt.get().getPassword())) {
+            User user = userOpt.get();
+            if (user.getStatus() == EAccountStatus.ACTIVE) {
+                if (passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())) {
                     isAuthed = true;
                 }
-            } else if (userOpt.get().getStatus() == EAccountStatus.INACTIVE) {
+            } else if (user.getStatus() == EAccountStatus.INACTIVE) {
                 throw new CustomBadRequestException(
                         CustomError.builder()
                                 .code(HttpStatus.BAD_REQUEST)
                                 .message("The account has not been activated").build());
-            } else if (userOpt.get().getStatus() == EAccountStatus.BLOCK) {
+            } else if (user.getStatus() == EAccountStatus.BLOCK) {
                 throw new CustomBadRequestException(
                         CustomError.builder()
                                 .code(HttpStatus.BAD_REQUEST)
