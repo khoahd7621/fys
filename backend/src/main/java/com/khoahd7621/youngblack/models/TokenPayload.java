@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.models.user;
+package com.khoahd7621.youngblack.models;
 
 import lombok.Builder;
 import lombok.Data;
