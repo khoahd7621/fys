@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.models.error.CustomError;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AuthService authService;
 
     private Map<String, UserDTOResponse> buildUserDTOResponse(User user) {
         Map<String, UserDTOResponse> wrapper = new HashMap<>();
@@ -45,6 +48,15 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toUser(userDTORegisterRequest);
         userRepository.save(user);
         return buildUserDTOResponse(user);
+    }
+
+    @Override
+    public Map<String, UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
+        Optional<User> userOpt = authService.getUserLoggedIn();
+        if (userOpt.isPresent()) {
+            return buildUserDTOResponse(userOpt.get());
+        }
+        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User not exist").build());
     }
 
 }

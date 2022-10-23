@@ -3,6 +3,7 @@ package com.khoahd7621.youngblack.exceptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.models.error.CustomError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,5 +33,12 @@ public class APIExceptionHandler {
             errors.put("error", CustomError.builder().code(HttpStatus.BAD_REQUEST).message(errorMessage).build());
         });
         return errors;
+    }
+
+    @ExceptionHandler(CustomNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public Map<String, CustomError> notFoundException(
+            CustomBadRequestException ex) {
+        return ex.getError();
     }
 }
