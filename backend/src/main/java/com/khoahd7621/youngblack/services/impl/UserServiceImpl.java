@@ -6,10 +6,12 @@ import java.util.Optional;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.models.error.CustomError;
+import com.khoahd7621.youngblack.models.user.dto.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOUpdateRequest;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.khoahd7621.youngblack.entities.User;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
 
     private Map<String, UserDTOResponse> buildUserDTOResponse(User user) {
         Map<String, UserDTOResponse> wrapper = new HashMap<>();
@@ -72,6 +75,27 @@ public class UserServiceImpl implements UserService {
             user.setLastName(userDTOUpdateRequest.getLastName());
             user.setPhone(userDTOUpdateRequest.getPhone());
             user.setAddress(userDTOUpdateRequest.getAddress());
+            userRepository.save(user);
+            return buildUserDTOResponse(user);
+        }
+        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User does not exist").build());
+    }
+
+    @Override
+    public Map<String, UserDTOResponse> changePassword(UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
+        Optional<User> userOpt = authService.getUserLoggedIn();
+        if (userOpt.isPresent()) {
+            if (!userDTOChangePasswordRequest.getNewPassword().equals(userDTOChangePasswordRequest.getConfirmPassword())) {
+                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Confirm password not match new password").build());
+            }
+            User user = userOpt.get();
+            if (!passwordEncoder.matches(userDTOChangePasswordRequest.getOldPassword(), user.getPassword())) {
+                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Old password is invalid").build());
+            }
+            if (passwordEncoder.matches(userDTOChangePasswordRequest.getNewPassword(), user.getPassword())) {
+                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("New password is the same with old password! Nothing change").build());
+            }
+            user.setPassword(passwordEncoder.encode(userDTOChangePasswordRequest.getNewPassword()));
             userRepository.save(user);
             return buildUserDTOResponse(user);
         }

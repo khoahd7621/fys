@@ -3,6 +3,7 @@ package com.khoahd7621.youngblack.controllers.user;
 import java.util.Map;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
+import com.khoahd7621.youngblack.models.user.dto.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOUpdateRequest;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,10 @@ public class UserController {
     @PutMapping
     public Map<String, UserDTOResponse> updateUser(@Valid @RequestBody UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
         return userService.updateUser(userDTOUpdateRequest);
+    }
+
+    @PutMapping("/change-password")
+    public Map<String, UserDTOResponse> changePassword(@Valid @RequestBody UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
+        return userService.changePassword(userDTOChangePasswordRequest);
     }
 }

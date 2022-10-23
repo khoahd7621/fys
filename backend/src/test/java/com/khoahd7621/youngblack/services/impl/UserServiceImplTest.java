@@ -15,6 +15,7 @@ import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,20 +23,24 @@ import java.util.Optional;
 
 class UserServiceImplTest {
 
-    private UserServiceImpl userServiceImpl;
     private UserRepository userRepository;
     private UserMapper userMapper;
+    private AuthService authService;
+    private PasswordEncoder passwordEncoder;
+    private UserServiceImpl userServiceImpl;
     private UserDTORegisterRequest userDTORegisterRequest;
     private UserDTOResponse userDTOResponse;
     private User user;
 
+
     @BeforeEach
     void beforeEach() {
-        AuthService authService = mock(AuthService.class);
         userRepository = mock(UserRepository.class);
         userMapper = mock(UserMapper.class);
+        authService = mock(AuthService.class);
+        passwordEncoder = mock(PasswordEncoder.class);
+        userServiceImpl = new UserServiceImpl(userRepository, userMapper, authService, passwordEncoder);
         userDTORegisterRequest = mock(UserDTORegisterRequest.class);
-        userServiceImpl = new UserServiceImpl(userRepository, userMapper, authService);
         userDTOResponse = mock(UserDTOResponse.class);
         user = mock(User.class);
     }
