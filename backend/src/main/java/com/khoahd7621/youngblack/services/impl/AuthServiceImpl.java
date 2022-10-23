@@ -12,6 +12,8 @@ import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +59,19 @@ public class AuthServiceImpl implements AuthService {
                             .message("Email or password is incorrect").build());
         }
         return buildUserDTOResponse(userOpt.get());
+    }
+
+    @Override
+    public Optional<User> getUserLoggedIn() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String email = ((UserDetails) principal).getUsername();
+            Optional<User> userOpt = userRepository.findByEmail(email);
+            if (userOpt.isPresent()) {
+                return userOpt;
+            }
+        }
+        return Optional.empty();
     }
 
     private Map<String, UserDTOResponse> buildUserDTOResponse(User user) {
