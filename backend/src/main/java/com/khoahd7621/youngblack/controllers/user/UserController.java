@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.models.user.dto.UserDTOUpdateRequest;
 import org.springframework.web.bind.annotation.*;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
@@ -29,5 +30,10 @@ public class UserController {
     @GetMapping
     public Map<String, UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
         return userService.getCurrentUser();
+    }
+
+    @PutMapping
+    public Map<String, UserDTOResponse> updateUser(@Valid @RequestBody UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
+        return userService.updateUser(userDTOUpdateRequest);
     }
 }
