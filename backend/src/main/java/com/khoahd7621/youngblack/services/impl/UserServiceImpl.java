@@ -56,50 +56,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
-        Optional<User> userOpt = authService.getUserLoggedIn();
-        if (userOpt.isPresent()) {
-            return buildUserDTOResponse(userOpt.get());
-        }
-        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User not exist").build());
+        User user = authService.getUserLoggedIn();
+        return buildUserDTOResponse(user);
     }
 
     @Override
     public Map<String, UserDTOResponse> updateUser(UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
-        Optional<User> userOpt = authService.getUserLoggedIn();
-        if (userOpt.isPresent()) {
-            if (userRepository.findByPhone(userDTOUpdateRequest.getPhone()).isPresent()) {
-                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Phone already existed").build());
-            }
-            User user = userOpt.get();
-            user.setFirstName(userDTOUpdateRequest.getFirstName());
-            user.setLastName(userDTOUpdateRequest.getLastName());
-            user.setPhone(userDTOUpdateRequest.getPhone());
-            user.setAddress(userDTOUpdateRequest.getAddress());
-            userRepository.save(user);
-            return buildUserDTOResponse(user);
+        if (userRepository.findByPhone(userDTOUpdateRequest.getPhone()).isPresent()) {
+            throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Phone already existed").build());
         }
-        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User does not exist").build());
+        User user = authService.getUserLoggedIn();
+        user.setFirstName(userDTOUpdateRequest.getFirstName());
+        user.setLastName(userDTOUpdateRequest.getLastName());
+        user.setPhone(userDTOUpdateRequest.getPhone());
+        user.setAddress(userDTOUpdateRequest.getAddress());
+        userRepository.save(user);
+        return buildUserDTOResponse(user);
     }
 
     @Override
     public Map<String, UserDTOResponse> changePassword(UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
-        Optional<User> userOpt = authService.getUserLoggedIn();
-        if (userOpt.isPresent()) {
-            if (!userDTOChangePasswordRequest.getNewPassword().equals(userDTOChangePasswordRequest.getConfirmPassword())) {
-                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Confirm password not match new password").build());
-            }
-            User user = userOpt.get();
-            if (!passwordEncoder.matches(userDTOChangePasswordRequest.getOldPassword(), user.getPassword())) {
-                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Old password is invalid").build());
-            }
-            if (passwordEncoder.matches(userDTOChangePasswordRequest.getNewPassword(), user.getPassword())) {
-                throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("New password is the same with old password! Nothing change").build());
-            }
-            user.setPassword(passwordEncoder.encode(userDTOChangePasswordRequest.getNewPassword()));
-            userRepository.save(user);
-            return buildUserDTOResponse(user);
+        if (!userDTOChangePasswordRequest.getNewPassword().equals(userDTOChangePasswordRequest.getConfirmPassword())) {
+            throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Confirm password not match new password").build());
         }
-        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User does not exist").build());
+        User user = authService.getUserLoggedIn();
+        if (!passwordEncoder.matches(userDTOChangePasswordRequest.getOldPassword(), user.getPassword())) {
+            throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Old password is invalid").build());
+        }
+        if (passwordEncoder.matches(userDTOChangePasswordRequest.getNewPassword(), user.getPassword())) {
+            throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("New password is the same with old password! Nothing change").build());
+        }
+        user.setPassword(passwordEncoder.encode(userDTOChangePasswordRequest.getNewPassword()));
+        userRepository.save(user);
+        return buildUserDTOResponse(user);
     }
 
 }

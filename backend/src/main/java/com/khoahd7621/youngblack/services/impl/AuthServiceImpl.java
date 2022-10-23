@@ -3,6 +3,7 @@ package com.khoahd7621.youngblack.services.impl;
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.models.error.CustomError;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOLoginRequest;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
@@ -62,16 +63,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Optional<User> getUserLoggedIn() {
+    public User getUserLoggedIn() throws CustomNotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String email = ((UserDetails) principal).getUsername();
             Optional<User> userOpt = userRepository.findByEmail(email);
             if (userOpt.isPresent()) {
-                return userOpt;
+                return userOpt.get();
             }
         }
-        return Optional.empty();
+        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User does not exist").build());
     }
 
     private Map<String, UserDTOResponse> buildUserDTOResponse(User user) {
