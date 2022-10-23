@@ -62,10 +62,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, UserDTOResponse> updateUser(UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
-        if (userRepository.findByPhone(userDTOUpdateRequest.getPhone()).isPresent()) {
+        User user = authService.getUserLoggedIn();
+        Optional<User> userOptionalWithPhone = userRepository.findByPhone(userDTOUpdateRequest.getPhone());
+        if (userOptionalWithPhone.isPresent() && userOptionalWithPhone.get().getId() != user.getId()) {
             throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Phone already existed").build());
         }
-        User user = authService.getUserLoggedIn();
         user.setFirstName(userDTOUpdateRequest.getFirstName());
         user.setLastName(userDTOUpdateRequest.getLastName());
         user.setPhone(userDTOUpdateRequest.getPhone());
