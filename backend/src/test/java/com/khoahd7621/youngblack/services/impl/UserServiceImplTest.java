@@ -12,6 +12,7 @@ import com.khoahd7621.youngblack.models.user.dto.UserDTORegisterRequest;
 import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
 import com.khoahd7621.youngblack.models.user.mapper.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
+import com.khoahd7621.youngblack.services.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,10 +31,11 @@ class UserServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
+        AuthService authService = mock(AuthService.class);
         userRepository = mock(UserRepository.class);
         userMapper = mock(UserMapper.class);
         userDTORegisterRequest = mock(UserDTORegisterRequest.class);
-        userServiceImpl = new UserServiceImpl(userRepository, userMapper);
+        userServiceImpl = new UserServiceImpl(userRepository, userMapper, authService);
         userDTOResponse = mock(UserDTOResponse.class);
         user = mock(User.class);
     }
