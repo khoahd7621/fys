@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
-import com.khoahd7621.youngblack.dtos.user.mapper.UserMapper;
+import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.UserService;
 
