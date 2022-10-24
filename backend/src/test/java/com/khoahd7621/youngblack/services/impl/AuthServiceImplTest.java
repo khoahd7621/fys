@@ -10,7 +10,7 @@ import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.dtos.user.mapper.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;

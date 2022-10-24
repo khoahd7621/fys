@@ -7,7 +7,7 @@ import java.util.Optional;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.error.CustomError;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOUpdateRequest;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.springframework.http.HttpStatus;

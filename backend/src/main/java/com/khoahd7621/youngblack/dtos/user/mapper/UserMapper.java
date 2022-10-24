@@ -1,7 +1,7 @@
 package com.khoahd7621.youngblack.dtos.user.mapper;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
