@@ -1,11 +1,11 @@
 package com.khoahd7621.youngblack.exceptions.custom;
 
-import com.khoahd7621.youngblack.dtos.error.CustomError;
+import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 
 public class CustomNotFoundException extends BaseCustomException {
 
-    public CustomNotFoundException(CustomError customError) {
-        super(customError);
+    public CustomNotFoundException(ExceptionResponse exceptionResponse) {
+        super(exceptionResponse);
     }
 
 }
