@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class BaseExceptionResponse {
-    private int code;
+    private final int code = -1;
     private String message;
 }
