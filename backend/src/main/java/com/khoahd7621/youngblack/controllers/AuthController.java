@@ -1,8 +1,8 @@
 package com.khoahd7621.youngblack.controllers;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOLoginRequest;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOLoginRequest;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
 import com.khoahd7621.youngblack.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

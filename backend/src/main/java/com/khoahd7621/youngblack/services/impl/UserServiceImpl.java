@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
-import com.khoahd7621.youngblack.models.error.CustomError;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOChangePasswordRequest;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOUpdateRequest;
+import com.khoahd7621.youngblack.dtos.error.CustomError;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOChangePasswordRequest;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOUpdateRequest;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.models.user.dto.UserDTORegisterRequest;
-import com.khoahd7621.youngblack.models.user.mapper.UserMapper;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.user.mapper.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.UserService;
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
-import com.khoahd7621.youngblack.models.error.CustomError;
+import com.khoahd7621.youngblack.dtos.error.CustomError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

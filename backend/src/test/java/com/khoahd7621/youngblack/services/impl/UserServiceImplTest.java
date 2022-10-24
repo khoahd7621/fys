@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.models.user.dto.UserDTORegisterRequest;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
-import com.khoahd7621.youngblack.models.user.mapper.UserMapper;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.user.mapper.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.junit.jupiter.api.BeforeEach;

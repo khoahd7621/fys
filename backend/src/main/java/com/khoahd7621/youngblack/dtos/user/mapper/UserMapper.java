@@ -1,13 +1,13 @@
-package com.khoahd7621.youngblack.models.user.mapper;
+package com.khoahd7621.youngblack.dtos.user.mapper;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.khoahd7621.youngblack.constants.ERoles;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.models.user.dto.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.user.dto.UserDTORegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 

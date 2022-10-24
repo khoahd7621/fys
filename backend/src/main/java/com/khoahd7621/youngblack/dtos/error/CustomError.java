@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.models.error;
+package com.khoahd7621.youngblack.dtos.error;
 
 import lombok.Builder;
 import lombok.Data;

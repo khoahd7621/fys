@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.models.user.dto;
+package com.khoahd7621.youngblack.dtos.user.dto;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
