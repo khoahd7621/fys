@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BaseExceptionResponse {
+public class ExceptionResponse {
     private final int code = -1;
     private String message;
 }
