@@ -5,7 +5,7 @@ import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.error.CustomError;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTOLoginRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
 import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
 import com.khoahd7621.youngblack.dtos.user.mapper.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;

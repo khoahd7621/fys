@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.khoahd7621.youngblack.constants.ERoles;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 

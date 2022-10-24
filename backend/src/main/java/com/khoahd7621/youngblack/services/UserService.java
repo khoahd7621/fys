@@ -4,10 +4,10 @@ import java.util.Map;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTOChangePasswordRequest;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
 import com.khoahd7621.youngblack.dtos.user.dto.UserDTOResponse;
-import com.khoahd7621.youngblack.dtos.user.dto.UserDTOUpdateRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTOUpdateRequest;
 
 public interface UserService {
 
