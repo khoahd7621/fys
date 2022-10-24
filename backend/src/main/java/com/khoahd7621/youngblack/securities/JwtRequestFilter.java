@@ -9,6 +9,7 @@ import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,12 +61,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
                     if (jwtTokenUtil.validateToken(accessToken, user)) {
-                        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                        List<GrantedAuthority> authorities = new ArrayList<>();
+                        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+
                         UserDetails userDetails =
                                 new org.springframework.security.core.userdetails.User(
                                         user.getEmail(), user.getPassword(), authorities);
+
                         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                                 new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+
                         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     }
                 }
