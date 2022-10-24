@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.error.CustomError;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOUpdateRequest;
+import com.khoahd7621.youngblack.mappers.ResponseMapper;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final ResponseMapper responseMapper;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
 
@@ -40,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, UserDTOResponse> userRegister(UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
+    public SuccessResponse<NoData> userRegister(UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userDTORegisterRequest.getEmail());
         if (userOpt.isPresent()) {
             throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("This email already exists").build());
@@ -51,17 +55,17 @@ public class UserServiceImpl implements UserService {
         }
         User user = userMapper.toUser(userDTORegisterRequest);
         userRepository.save(user);
-        return buildUserDTOResponse(user);
+        return responseMapper.toBaseSuccessResponse(NoData.builder().build(), "Register successfully");
     }
 
     @Override
-    public Map<String, UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
+    public SuccessResponse<UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
         User user = authService.getUserLoggedIn();
-        return buildUserDTOResponse(user);
+        return responseMapper.toBaseSuccessResponse(userMapper.toUserDTOResponse(user), "Get current user's information successfully");
     }
 
     @Override
-    public Map<String, UserDTOResponse> updateUser(UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
+    public SuccessResponse<UserDTOResponse> updateUser(UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
         User user = authService.getUserLoggedIn();
         Optional<User> userOptionalWithPhone = userRepository.findByPhone(userDTOUpdateRequest.getPhone());
         if (userOptionalWithPhone.isPresent() && userOptionalWithPhone.get().getId() != user.getId()) {
@@ -72,11 +76,11 @@ public class UserServiceImpl implements UserService {
         user.setPhone(userDTOUpdateRequest.getPhone());
         user.setAddress(userDTOUpdateRequest.getAddress());
         userRepository.save(user);
-        return buildUserDTOResponse(user);
+        return responseMapper.toBaseSuccessResponse(userMapper.toUserDTOResponse(user), "Update successfully");
     }
 
     @Override
-    public Map<String, UserDTOResponse> changePassword(UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
+    public SuccessResponse<NoData> changePassword(UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
         if (!userDTOChangePasswordRequest.getNewPassword().equals(userDTOChangePasswordRequest.getConfirmPassword())) {
             throw new CustomBadRequestException(CustomError.builder().code(HttpStatus.BAD_REQUEST).message("Confirm password not match new password").build());
         }
@@ -89,7 +93,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(userDTOChangePasswordRequest.getNewPassword()));
         userRepository.save(user);
-        return buildUserDTOResponse(user);
+        return responseMapper.toBaseSuccessResponse(NoData.builder().build(), "Change password successfully");
     }
 
 }

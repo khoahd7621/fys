@@ -37,7 +37,6 @@ public class UserMapper {
                 .phone(user.getPhone())
                 .address(user.getAddress())
                 .role(user.getRole())
-                .status(user.getStatus())
                 .build();
     }
 

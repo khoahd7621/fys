@@ -1,7 +1,7 @@
 package com.khoahd7621.youngblack.controllers.user;
 
-import java.util.Map;
-
+import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
@@ -24,22 +24,22 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public Map<String, UserDTOResponse> userRegister(@Valid @RequestBody UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
+    public SuccessResponse<NoData> userRegister(@Valid @RequestBody UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
         return userService.userRegister(userDTORegisterRequest);
     }
 
     @GetMapping
-    public Map<String, UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
+    public SuccessResponse<UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
         return userService.getCurrentUser();
     }
 
     @PutMapping
-    public Map<String, UserDTOResponse> updateUser(@Valid @RequestBody UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
+    public SuccessResponse<UserDTOResponse> updateUser(@Valid @RequestBody UserDTOUpdateRequest userDTOUpdateRequest) throws CustomBadRequestException, CustomNotFoundException {
         return userService.updateUser(userDTOUpdateRequest);
     }
 
     @PutMapping("/change-password")
-    public Map<String, UserDTOResponse> changePassword(@Valid @RequestBody UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
+    public SuccessResponse<NoData> changePassword(@Valid @RequestBody UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
         return userService.changePassword(userDTOChangePasswordRequest);
     }
 }
