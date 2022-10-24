@@ -1,16 +1,16 @@
 package com.khoahd7621.youngblack.mappers;
 
-import com.khoahd7621.youngblack.dtos.response.BaseExceptionResponse;
-import com.khoahd7621.youngblack.dtos.response.BaseSuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
+import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseMapper {
-    public <T> BaseSuccessResponse<T> toBaseSuccessResponse(T data, String message) {
-        return new BaseSuccessResponse<>(message, data);
+    public <T> SuccessResponse<T> toBaseSuccessResponse(T data, String message) {
+        return new SuccessResponse<>(message, data);
     }
 
-    public BaseExceptionResponse toBaseExceptionResponse(String message) {
-        return BaseExceptionResponse.builder().message(message).build();
+    public ExceptionResponse toBaseExceptionResponse(String message) {
+        return ExceptionResponse.builder().message(message).build();
     }
 }
