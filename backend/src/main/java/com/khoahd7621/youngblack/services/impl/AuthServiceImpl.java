@@ -3,11 +3,11 @@ package com.khoahd7621.youngblack.services.impl;
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.securities.CustomUserDetails;
@@ -35,17 +35,17 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public SuccessResponse<UserDTOResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest)
+    public SuccessResponse<UserDTOLoginResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest)
             throws CustomBadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userDTOLoginRequest.getEmail());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())) {
                 if (user.getStatus() == EAccountStatus.ACTIVE) {
-                    UserDTOResponse userDTOResponse = userMapper.toUserDTOResponse(user);
-                    userDTOResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
-                    userDTOResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
-                    return new SuccessResponse<>(userDTOResponse, "Login successfully");
+                    UserDTOLoginResponse userDTOLoginResponse = userMapper.toUserDTOLoginResponse(user);
+                    userDTOLoginResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
+                    userDTOLoginResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
+                    return new SuccessResponse<>(userDTOLoginResponse, "Login successfully");
                 }
                 if (user.getStatus() == EAccountStatus.INACTIVE) {
                     throw new CustomBadRequestException(ExceptionResponse.builder()

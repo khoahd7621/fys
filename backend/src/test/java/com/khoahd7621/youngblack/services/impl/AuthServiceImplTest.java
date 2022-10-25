@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
@@ -44,19 +44,19 @@ class AuthServiceImplTest {
         UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
-        UserDTOResponse userDTOResponse = mock(UserDTOResponse.class);
-        SuccessResponse<UserDTOResponse> expected = new SuccessResponse<>(userDTOResponse, "Login successfully");
+        UserDTOLoginResponse userDTOLoginResponse = mock(UserDTOLoginResponse.class);
+        SuccessResponse<UserDTOLoginResponse> expected = new SuccessResponse<>(userDTOLoginResponse, "Login successfully");
 
         when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.ACTIVE);
-        when(userMapper.toUserDTOResponse(user)).thenReturn(userDTOResponse);
+        when(userMapper.toUserDTOLoginResponse(user)).thenReturn(userDTOLoginResponse);
         when(jwtTokenUtil.generateAccessToken(user)).thenReturn("Token");
         when(jwtTokenUtil.generateRefreshToken(user)).thenReturn("Refresh_Token");
 
-        SuccessResponse<UserDTOResponse> actual = authServiceImpl.loginHandler(userDTOLoginRequest);
+        SuccessResponse<UserDTOLoginResponse> actual = authServiceImpl.loginHandler(userDTOLoginRequest);
 
-        assertThat(actual.getData(), is(userDTOResponse));
+        assertThat(actual.getData(), is(userDTOLoginResponse));
         assertThat(actual.getCode(), is(expected.getCode()));
         assertThat(actual.getMessage(), is(expected.getMessage()));
     }
