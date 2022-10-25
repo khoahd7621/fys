@@ -10,12 +10,12 @@ import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
+import com.khoahd7621.youngblack.securities.CustomUserDetails;
 import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,12 +64,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User getUserLoggedIn() throws CustomNotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String email = ((UserDetails) principal).getUsername();
-            Optional<User> userOpt = userRepository.findByEmail(email);
-            if (userOpt.isPresent()) {
-                return userOpt.get();
-            }
+        if (principal instanceof CustomUserDetails) {
+            return ((CustomUserDetails) principal).getUser();
         }
         throw new CustomNotFoundException(ExceptionResponse.builder()
                 .code(-1).message("User does not exist").build());

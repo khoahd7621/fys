@@ -16,6 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "user_tbl")
 @Getter
@@ -37,4 +39,21 @@ public class User {
     private String address;
     private ERoles role;
     private EAccountStatus status;
+    private Date createdAt;
+    private Date updatedAt;
+
+    public User(User user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.password = user.getPassword();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.address = user.getAddress();
+        this.role = user.getRole();
+        this.status = user.getStatus();
+        this.createdAt = user.getCreatedAt();
+        this.updatedAt = user.getUpdatedAt();
+
+    }
 }

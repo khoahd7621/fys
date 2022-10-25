@@ -8,8 +8,6 @@ import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -21,8 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -45,13 +41,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private void setSecurityContext(User user) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
-        UserDetails userDetails =
-                new org.springframework.security.core.userdetails.User(
-                        user.getEmail(), user.getPassword(), authorities);
+        UserDetails userDetails = new CustomUserDetails(user);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
 
@@ -74,6 +66,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         }
                     }
                 } catch (SignatureException se) {
+                    System.out.println("Here");
                     System.out.println("Invalid JWT signature");
                 } catch (IllegalArgumentException iae) {
                     System.out.println("Unable to get JWT");
