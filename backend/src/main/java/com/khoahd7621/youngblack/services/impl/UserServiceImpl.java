@@ -1,5 +1,6 @@
 package com.khoahd7621.youngblack.services.impl;
 
+import java.util.Date;
 import java.util.Optional;
 
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDTOUpdateRequest.getLastName());
         user.setPhone(userDTOUpdateRequest.getPhone());
         user.setAddress(userDTOUpdateRequest.getAddress());
+        user.setUpdatedAt(new Date());
         userRepository.save(user);
         return new SuccessResponse<>(userMapper.toUserDTOResponse(user), "Update successfully");
     }
@@ -94,6 +96,7 @@ public class UserServiceImpl implements UserService {
                     .code(-1).message("New password is the same with old password! Nothing change").build());
         }
         user.setPassword(passwordEncoder.encode(userDTOChangePasswordRequest.getNewPassword()));
+        user.setUpdatedAt(new Date());
         userRepository.save(user);
         return new SuccessResponse<>(NoData.builder().build(), "Change password successfully");
     }

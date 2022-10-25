@@ -11,6 +11,8 @@ import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
+
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
@@ -26,6 +28,8 @@ public class UserMapper {
                 .password(passwordEncoder.encode(userDTORegisterRequest.getPassword()))
                 .role(ERoles.USER)
                 .status(EAccountStatus.ACTIVE)
+                .createdAt(new Date())
+                .updatedAt(new Date())
                 .build();
     }
 
@@ -37,6 +41,8 @@ public class UserMapper {
                 .phone(user.getPhone())
                 .address(user.getAddress())
                 .role(user.getRole())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
