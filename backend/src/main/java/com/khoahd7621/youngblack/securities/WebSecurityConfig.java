@@ -16,6 +16,8 @@ public class WebSecurityConfig {
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private ExceptionHandlerFilter exceptionHandlerFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -30,6 +32,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                 .antMatchers("/api/**").authenticated();
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(exceptionHandlerFilter, JwtRequestFilter.class);
         return httpSecurity.build();
     }
 }
