@@ -1,11 +1,14 @@
 package com.khoahd7621.youngblack.services.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
+import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
@@ -13,6 +16,9 @@ import com.khoahd7621.youngblack.dtos.request.user.UserDTOUpdateRequest;
 import com.khoahd7621.youngblack.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +105,19 @@ public class UserServiceImpl implements UserService {
         user.setUpdatedAt(new Date());
         userRepository.save(user);
         return new SuccessResponse<>(NoData.builder().build(), "Change password successfully");
+    }
+
+    @Override
+    public SuccessResponse<ListUsersWithPaginateResponse> getListUsers(int limit, int offset) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        Page<User> userPage = userRepository.findAll(pageable);
+        List<UserDTOResponse> userDTOResponseList = userPage.getContent().stream().map(userMapper::toUserDTOResponse).collect(Collectors.toList());
+        ListUsersWithPaginateResponse listUsersWithPaginateResponse =
+                ListUsersWithPaginateResponse.builder()
+                        .totalRows(userPage.getTotalElements())
+                        .totalPages(userPage.getTotalPages())
+                        .listUsers(userDTOResponseList).build();
+        return new SuccessResponse<>(listUsersWithPaginateResponse, "Get list users success");
     }
 
 }

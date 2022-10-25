@@ -2,6 +2,7 @@ package com.khoahd7621.youngblack.controllers.user;
 
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
+import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
@@ -27,7 +28,7 @@ public class UserController {
         return userService.userRegister(userDTORegisterRequest);
     }
 
-    @GetMapping
+    @GetMapping("/current")
     public SuccessResponse<UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
         return userService.getCurrentUser();
     }
@@ -40,5 +41,13 @@ public class UserController {
     @PutMapping("/change-password")
     public SuccessResponse<NoData> changePassword(@Valid @RequestBody UserDTOChangePasswordRequest userDTOChangePasswordRequest) throws CustomBadRequestException, CustomNotFoundException {
         return userService.changePassword(userDTOChangePasswordRequest);
+    }
+
+    @GetMapping
+    public SuccessResponse<ListUsersWithPaginateResponse> getListUsers(
+            @RequestParam(name = "limit", defaultValue = "20") Integer limit,
+            @RequestParam(name = "offset", defaultValue = "0") Integer offset
+    ) {
+        return userService.getListUsers(limit, offset);
     }
 }
