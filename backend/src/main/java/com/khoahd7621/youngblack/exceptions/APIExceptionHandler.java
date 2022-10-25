@@ -26,6 +26,7 @@ public class APIExceptionHandler {
             MethodArgumentNotValidException ex) {
         ExceptionResponse errors = ExceptionResponse.builder().build();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
+            errors.setCode(-1);
             errors.setMessage(error.getDefaultMessage());
         });
         return errors;

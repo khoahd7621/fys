@@ -8,11 +8,11 @@ import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
-import com.khoahd7621.youngblack.mappers.ResponseMapper;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -31,12 +32,11 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private ResponseMapper responseMapper;
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public SuccessResponse<UserDTOResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest) throws CustomBadRequestException {
+    public SuccessResponse<UserDTOResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest)
+            throws CustomBadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userDTOLoginRequest.getEmail());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
@@ -45,17 +45,20 @@ public class AuthServiceImpl implements AuthService {
                     UserDTOResponse userDTOResponse = userMapper.toUserDTOResponse(user);
                     userDTOResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
                     userDTOResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
-                    return responseMapper.toBaseSuccessResponse(userDTOResponse, "Login successfully");
+                    return new SuccessResponse<>(userDTOResponse, "Login successfully");
                 }
                 if (user.getStatus() == EAccountStatus.INACTIVE) {
-                    throw new CustomBadRequestException(ExceptionResponse.builder().message("The account has not been activated").build());
+                    throw new CustomBadRequestException(ExceptionResponse.builder()
+                            .code(-1).message("The account has not been activated").build());
                 }
                 if (user.getStatus() == EAccountStatus.BLOCK) {
-                    throw new CustomBadRequestException(ExceptionResponse.builder().message("Account has been blocked").build());
+                    throw new CustomBadRequestException(ExceptionResponse.builder()
+                            .code(-1).message("Account has been blocked").build());
                 }
             }
         }
-        throw new CustomBadRequestException(ExceptionResponse.builder().message("Email or password is incorrect").build());
+        throw new CustomBadRequestException(ExceptionResponse.builder()
+                .code(-1).message("Email or password is incorrect").build());
     }
 
     @Override
@@ -68,7 +71,8 @@ public class AuthServiceImpl implements AuthService {
                 return userOpt.get();
             }
         }
-        throw new CustomNotFoundException(ExceptionResponse.builder().message("User does not exist").build());
+        throw new CustomNotFoundException(ExceptionResponse.builder()
+                .code(-1).message("User does not exist").build());
     }
 
 }

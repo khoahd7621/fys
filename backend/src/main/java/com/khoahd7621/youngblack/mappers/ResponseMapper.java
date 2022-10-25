@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResponseMapper {
     public <T> SuccessResponse<T> toBaseSuccessResponse(T data, String message) {
-        return new SuccessResponse<>(message, data);
+        return new SuccessResponse<>(data, message);
     }
 
     public ExceptionResponse toBaseExceptionResponse(String message) {
