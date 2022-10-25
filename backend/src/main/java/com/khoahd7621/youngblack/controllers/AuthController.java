@@ -5,7 +5,7 @@ import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
 import com.khoahd7621.youngblack.services.AuthService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +15,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/login")
     public SuccessResponse<UserDTOResponse> login(@Valid @RequestBody UserDTOLoginRequest userDTOLoginRequest) throws CustomBadRequestException {
