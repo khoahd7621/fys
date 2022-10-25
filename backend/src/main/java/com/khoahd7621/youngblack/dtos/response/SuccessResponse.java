@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 public class SuccessResponse<T> {
     private final int code = 0;
-    private String message;
     private T data;
+    private String message;
 }
