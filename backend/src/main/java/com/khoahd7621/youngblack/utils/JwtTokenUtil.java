@@ -1,14 +1,11 @@
 package com.khoahd7621.youngblack.utils;
 
 import com.khoahd7621.youngblack.entities.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.function.Function;
 
 @Component
 public class JwtTokenUtil {
@@ -42,37 +39,30 @@ public class JwtTokenUtil {
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
-    public boolean validateToken(String token, User user) {
-        long userId = getUserIdFromToken(token);
-        String email = getUserEmailFromToken(token);
+    public boolean validateTokenClaims(Claims claims, User user) {
+        long userId = Long.parseLong(claims.get("userId").toString());
+        String email = claims.get("email").toString();
         return userId == user.getId() &&
                 email.equals(user.getEmail()) &&
-                !isTokenExpired(token);
+                !isTokenExpired(claims.getExpiration());
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
+    public boolean validateTokenHeader(JwsHeader header) {
+        return header.getType().equals("JWT") &&
+                header.get("name").equals("ACCESS_TOKEN") &&
+                header.getAlgorithm().equals("HS256");
     }
 
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    public Jws<Claims> getJwsClaims(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
     }
 
-    public long getUserIdFromToken(String token) {
-        return getClaimFromToken(token, (Claims claim) -> Long.parseLong(claim.get("userId").toString()));
+
+    public long getUserIdFromClaims(Claims claims) {
+        return Long.parseLong(claims.get("userId").toString());
     }
 
-    public String getUserEmailFromToken(String token) {
-        return getClaimFromToken(token, (Claims claim) -> claim.get("email").toString());
-    }
-
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
-    }
-
-    private boolean isTokenExpired(String token) {
-        Date expiredDate = getExpirationDateFromToken(token);
+    private boolean isTokenExpired(Date expiredDate) {
         return expiredDate.before(new Date());
     }
 

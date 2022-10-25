@@ -3,8 +3,7 @@ package com.khoahd7621.youngblack.securities;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,25 +57,29 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if (requestTokenHeaderOpt.isPresent()) {
                 try {
                     String accessToken = requestTokenHeaderOpt.get();
-                    Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromToken(accessToken));
-                    if (userOptional.isPresent()) {
-                        User user = userOptional.get();
-                        if (jwtTokenUtil.validateToken(accessToken, user)) {
-                            setSecurityContext(user);
+                    Jws<Claims> listClaims = jwtTokenUtil.getJwsClaims(accessToken);
+                    if (jwtTokenUtil.validateTokenHeader(listClaims.getHeader())) {
+                        Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromClaims(listClaims.getBody()));
+                        if (userOptional.isPresent()) {
+                            User user = userOptional.get();
+                            if (jwtTokenUtil.validateTokenClaims(listClaims.getBody(), user)) {
+                                setSecurityContext(user);
+                                filterChain.doFilter(request, response);
+                            }
                         }
                     }
                 } catch (SignatureException se) {
-                    System.out.println("Here");
                     System.out.println("Invalid JWT signature");
                 } catch (IllegalArgumentException iae) {
                     System.out.println("Unable to get JWT");
                 } catch (ExpiredJwtException eje) {
                     System.out.println("Token has expired");
+                } catch (MalformedJwtException mje) {
+                    System.out.println("JWT was not correctly constructed");
                 }
             } else {
                 System.out.println("JWT Access Token does not start with 'Bearer ");
             }
-            filterChain.doFilter(request, response);
         }
     }
 }
