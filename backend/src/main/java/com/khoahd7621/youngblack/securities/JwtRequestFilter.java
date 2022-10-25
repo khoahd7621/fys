@@ -65,20 +65,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                             if (jwtTokenUtil.validateTokenClaims(listClaims.getBody(), user)) {
                                 setSecurityContext(user);
                                 filterChain.doFilter(request, response);
+                            } else {
+                                throw new RuntimeException("Invalid JWT");
                             }
+                        } else {
+                            throw new RuntimeException("Invalid JWT");
                         }
+                    } else {
+                        throw new RuntimeException("Invalid JWT");
                     }
                 } catch (SignatureException se) {
-                    System.out.println("Invalid JWT signature");
+                    throw new SignatureException("Invalid JWT signature", se);
                 } catch (IllegalArgumentException iae) {
-                    System.out.println("Unable to get JWT");
+                    throw new IllegalArgumentException("Unable to get JWT", iae);
                 } catch (ExpiredJwtException eje) {
-                    System.out.println("Token has expired");
+                    throw new ExpiredJwtException(null, null, "Token has expired", eje);
                 } catch (MalformedJwtException mje) {
-                    System.out.println("JWT was not correctly constructed");
+                    throw new MalformedJwtException("JWT was not correctly constructed", mje);
                 }
             } else {
-                System.out.println("JWT Access Token does not start with 'Bearer ");
+                throw new RuntimeException("JWT Access Token does not start with 'Bearer ");
             }
         }
     }
