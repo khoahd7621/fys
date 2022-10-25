@@ -1,11 +1,12 @@
 package com.khoahd7621.youngblack.dtos.response;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExceptionResponse {
-    private final int code = -1;
+    private int code;
     private String message;
 }
