@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
                 if (user.getStatus() == EAccountStatus.ACTIVE) {
                     UserDTOResponse userDTOResponse = userMapper.toUserDTOResponse(user);
                     userDTOResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
-                    userDTOResponse.setAccessToken(jwtTokenUtil.generateRefreshToken(user));
+                    userDTOResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
                     return responseMapper.toBaseSuccessResponse(userDTOResponse, "Login successfully");
                 }
                 if (user.getStatus() == EAccountStatus.INACTIVE) {
