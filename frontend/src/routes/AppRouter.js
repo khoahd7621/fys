@@ -19,6 +19,10 @@ import {
 import { ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
 import { Dashboard } from '~/layouts/Admin/page';
 
+import ClientPrivateRoute from './ClientPrivateRoute';
+import AdminPrivateRoute from './AdminPrivateRoute';
+import LoginRegisterProtectRoute from './LoginRegisterProtectRoute';
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -30,7 +34,14 @@ const AppRouter = () => {
           <Route path={`${publicRoutes.collection}/:type/:productname`} element={<ProductDetail />} />
           <Route path={`${publicRoutes.cart}`} element={<Cart />} />
           <Route path={publicRoutes.search} element={<SearchResult />} />
-          <Route path={privateRoutes.account} element={<Account />}>
+          <Route
+            path={privateRoutes.account}
+            element={
+              <ClientPrivateRoute>
+                <Account />
+              </ClientPrivateRoute>
+            }
+          >
             <Route index element={<UserInfo />} />
             <Route path={privateRoutes.order} element={<Order />} />
             <Route path={privateRoutes.orderDetail} element={<OrderDetail />} />
@@ -38,14 +49,35 @@ const AppRouter = () => {
           </Route>
           <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
           {/* Sign in/Sign up */}
-          <Route path={privateRoutes.login} element={<Login />} />
-          <Route path={privateRoutes.register} element={<Register />} />
+          <Route
+            path={privateRoutes.login}
+            element={
+              <LoginRegisterProtectRoute>
+                <Login />
+              </LoginRegisterProtectRoute>
+            }
+          />
+          <Route
+            path={privateRoutes.register}
+            element={
+              <LoginRegisterProtectRoute>
+                <Register />
+              </LoginRegisterProtectRoute>
+            }
+          />
         </Route>
         <Route path={publicRoutes.checkout} element={<Checkout />} />
         <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
 
         {/* Admin */}
-        <Route path={adminRoutes.default} element={<Admin />}>
+        <Route
+          path={adminRoutes.default}
+          element={
+            <AdminPrivateRoute>
+              <Admin />
+            </AdminPrivateRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route index path={adminRoutes.dashboard} element={<Dashboard />} />
         </Route>
