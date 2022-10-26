@@ -5,12 +5,14 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '~/redux/store';
 
+import AppRouter from './routes/AppRouter';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'nprogress/nprogress.css';
 
 import reportWebVitals from './reportWebVitals';
 import './index.scss';
-import AppRouter from './routes/AppRouter';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
