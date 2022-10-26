@@ -54,11 +54,7 @@ const Login = () => {
     const response = await postLogin(account.email, account.password);
     if (response && response.code === 0) {
       handleClearInput();
-      dispatch(
-        fetchUserLoginSuccess({
-          payload: response.data,
-        }),
-      );
+      dispatch(fetchUserLoginSuccess(response.data));
       navigate(publicRoutes.home);
       toast.success(response.message);
     } else {
