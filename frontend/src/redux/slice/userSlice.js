@@ -23,15 +23,20 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     fetchUserLoginSuccess: (state, action) => {
-      console.log(action.payload);
       state.account = {
         ...action.payload,
       };
       state.isAuthenticated = true;
     },
+    removeDataUserLogout: (state) => {
+      state.account = {
+        ...initialState.account,
+      };
+      state.isAuthenticated = false;
+    },
   },
 });
 
-export const { fetchUserLoginSuccess } = userSlice.actions;
+export const { fetchUserLoginSuccess, removeDataUserLogout } = userSlice.actions;
 
 export default userSlice.reducer;
