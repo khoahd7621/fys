@@ -21,9 +21,17 @@ const initialState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    fetchUserLoginSuccess: (state, action) => {
+      console.log(action.payload);
+      state.account = {
+        ...action.payload,
+      };
+      state.isAuthenticated = true;
+    },
+  },
 });
 
-export const {} = userSlice.actions;
+export const { fetchUserLoginSuccess } = userSlice.actions;
 
 export default userSlice.reducer;
