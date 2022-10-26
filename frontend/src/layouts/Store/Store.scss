@@ -156,6 +156,25 @@
       color: #fff;
       transition: all 0.5s ease;
 
+      &:disabled {
+        &:hover {
+          color: #fff;
+          transition: none;
+          animation: none;
+
+          &::before {
+            left: 0;
+            width: 100%;
+            animation: none;
+          }
+        }
+
+        &::before {
+          background-color: rgb(46, 46, 46);
+          animation: none;
+        }
+      }
+
       &:hover {
         color: #000;
         transition: all 0.5s ease;
