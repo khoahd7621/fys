@@ -1,9 +1,9 @@
 package com.khoahd7621.youngblack.entities;
 
-import com.khoahd7621.youngblack.constants.EProductSize;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -14,29 +14,34 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(unique = true)
-    private String sku;
-
-    @Enumerated(EnumType.STRING)
-    private EProductSize size;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "detail_id")
-    private ProductDetail detail;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<ProductVariant> productVariants;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "color_id")
-    private Color color;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private int id;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Image> images;
-
+    @Column(name = "name", unique = true)
+    private String name;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "slug")
+    private String slug;
+    @Column(name = "price")
+    private double price;
+    @Column(name = "discount_price")
+    private double discountPrice;
+    @Column(name = "start_date_discount")
+    private Date startDateDiscount;
+    @Column(name = "end_date_discount")
+    private Date endDateDiscount;
+    @Column(name = "primary_cover_img_url")
+    private String primaryImageUrl;
+    @Column(name = "secondary_cover_img_url")
+    private String secondaryImageUrl;
 }

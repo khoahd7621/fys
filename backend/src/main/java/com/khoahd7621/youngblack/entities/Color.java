@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "product_color_tbl")
+@Table(name = "color_tbl")
 @Getter
 @Setter
 @Builder
@@ -14,12 +14,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class Color {
     @OneToMany(mappedBy = "color", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    Set<Product> products;
+    Set<ProductVariant> productVariants;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "color_id")
     private int id;
+    
     @Column(name = "color_name", unique = true)
     private String name;
 }
