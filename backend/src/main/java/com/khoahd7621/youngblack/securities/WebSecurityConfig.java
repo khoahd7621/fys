@@ -27,6 +27,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors().and();
         httpSecurity.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests()
                 .antMatchers("/api/v1/login").permitAll()
