@@ -19,7 +19,7 @@ const UserInfo = () => {
         <div className="mb-4 font-bold">
           Address: <span className="font-normal">123 Le Van Viet, Tp. Thu Duc, Tp. Ho Chi Minh</span>
         </div>
-        <div class="form mt-6 mb-4">
+        <div className="form mt-6 mb-4">
           <div className="form-action max-w-[300px]">
             <button>Update account</button>
           </div>

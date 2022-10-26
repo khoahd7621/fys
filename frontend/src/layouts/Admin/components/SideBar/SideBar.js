@@ -9,7 +9,7 @@ import { MdDashboard, MdAccountBox } from 'react-icons/md';
 
 const SideBar = ({ collapsed }) => {
   return (
-    <ProSidebar collapsed={collapsed} className="text-white">
+    <ProSidebar collapsed={collapsed}>
       <SidebarHeader>
         <div className="px-5 uppercase font-bold text-lg overflow-hidden text-ellipsis whitespace-nowrap tracking-wide h-[72px]">
           <Link to="/admin/dashboard" className="text-black no-underline">
