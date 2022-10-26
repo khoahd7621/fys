@@ -18,6 +18,7 @@ const privateRoutes = {
 };
 
 const adminRoutes = {
+  default: '/admin',
   dashboard: '/admin/dashboard',
 };
 

@@ -17,6 +17,7 @@ import {
   Account,
 } from '~/pages';
 import { ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
+import { Dashboard } from '~/layouts/Admin/page';
 
 const AppRouter = () => {
   return (
@@ -44,7 +45,10 @@ const AppRouter = () => {
         <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
 
         {/* Admin */}
-        <Route path={adminRoutes.dashboard} element={<Admin />}></Route>
+        <Route path={adminRoutes.default} element={<Admin />}>
+          <Route index element={<Dashboard />} />
+          <Route index path={adminRoutes.dashboard} element={<Dashboard />} />
+        </Route>
 
         {/* Notfound */}
         <Route path="*" element={<NotFound />} />
