@@ -18,7 +18,7 @@ public class Size {
     @Column(name = "size_id")
     private int id;
 
-    @Column(name = "size", unique = true)
+    @Column(name = "size")
     private String size;
 
     @OneToMany(mappedBy = "size", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
