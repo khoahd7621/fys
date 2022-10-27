@@ -117,6 +117,10 @@
       margin-bottom: 8px;
       color: #55595c;
 
+      &:focus {
+        box-shadow: none;
+      }
+
       &.error {
         border-color: #a94442;
         color: red;
