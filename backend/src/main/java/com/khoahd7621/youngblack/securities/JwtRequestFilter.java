@@ -58,22 +58,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 try {
                     String accessToken = requestTokenHeaderOpt.get();
                     Jws<Claims> listClaims = jwtTokenUtil.getJwsClaims(accessToken);
-                    if (jwtTokenUtil.validateTokenHeader(listClaims.getHeader())) {
-                        Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromClaims(listClaims.getBody()));
-                        if (userOptional.isPresent()) {
-                            User user = userOptional.get();
-                            if (jwtTokenUtil.validateTokenClaims(listClaims.getBody(), user)) {
-                                setSecurityContext(user);
-                                filterChain.doFilter(request, response);
-                            } else {
-                                throw new RuntimeException("Invalid JWT");
-                            }
-                        } else {
-                            throw new RuntimeException("Invalid JWT");
-                        }
-                    } else {
+                    if (!jwtTokenUtil.validateTokenHeader(listClaims.getHeader())) {
                         throw new RuntimeException("Invalid JWT");
                     }
+                    Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromClaims(listClaims.getBody()));
+                    if (userOptional.isEmpty()) {
+                        throw new RuntimeException("Invalid JWT");
+                    }
+                    setSecurityContext(userOptional.get());
+                    filterChain.doFilter(request, response);
                 } catch (SignatureException se) {
                     throw new SignatureException("Invalid JWT signature", se);
                 } catch (IllegalArgumentException iae) {
