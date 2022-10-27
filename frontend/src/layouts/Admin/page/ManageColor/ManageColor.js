@@ -1,6 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getListColors } from '~/services/admin/colorService';
+
+import { toast } from 'react-toastify';
 
 import AddNewColorModal from './AddNewColorModal';
 import UpdateColorModal from './UpdateColorModal';
@@ -21,7 +22,7 @@ const ManageColor = () => {
     if (response && response.code === 0) {
       setListColors(response.data.colors);
     } else {
-      axios.error(response.message);
+      toast.error(response.message);
     }
   };
 

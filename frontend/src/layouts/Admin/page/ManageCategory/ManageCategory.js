@@ -1,6 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getListCategories } from '~/services/admin/categoryService';
+
+import { toast } from 'react-toastify';
 
 import AddNewModal from './AddNewModal';
 import UpdateCategoryModal from './UpdateCategoryModal';
@@ -21,7 +22,7 @@ const ManageCategory = () => {
     if (response && response.code === 0) {
       setListCategories(response.data.categories);
     } else {
-      axios.error(response.message);
+      toast.error(response.message);
     }
   };
 

@@ -1,6 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { getListSizes } from '~/services/admin/sizeService';
+
+import { toast } from 'react-toastify';
 
 import AddNewSizeModal from './AddNewSizeModal';
 import UpdateSizeModal from './UpdateSizeModal';
@@ -21,7 +22,7 @@ const ManageSize = () => {
     if (response && response.code === 0) {
       setListSizes(response.data.sizes);
     } else {
-      axios.error(response.message);
+      toast.error(response.message);
     }
   };
 
