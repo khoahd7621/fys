@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
@@ -47,24 +46,22 @@ public class UserServiceImpl implements UserService {
             throws CustomBadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userDTORegisterRequest.getEmail());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("This email already exists").build());
+            throw new CustomBadRequestException("This email already existed.");
         }
         userOpt = userRepository.findByPhone(userDTORegisterRequest.getPhone());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("This phone number already exists").build());
+            throw new CustomBadRequestException("This phone number already existed.");
         }
         User user = userMapper.toUser(userDTORegisterRequest);
         userRepository.save(user);
-        return new SuccessResponse<>(NoData.builder().build(), "Register successfully");
+        return new SuccessResponse<>(NoData.builder().build(), "Register new account successfully.");
     }
 
     @Override
     public SuccessResponse<UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
         User user = authService.getUserLoggedIn();
         return new SuccessResponse<>(userMapper.toUserDTOResponse(user),
-                "Get current user's information successfully");
+                "Get current user's information successfully.");
     }
 
     @Override
@@ -73,8 +70,7 @@ public class UserServiceImpl implements UserService {
         User user = authService.getUserLoggedIn();
         Optional<User> userOptionalWithPhone = userRepository.findByPhone(userDTOUpdateRequest.getPhone());
         if (userOptionalWithPhone.isPresent() && userOptionalWithPhone.get().getId() != user.getId()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("Phone already existed").build());
+            throw new CustomBadRequestException("This phone number already existed.");
         }
         user.setFirstName(userDTOUpdateRequest.getFirstName());
         user.setLastName(userDTOUpdateRequest.getLastName());
@@ -82,29 +78,26 @@ public class UserServiceImpl implements UserService {
         user.setAddress(userDTOUpdateRequest.getAddress());
         user.setUpdatedAt(new Date());
         userRepository.save(user);
-        return new SuccessResponse<>(userMapper.toUserDTOResponse(user), "Update successfully");
+        return new SuccessResponse<>(userMapper.toUserDTOResponse(user), "Update information successfully.");
     }
 
     @Override
     public SuccessResponse<NoData> changePassword(UserDTOChangePasswordRequest userDTOChangePasswordRequest)
             throws CustomBadRequestException, CustomNotFoundException {
         if (!userDTOChangePasswordRequest.getNewPassword().equals(userDTOChangePasswordRequest.getConfirmPassword())) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("Confirm password not match new password").build());
+            throw new CustomBadRequestException("Confirm password not match new password.");
         }
         User user = authService.getUserLoggedIn();
         if (!passwordEncoder.matches(userDTOChangePasswordRequest.getOldPassword(), user.getPassword())) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("Old password is invalid").build());
+            throw new CustomBadRequestException("Old password is invalid.");
         }
         if (passwordEncoder.matches(userDTOChangePasswordRequest.getNewPassword(), user.getPassword())) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("New password is the same with old password! Nothing change").build());
+            throw new CustomBadRequestException("New password is the same with old password. Nothing change.");
         }
         user.setPassword(passwordEncoder.encode(userDTOChangePasswordRequest.getNewPassword()));
         user.setUpdatedAt(new Date());
         userRepository.save(user);
-        return new SuccessResponse<>(NoData.builder().build(), "Change password successfully");
+        return new SuccessResponse<>(NoData.builder().build(), "Change password successfully.");
     }
 
     @Override
@@ -117,7 +110,7 @@ public class UserServiceImpl implements UserService {
                         .totalRows(userPage.getTotalElements())
                         .totalPages(userPage.getTotalPages())
                         .listUsers(userDTOResponseList).build();
-        return new SuccessResponse<>(listUsersWithPaginateResponse, "Get list users success");
+        return new SuccessResponse<>(listUsersWithPaginateResponse, "Get list users success.");
     }
 
 }

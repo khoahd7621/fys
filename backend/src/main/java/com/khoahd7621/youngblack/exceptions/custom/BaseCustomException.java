@@ -1,13 +1,12 @@
 package com.khoahd7621.youngblack.exceptions.custom;
 
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class BaseCustomException extends Exception {
-    private ExceptionResponse error;
+    public BaseCustomException(String message) {
+        super(message);
+    }
 }

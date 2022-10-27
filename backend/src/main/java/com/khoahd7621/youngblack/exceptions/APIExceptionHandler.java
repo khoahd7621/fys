@@ -15,9 +15,8 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(CustomBadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ExceptionResponse badRequestException(
-            CustomBadRequestException ex) {
-        return ex.getError();
+    public ExceptionResponse badRequestException(CustomBadRequestException ex) {
+        return ExceptionResponse.builder().code(-1).message(ex.getMessage()).build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -34,8 +33,7 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ExceptionResponse notFoundException(
-            CustomBadRequestException ex) {
-        return ex.getError();
+    public ExceptionResponse notFoundException(CustomBadRequestException ex) {
+        return ExceptionResponse.builder().code(-1).message(ex.getMessage()).build();
     }
 }
