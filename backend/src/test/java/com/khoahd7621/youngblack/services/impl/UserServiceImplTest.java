@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.entities.User;
@@ -48,7 +47,7 @@ class UserServiceImplTest {
                 .phone("0123123")
                 .build();
         NoData noData = NoData.builder().build();
-        SuccessResponse<NoData> expected = new SuccessResponse<>(noData, "Register successfully");
+        SuccessResponse<NoData> expected = new SuccessResponse<>(noData, "Register new account successfully.");
         when(userRepository.findByEmail(userDTORegisterRequest.getEmail())).thenReturn(Optional.empty());
         when(userRepository.findByPhone(userDTORegisterRequest.getPhone())).thenReturn(Optional.empty());
         when(userMapper.toUser(userDTORegisterRequest)).thenReturn(user);
@@ -67,14 +66,14 @@ class UserServiceImplTest {
         UserDTORegisterRequest userDTORegisterRequest = UserDTORegisterRequest.builder()
                 .email("email@gmail.com")
                 .build();
-        ExceptionResponse expected = ExceptionResponse.builder().code(-1).message("This email already exists").build();
-        
+
         when(userRepository.findByEmail(userDTORegisterRequest.getEmail())).thenReturn(Optional.of(user));
 
         CustomBadRequestException result = assertThrows(CustomBadRequestException.class, () -> {
             userServiceImpl.userRegister(userDTORegisterRequest);
         });
-        assertThat(result.getError(), is(expected));
+
+        assertThat(result.getMessage(), is("This email already existed."));
     }
 
     @Test
@@ -83,13 +82,12 @@ class UserServiceImplTest {
         UserDTORegisterRequest userDTORegisterRequest = UserDTORegisterRequest.builder()
                 .phone("0123123")
                 .build();
-        ExceptionResponse expected = ExceptionResponse.builder().code(-1).message("This phone number already exists").build();
 
         when(userRepository.findByPhone(userDTORegisterRequest.getPhone())).thenReturn(Optional.of(user));
 
         CustomBadRequestException result = assertThrows(CustomBadRequestException.class, () -> {
             userServiceImpl.userRegister(userDTORegisterRequest);
         });
-        assertThat(result.getError(), is(expected));
+        assertThat(result.getMessage(), is("This phone number already existed."));
     }
 }
