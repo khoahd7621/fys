@@ -45,7 +45,7 @@ const SideBar = ({ collapsed }) => {
             </MenuItem>
             <MenuItem>
               Manage Size
-              <Link to={adminRoutes.default} />
+              <Link to={adminRoutes.manageSize} />
             </MenuItem>
             <MenuItem>
               Manage Color

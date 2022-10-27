@@ -21,6 +21,7 @@ const adminRoutes = {
   default: '/admin',
   dashboard: '/admin/dashboard',
   manageCategory: '/admin/manage-category',
+  manageSize: '/admin/manage-size',
 };
 
 export { publicRoutes, privateRoutes, adminRoutes };
