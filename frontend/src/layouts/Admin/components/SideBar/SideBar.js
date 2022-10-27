@@ -49,7 +49,7 @@ const SideBar = ({ collapsed }) => {
             </MenuItem>
             <MenuItem>
               Manage Color
-              <Link to={adminRoutes.default} />
+              <Link to={adminRoutes.manageColor} />
             </MenuItem>
           </SubMenu>
         </Menu>
