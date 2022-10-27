@@ -1,7 +1,9 @@
 package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
@@ -69,6 +71,23 @@ public class AuthServiceImpl implements AuthService {
         }
         throw new CustomNotFoundException(ExceptionResponse.builder()
                 .code(-1).message("User does not exist").build());
+    }
+
+    @Override
+    public SuccessResponse<NoData> userRegister(UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
+        Optional<User> userOpt = userRepository.findByEmail(userDTORegisterRequest.getEmail());
+        if (userOpt.isPresent()) {
+            throw new CustomBadRequestException(ExceptionResponse.builder()
+                    .code(-1).message("This email already exists").build());
+        }
+        userOpt = userRepository.findByPhone(userDTORegisterRequest.getPhone());
+        if (userOpt.isPresent()) {
+            throw new CustomBadRequestException(ExceptionResponse.builder()
+                    .code(-1).message("This phone number already exists").build());
+        }
+        User user = userMapper.toUser(userDTORegisterRequest);
+        userRepository.save(user);
+        return new SuccessResponse<>(NoData.builder().build(), "Register successfully");
     }
 
 }

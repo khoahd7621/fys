@@ -2,7 +2,6 @@ package com.khoahd7621.youngblack.controllers.user;
 
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
-import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserDTOChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
 import com.khoahd7621.youngblack.services.UserService;
 
 import javax.validation.Valid;
@@ -22,11 +20,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping
-    public SuccessResponse<NoData> userRegister(@Valid @RequestBody UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
-        return userService.userRegister(userDTORegisterRequest);
-    }
 
     @GetMapping("/current")
     public SuccessResponse<UserDTOResponse> getCurrentUser() throws CustomNotFoundException {
@@ -43,11 +36,4 @@ public class UserController {
         return userService.changePassword(userDTOChangePasswordRequest);
     }
 
-    @GetMapping
-    public SuccessResponse<ListUsersWithPaginateResponse> getListUsers(
-            @RequestParam(name = "limit", defaultValue = "20") Integer limit,
-            @RequestParam(name = "offset", defaultValue = "0") Integer offset
-    ) {
-        return userService.getListUsers(limit, offset);
-    }
 }

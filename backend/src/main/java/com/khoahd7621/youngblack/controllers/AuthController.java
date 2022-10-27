@@ -1,5 +1,7 @@
 package com.khoahd7621.youngblack.controllers;
 
+import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
@@ -23,5 +25,10 @@ public class AuthController {
     @PostMapping("/login")
     public SuccessResponse<UserDTOLoginResponse> login(@Valid @RequestBody UserDTOLoginRequest userDTOLoginRequest) throws CustomBadRequestException {
         return authService.loginHandler(userDTOLoginRequest);
+    }
+
+    @PostMapping("/register")
+    public SuccessResponse<NoData> userRegister(@Valid @RequestBody UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
+        return authService.userRegister(userDTORegisterRequest);
     }
 }
