@@ -6,13 +6,14 @@ import './SideBar.scss';
 
 import { FaGem, FaGithub, FaLuggageCart, FaTshirt } from 'react-icons/fa';
 import { MdDashboard, MdAccountBox } from 'react-icons/md';
+import { adminRoutes } from '~/routes/routes';
 
 const SideBar = ({ collapsed }) => {
   return (
     <ProSidebar collapsed={collapsed}>
       <SidebarHeader>
         <div className="px-5 uppercase font-bold text-lg overflow-hidden text-ellipsis whitespace-nowrap tracking-wide h-[72px]">
-          <Link to="/admin/dashboard" className="text-black no-underline">
+          <Link to={adminRoutes.default} className="text-black no-underline">
             <span className="leading-[72px] text-xl">Young Black</span>
           </Link>
         </div>
@@ -21,41 +22,41 @@ const SideBar = ({ collapsed }) => {
         <Menu iconShape="circle">
           <MenuItem icon={<MdDashboard />}>
             Dashboard
-            <Link to="/admin/dashboard"></Link>
+            <Link to={adminRoutes.dashboard}></Link>
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">
           <MenuItem icon={<FaLuggageCart />}>
             Manage Order
-            <Link to="/admin/dashboard"></Link>
+            <Link to={adminRoutes.default}></Link>
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">
           <MenuItem icon={<FaTshirt />}>
             Manage Product
-            <Link to="/admin/dashboard"></Link>
+            <Link to={adminRoutes.default}></Link>
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">
           <SubMenu title={'Common Manage'} icon={<FaGem />}>
             <MenuItem>
               Manage Category
-              <Link to="/admin/dashboard" />
+              <Link to={adminRoutes.manageCategory} />
             </MenuItem>
             <MenuItem>
               Manage Size
-              <Link to="/admin/dashboard" />
+              <Link to={adminRoutes.default} />
             </MenuItem>
             <MenuItem>
               Manage Color
-              <Link to="/admin/dashboard" />
+              <Link to={adminRoutes.default} />
             </MenuItem>
           </SubMenu>
         </Menu>
         <Menu iconShape="circle">
           <MenuItem icon={<MdAccountBox />}>
             Manage Account
-            <Link to="/admin/dashboard"></Link>
+            <Link to={adminRoutes.default}></Link>
           </MenuItem>
         </Menu>
       </SidebarContent>

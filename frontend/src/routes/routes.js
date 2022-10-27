@@ -20,6 +20,7 @@ const privateRoutes = {
 const adminRoutes = {
   default: '/admin',
   dashboard: '/admin/dashboard',
+  manageCategory: '/admin/manage-category',
 };
 
 export { publicRoutes, privateRoutes, adminRoutes };
