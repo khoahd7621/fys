@@ -95,19 +95,31 @@ const ManageCategory = () => {
                                 </td>
                               </tr>
                             ))}
+                          {listCategories && listCategories.length === 0 && (
+                            <tr className="border-b">
+                              <td
+                                className="text-sm text-gray-900 font-normal px-6 py-4 whitespace-nowrap border-r"
+                                colSpan={4}
+                              >
+                                No data
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-              <UpdateCategoryModal
-                show={showUpdateCategoryModal}
-                setShow={setShowUpdateCategoryModal}
-                data={dataUpdateCategoryModal}
-                setData={setDataUpdateCategoryModal}
-                fetchList={fetchListCategories}
-              />
+              {listCategories && listCategories.length > 0 && (
+                <UpdateCategoryModal
+                  show={showUpdateCategoryModal}
+                  setShow={setShowUpdateCategoryModal}
+                  data={dataUpdateCategoryModal}
+                  setData={setDataUpdateCategoryModal}
+                  fetchList={fetchListCategories}
+                />
+              )}
             </div>
           </div>
         </div>
