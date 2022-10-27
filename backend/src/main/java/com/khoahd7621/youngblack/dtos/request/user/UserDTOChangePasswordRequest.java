@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.models.user.dto;
+package com.khoahd7621.youngblack.dtos.request.user;
 
 import com.khoahd7621.youngblack.constants.Constants;
 import lombok.Builder;

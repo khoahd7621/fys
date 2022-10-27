@@ -3,16 +3,11 @@ package com.khoahd7621.youngblack.securities;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
+import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,19 +17,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
 
-    private final JwtTokenUtil jwtTokenUtil;
-    private final UserRepository userRepository;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserRepository userRepository;
 
     private Optional<String> getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION);
@@ -45,13 +39,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private void setSecurityContext(User user) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
-        UserDetails userDetails =
-                new org.springframework.security.core.userdetails.User(
-                        user.getEmail(), user.getPassword(), authorities);
+        UserDetails userDetails = new CustomUserDetails(user);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
 
@@ -59,31 +49,43 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         if (request.getRequestURI().equals("/api/v1/login")
-                || (request.getRequestURI().equals("/api/v1/user") && request.getMethod().equals(HttpMethod.POST.toString()))) {
+                || (request.getRequestURI().equals("/api/v1/register"))
+                || (request.getRequestURI().equals("/api/v1/category"))) {
             filterChain.doFilter(request, response);
         } else {
             final Optional<String> requestTokenHeaderOpt = getJwtFromRequest(request);
             if (requestTokenHeaderOpt.isPresent()) {
                 try {
                     String accessToken = requestTokenHeaderOpt.get();
-                    Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromToken(accessToken));
-                    if (userOptional.isPresent()) {
-                        User user = userOptional.get();
-                        if (jwtTokenUtil.validateToken(accessToken, user)) {
-                            setSecurityContext(user);
+                    Jws<Claims> listClaims = jwtTokenUtil.getJwsClaims(accessToken);
+                    if (jwtTokenUtil.validateTokenHeader(listClaims.getHeader())) {
+                        Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromClaims(listClaims.getBody()));
+                        if (userOptional.isPresent()) {
+                            User user = userOptional.get();
+                            if (jwtTokenUtil.validateTokenClaims(listClaims.getBody(), user)) {
+                                setSecurityContext(user);
+                                filterChain.doFilter(request, response);
+                            } else {
+                                throw new RuntimeException("Invalid JWT");
+                            }
+                        } else {
+                            throw new RuntimeException("Invalid JWT");
                         }
+                    } else {
+                        throw new RuntimeException("Invalid JWT");
                     }
                 } catch (SignatureException se) {
-                    System.out.println("Invalid JWT signature");
+                    throw new SignatureException("Invalid JWT signature", se);
                 } catch (IllegalArgumentException iae) {
-                    System.out.println("Unable to get JWT");
+                    throw new IllegalArgumentException("Unable to get JWT", iae);
                 } catch (ExpiredJwtException eje) {
-                    System.out.println("Token has expired");
+                    throw new ExpiredJwtException(null, null, "Token has expired", eje);
+                } catch (MalformedJwtException mje) {
+                    throw new MalformedJwtException("JWT was not correctly constructed", mje);
                 }
             } else {
-                System.out.println("JWT Access Token does not start with 'Bearer ");
+                throw new RuntimeException("JWT Access Token does not start with 'Bearer ");
             }
-            filterChain.doFilter(request, response);
         }
     }
 }

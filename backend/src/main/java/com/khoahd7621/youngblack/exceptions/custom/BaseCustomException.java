@@ -1,19 +1,13 @@
 package com.khoahd7621.youngblack.exceptions.custom;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.khoahd7621.youngblack.models.error.CustomError;
-import lombok.Getter;
-import lombok.Setter;
+import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BaseCustomException extends Exception {
-    private Map<String, CustomError> error;
-
-    public BaseCustomException(CustomError customError) {
-        this.error = new HashMap<>();
-        this.error.put("error", customError);
-    }
+    private ExceptionResponse error;
 }

@@ -1,14 +1,19 @@
-package com.khoahd7621.youngblack.models.user.dto;
+package com.khoahd7621.youngblack.dtos.response.user;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.util.Date;
+
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTOResponse {
+    private long id;
     private String email;
     private String firstName;
     private String lastName;
@@ -16,6 +21,6 @@ public class UserDTOResponse {
     private String address;
     private ERoles role;
     private EAccountStatus status;
-    private String accessToken;
-    private String refreshToken;
+    private Date createdAt;
+    private Date updatedAt;
 }

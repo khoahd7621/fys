@@ -1,87 +1,93 @@
 package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
+import com.khoahd7621.youngblack.dtos.response.NoData;
+import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
-import com.khoahd7621.youngblack.models.error.CustomError;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOLoginRequest;
-import com.khoahd7621.youngblack.models.user.dto.UserDTOResponse;
-import com.khoahd7621.youngblack.models.user.mapper.UserMapper;
+import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
+import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
+import com.khoahd7621.youngblack.securities.CustomUserDetails;
 import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserMapper userMapper;
-    private final JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public Map<String, UserDTOResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest) throws CustomBadRequestException {
-        boolean isAuthed = false;
+    public SuccessResponse<UserDTOLoginResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest)
+            throws CustomBadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userDTOLoginRequest.getEmail());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (user.getStatus() == EAccountStatus.ACTIVE) {
-                if (passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())) {
-                    isAuthed = true;
+            if (passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())) {
+                if (user.getStatus() == EAccountStatus.ACTIVE) {
+                    UserDTOLoginResponse userDTOLoginResponse = userMapper.toUserDTOLoginResponse(user);
+                    userDTOLoginResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
+                    userDTOLoginResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
+                    return new SuccessResponse<>(userDTOLoginResponse, "Login successfully");
                 }
-            } else if (user.getStatus() == EAccountStatus.INACTIVE) {
-                throw new CustomBadRequestException(
-                        CustomError.builder()
-                                .code(HttpStatus.BAD_REQUEST)
-                                .message("The account has not been activated").build());
-            } else if (user.getStatus() == EAccountStatus.BLOCK) {
-                throw new CustomBadRequestException(
-                        CustomError.builder()
-                                .code(HttpStatus.BAD_REQUEST)
-                                .message("Account has been blocked").build());
+                if (user.getStatus() == EAccountStatus.INACTIVE) {
+                    throw new CustomBadRequestException(ExceptionResponse.builder()
+                            .code(-1).message("The account has not been activated").build());
+                }
+                if (user.getStatus() == EAccountStatus.BLOCK) {
+                    throw new CustomBadRequestException(ExceptionResponse.builder()
+                            .code(-1).message("Account has been blocked").build());
+                }
             }
         }
-        if (!isAuthed) {
-            throw new CustomBadRequestException(
-                    CustomError.builder()
-                            .code(HttpStatus.BAD_REQUEST)
-                            .message("Email or password is incorrect").build());
-        }
-        return buildUserDTOResponse(userOpt.get());
+        throw new CustomBadRequestException(ExceptionResponse.builder()
+                .code(-1).message("Email or password is incorrect").build());
     }
 
     @Override
     public User getUserLoggedIn() throws CustomNotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String email = ((UserDetails) principal).getUsername();
-            Optional<User> userOpt = userRepository.findByEmail(email);
-            if (userOpt.isPresent()) {
-                return userOpt.get();
-            }
+        if (principal instanceof CustomUserDetails) {
+            return ((CustomUserDetails) principal).getUser();
         }
-        throw new CustomNotFoundException(CustomError.builder().code(HttpStatus.NOT_FOUND).message("User does not exist").build());
+        throw new CustomNotFoundException(ExceptionResponse.builder()
+                .code(-1).message("User does not exist").build());
     }
 
-    private Map<String, UserDTOResponse> buildUserDTOResponse(User user) {
-        Map<String, UserDTOResponse> wrapper = new HashMap<>();
-        UserDTOResponse userDTOResponse = userMapper.toUserDTOResponse(user);
-        userDTOResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
-        userDTOResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
-        wrapper.put("data", userDTOResponse);
-        return wrapper;
+    @Override
+    public SuccessResponse<NoData> userRegister(UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
+        Optional<User> userOpt = userRepository.findByEmail(userDTORegisterRequest.getEmail());
+        if (userOpt.isPresent()) {
+            throw new CustomBadRequestException(ExceptionResponse.builder()
+                    .code(-1).message("This email already exists").build());
+        }
+        userOpt = userRepository.findByPhone(userDTORegisterRequest.getPhone());
+        if (userOpt.isPresent()) {
+            throw new CustomBadRequestException(ExceptionResponse.builder()
+                    .code(-1).message("This phone number already exists").build());
+        }
+        User user = userMapper.toUser(userDTORegisterRequest);
+        userRepository.save(user);
+        return new SuccessResponse<>(NoData.builder().build(), "Register successfully");
     }
 
 }
