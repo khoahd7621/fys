@@ -22,5 +22,5 @@ public class Size {
     private String size;
 
     @OneToMany(mappedBy = "size", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<ProductVariant> productVariant;
+    private Set<VariantSize> variantSizes;
 }

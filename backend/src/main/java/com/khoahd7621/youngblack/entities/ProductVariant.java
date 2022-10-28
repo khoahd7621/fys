@@ -18,15 +18,6 @@ public class ProductVariant {
     @Column(name = "product_variant_id")
     private long id;
 
-    @Column(name = "sku", unique = true)
-    private String sku;
-    @Column(name = "is_in_stock")
-    private boolean isInStock;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "size_id")
-    private Size size;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -37,4 +28,7 @@ public class ProductVariant {
 
     @OneToMany(mappedBy = "productVariant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Image> images;
+
+    @OneToMany(mappedBy = "productVariant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<VariantSize> variantSizes;
 }

@@ -44,4 +44,12 @@ public class Product {
     private String primaryImageUrl;
     @Column(name = "secondary_cover_img_url")
     private String secondaryImageUrl;
+    @Column(name = "created_at")
+    private Date createdAt;
+    @Column(name = "updated_at")
+    private Date updatedAt;
+    @Column(name = "is_visible")
+    private boolean isVisible;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 }
