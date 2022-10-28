@@ -23,6 +23,7 @@ const adminRoutes = {
   manageCategory: '/admin/manage-category',
   manageSize: '/admin/manage-size',
   manageColor: '/admin/manage-color',
+  manageProduct: '/admin/manage-product',
 };
 
 export { publicRoutes, privateRoutes, adminRoutes };

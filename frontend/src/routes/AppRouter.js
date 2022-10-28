@@ -17,7 +17,7 @@ import {
   Account,
 } from '~/pages';
 import { ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
-import { Dashboard, ManageCategory, ManageColor, ManageSize } from '~/layouts/Admin/page';
+import { Dashboard, ManageCategory, ManageColor, ManageProduct, ManageSize } from '~/layouts/Admin/page';
 
 import ClientPrivateRoute from './ClientPrivateRoute';
 import AdminPrivateRoute from './AdminPrivateRoute';
@@ -48,6 +48,7 @@ const AppRouter = () => {
             <Route path={privateRoutes.changePassword} element={<ChangePassword />} />
           </Route>
           <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
+
           {/* Sign in/Sign up */}
           <Route
             path={privateRoutes.login}
@@ -66,6 +67,8 @@ const AppRouter = () => {
             }
           />
         </Route>
+
+        {/* Checkout */}
         <Route path={publicRoutes.checkout} element={<Checkout />} />
         <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
 
@@ -83,6 +86,7 @@ const AppRouter = () => {
           <Route index path={adminRoutes.manageCategory} element={<ManageCategory />} />
           <Route index path={adminRoutes.manageSize} element={<ManageSize />} />
           <Route index path={adminRoutes.manageColor} element={<ManageColor />} />
+          <Route index path={adminRoutes.manageProduct} element={<ManageProduct />} />
         </Route>
 
         {/* Notfound */}

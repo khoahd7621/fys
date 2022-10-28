@@ -22,19 +22,19 @@ const SideBar = ({ collapsed }) => {
         <Menu iconShape="circle">
           <MenuItem icon={<MdDashboard />}>
             Dashboard
-            <Link to={adminRoutes.dashboard}></Link>
+            <Link to={adminRoutes.dashboard} />
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">
           <MenuItem icon={<FaLuggageCart />}>
             Manage Order
-            <Link to={adminRoutes.default}></Link>
+            <Link to={adminRoutes.default} />
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">
           <MenuItem icon={<FaTshirt />}>
             Manage Product
-            <Link to={adminRoutes.default}></Link>
+            <Link to={adminRoutes.manageProduct} />
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">
@@ -56,7 +56,7 @@ const SideBar = ({ collapsed }) => {
         <Menu iconShape="circle">
           <MenuItem icon={<MdAccountBox />}>
             Manage Account
-            <Link to={adminRoutes.default}></Link>
+            <Link to={adminRoutes.default} />
           </MenuItem>
         </Menu>
       </SidebarContent>
