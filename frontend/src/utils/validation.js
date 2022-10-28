@@ -23,6 +23,12 @@ const Validation = {
   isEmpty: (string) => {
     return String(string).trim().length === 0;
   },
+  isIntegerNumber: (string) => {
+    return String(string).match(/^\d+$/);
+  },
+  isHigherThanZero: (stringNumber) => {
+    return Number(stringNumber) > 0;
+  },
 };
 
 export default Validation;
