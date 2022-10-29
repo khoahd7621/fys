@@ -3,26 +3,36 @@ import { useImmer } from 'use-immer';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
+import { getListColors } from '~/services/admin/colorService';
 import { MdOutlineClear, MdPublishedWithChanges } from 'react-icons/md';
 import CustomSelect from '../CustomSelect/CustomSelect';
 
 const SelectColor = ({ listColors, setListColors }) => {
-  const colorOptions = [
-    { value: 0, label: 'Red', disabled: false },
-    { value: 2, label: 'Yellow', disabled: false },
-    { value: 3, label: 'White', disabled: false },
-    { value: 4, label: 'Black', disabled: false },
-  ];
-
-  const [listColorOptions, setListColorOptions] = useImmer(colorOptions);
-
-  useEffect(() => {
-    // Todo: fetch list colorOptions
-  }, []);
+  const [listColorOptions, setListColorOptions] = useImmer([]);
 
   useEffect(() => {
     refreshListColorOptions();
   }, [listColorOptions, listColors]);
+
+  useEffect(() => {
+    fetchListColor();
+  }, []);
+
+  const fetchListColor = async () => {
+    const response = await getListColors();
+    if (response && response.code === 0) {
+      if (response?.data && response?.data?.colors.length === 0) {
+        toast.error('Please create at least one color before create new product');
+        return;
+      }
+      const listColorOptionsClone = response?.data?.colors.map((color) => {
+        return { value: color.id, label: color.name, disabled: false };
+      });
+      setListColorOptions(listColorOptionsClone);
+    } else {
+      toast.error(response.message);
+    }
+  };
 
   const refreshListColorOptions = () => {
     const listColorSelected = listColors.map((color) => color.id);
