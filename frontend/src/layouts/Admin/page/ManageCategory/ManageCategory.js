@@ -3,7 +3,7 @@ import { getListCategories } from '~/services/admin/categoryService';
 
 import { toast } from 'react-toastify';
 
-import AddNewModal from './AddNewModal';
+import AddNewCategoryModal from './AddNewCategoryModal';
 import UpdateCategoryModal from './UpdateCategoryModal';
 
 const ManageCategory = () => {
@@ -49,7 +49,11 @@ const ManageCategory = () => {
                 >
                   Create new category
                 </button>
-                <AddNewModal show={showAddNewModal} setShow={setShowAddNewModal} fetchList={fetchListCategories} />
+                <AddNewCategoryModal
+                  show={showAddNewModal}
+                  setShow={setShowAddNewModal}
+                  fetchList={fetchListCategories}
+                />
               </div>
               <div className="flex flex-col">
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">

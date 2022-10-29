@@ -7,7 +7,7 @@ import Validation from '~/utils/validation';
 import { toast } from 'react-toastify';
 import { postCreateNewCategory } from '~/services/admin/categoryService';
 
-const AddNewModal = ({ show, setShow, fetchList }) => {
+const AddNewCategoryModal = ({ show, setShow, fetchList }) => {
   const inputRef = useRef();
 
   const handleClearData = () => {
@@ -18,7 +18,7 @@ const AddNewModal = ({ show, setShow, fetchList }) => {
     if (Validation.isEmpty(inputRef.current.value)) {
       toast.error('Name of category is required.');
     } else {
-      const response = await postCreateNewCategory(inputRef.current.value.trim());
+      const response = await postCreateNewCategory(String(inputRef.current.value).trim().toUpperCase());
       if (response && response.code === 0) {
         handleClearData();
         setShow(false);
@@ -79,4 +79,4 @@ const AddNewModal = ({ show, setShow, fetchList }) => {
   );
 };
 
-export default AddNewModal;
+export default AddNewCategoryModal;

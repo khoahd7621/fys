@@ -18,7 +18,7 @@ const UpdateCategoryModal = ({ show, setShow, data, setData, fetchList }) => {
     if (Validation.isEmpty(inputRef.current.value)) {
       toast.error('Name of category is required.');
     } else {
-      const response = await putUpdateCategories(data.id, inputRef.current.value.trim());
+      const response = await putUpdateCategories(data.id, String(inputRef.current.value).trim().toUpperCase());
       if (response && response.code === 0) {
         handleClearData();
         setShow(false);
