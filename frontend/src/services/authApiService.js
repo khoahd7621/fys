@@ -7,4 +7,14 @@ const postLogin = (email, password) => {
   });
 };
 
-export { postLogin };
+const postRegisterNewAccount = ({ firstName, lastName, phone, email, password }) => {
+  return axios.post('/api/v1/register', {
+    firstName,
+    lastName,
+    phone,
+    email,
+    password,
+  });
+};
+
+export { postLogin, postRegisterNewAccount };

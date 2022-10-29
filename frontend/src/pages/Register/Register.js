@@ -8,7 +8,7 @@ import { privateRoutes } from '~/routes/routes';
 
 import Validation from '~/utils/validation';
 import { toast } from 'react-toastify';
-import { postRegisterNewUser } from '~/services/client/userService';
+import { postRegisterNewAccount } from '~/services/authApiService';
 
 const Register = () => {
   const initialState = {
@@ -132,9 +132,10 @@ const Register = () => {
         email: account.email.value,
         password: account.password.value,
       };
+
       setIsSending(true);
-      const response = await postRegisterNewUser(payload);
-      if (response && response.code === 0) {
+      const response = await postRegisterNewAccount(payload);
+      if (response && +response.code === 0) {
         navigate(privateRoutes.login);
         toast.success(response.message);
       } else {
