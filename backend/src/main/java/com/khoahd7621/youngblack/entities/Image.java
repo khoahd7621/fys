@@ -17,6 +17,9 @@ public class Image {
     @Column(name = "img_id")
     private long id;
 
+    @Column(name = "img_name")
+    private String name;
+
     @Column(name = "img_url")
     private String imageUrl;
 

@@ -20,6 +20,8 @@ public class Size {
 
     @Column(name = "size")
     private String size;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     @OneToMany(mappedBy = "size", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<VariantSize> variantSizes;

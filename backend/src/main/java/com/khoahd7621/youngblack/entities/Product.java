@@ -26,22 +26,26 @@ public class Product {
     @Column(name = "product_id")
     private int id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
     @Column(name = "slug")
     private String slug;
     @Column(name = "price")
-    private double price;
+    private long price;
     @Column(name = "discount_price")
-    private double discountPrice;
+    private long discountPrice;
     @Column(name = "start_date_discount")
     private Date startDateDiscount;
     @Column(name = "end_date_discount")
     private Date endDateDiscount;
+    @Column(name = "primary_cover_img_name")
+    private String primaryImageName;
     @Column(name = "primary_cover_img_url")
     private String primaryImageUrl;
+    @Column(name = "secondary_cover_img_name")
+    private String secondaryImageName;
     @Column(name = "secondary_cover_img_url")
     private String secondaryImageUrl;
     @Column(name = "created_at")

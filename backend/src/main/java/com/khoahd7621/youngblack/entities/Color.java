@@ -23,4 +23,6 @@ public class Color {
 
     @Column(name = "color_name")
     private String name;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 }

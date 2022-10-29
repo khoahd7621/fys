@@ -17,7 +17,7 @@ public class VariantSize {
     @Column(name = "variant_size_id")
     private long id;
 
-    @Column(name = "sku", unique = true)
+    @Column(name = "sku")
     private String sku;
     @Column(name = "is_in_stock")
     private boolean isInStock;

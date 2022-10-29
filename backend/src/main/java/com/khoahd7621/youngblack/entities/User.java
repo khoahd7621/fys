@@ -29,7 +29,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     @Column(unique = true)
     private String email;
     @Column(unique = true)
@@ -55,6 +55,5 @@ public class User {
         this.status = user.getStatus();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
-
     }
 }
