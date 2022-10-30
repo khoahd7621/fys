@@ -28,4 +28,8 @@ const postCreateNewProduct = ({
   });
 };
 
-export { postCreateNewProduct };
+const getListProductsWithPaginate = (limit, offset) => {
+  return axios.get(`/api/v1/admin/product?limit=${limit}&offset=${offset}`);
+};
+
+export { postCreateNewProduct, getListProductsWithPaginate };

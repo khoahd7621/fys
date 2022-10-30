@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import CreateNewProduct from './CreateNewProduct/CreateNewProduct';
+import ListProduct from './ListProduct/ListProduct';
 
 const ManageProduct = () => {
   const listTabs = [
-    { title: 'List products', content: 'List products' },
+    { title: 'List products', content: <ListProduct /> },
     { title: 'Create new product', content: <CreateNewProduct /> },
   ];
 
