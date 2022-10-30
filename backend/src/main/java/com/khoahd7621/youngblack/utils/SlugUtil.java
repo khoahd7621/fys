@@ -8,7 +8,7 @@ import java.util.Date;
 public class SlugUtil {
 
     public String getSlug(String title) {
-        return title.toLowerCase().replaceAll("\\s+", "-") + new Date().getTime();
+        return title.toLowerCase().replaceAll("\\s+", "-") + "-" + new Date().getTime();
     }
 
 }
