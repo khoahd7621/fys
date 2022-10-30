@@ -72,7 +72,6 @@ const Navbar = () => {
               listCategories.map((category, index) => (
                 <li key={`collections-${category.name}-${index}`} className={cx('item')}>
                   <Link
-                    state={{ categoryId: category.id, categoryName: category.name }}
                     className={cx('link')}
                     to={`${publicRoutes.collection}/${String(category.name).replace(/ /g, '-').toLowerCase()}`}
                   >
