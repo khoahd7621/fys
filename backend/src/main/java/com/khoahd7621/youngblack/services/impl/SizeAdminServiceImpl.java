@@ -2,7 +2,6 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.size.CreateNewSizeRequest;
 import com.khoahd7621.youngblack.dtos.request.size.UpdateSizeRequest;
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
@@ -28,9 +27,9 @@ public class SizeAdminServiceImpl implements SizeAdminService {
 
     @Override
     public SuccessResponse<SizeResponse> createNewSize(CreateNewSizeRequest createNewSizeRequest) throws CustomBadRequestException {
-        Optional<Size> sizeOptional = sizeRepository.findBySize(createNewSizeRequest.getSize());
+        Optional<Size> sizeOptional = sizeRepository.findBySizeAndIsDeletedFalse(createNewSizeRequest.getSize());
         if (sizeOptional.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder().code(-1).message("This size already existed.").build());
+            throw new CustomBadRequestException("This size already existed.");
         }
         Size size = sizeMapper.toSize(createNewSizeRequest);
         Size result = sizeRepository.save(size);
@@ -39,7 +38,7 @@ public class SizeAdminServiceImpl implements SizeAdminService {
 
     @Override
     public SuccessResponse<ListSizesResponse> getAllSize() {
-        List<SizeResponse> sizeResponseList = sizeRepository.findAll()
+        List<SizeResponse> sizeResponseList = sizeRepository.findByIsDeletedFalse()
                 .stream().map(sizeMapper::toSizeResponse).collect(Collectors.toList());
         ListSizesResponse listSizesResponse =
                 ListSizesResponse.builder().sizes(sizeResponseList).build();
@@ -50,17 +49,14 @@ public class SizeAdminServiceImpl implements SizeAdminService {
     public SuccessResponse<SizeResponse> updateSize(UpdateSizeRequest updateSizeRequest) throws CustomBadRequestException {
         Optional<Size> sizeOptionalFindById = sizeRepository.findById(updateSizeRequest.getId());
         if (sizeOptionalFindById.isEmpty()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("Id of size is not exist.").build());
+            throw new CustomBadRequestException("Id of size is not exist.");
         }
         if (sizeOptionalFindById.get().getSize().equals(updateSizeRequest.getNewSize())) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("New size is the same with old size. Nothing update.").build());
+            throw new CustomBadRequestException("New size is the same with old size. Nothing update.");
         }
-        Optional<Size> sizeOptionalFindBySize = sizeRepository.findBySize(updateSizeRequest.getNewSize());
+        Optional<Size> sizeOptionalFindBySize = sizeRepository.findBySizeAndIsDeletedFalse(updateSizeRequest.getNewSize());
         if (sizeOptionalFindBySize.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("This category name already exist.").build());
+            throw new CustomBadRequestException("This category name already exist.");
         }
         Size size = sizeOptionalFindById.get();
         size.setSize(updateSizeRequest.getNewSize());

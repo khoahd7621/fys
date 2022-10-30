@@ -50,7 +50,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         if (request.getRequestURI().equals("/api/v1/login")
                 || (request.getRequestURI().equals("/api/v1/register"))
-                || (request.getRequestURI().equals("/api/v1/category"))) {
+                || (request.getRequestURI().equals("/api/v1/category"))
+                || (request.getRequestURI().startsWith("/api/v1/product"))) {
             filterChain.doFilter(request, response);
         } else {
             final Optional<String> requestTokenHeaderOpt = getJwtFromRequest(request);
@@ -58,22 +59,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 try {
                     String accessToken = requestTokenHeaderOpt.get();
                     Jws<Claims> listClaims = jwtTokenUtil.getJwsClaims(accessToken);
-                    if (jwtTokenUtil.validateTokenHeader(listClaims.getHeader())) {
-                        Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromClaims(listClaims.getBody()));
-                        if (userOptional.isPresent()) {
-                            User user = userOptional.get();
-                            if (jwtTokenUtil.validateTokenClaims(listClaims.getBody(), user)) {
-                                setSecurityContext(user);
-                                filterChain.doFilter(request, response);
-                            } else {
-                                throw new RuntimeException("Invalid JWT");
-                            }
-                        } else {
-                            throw new RuntimeException("Invalid JWT");
-                        }
-                    } else {
+                    if (!jwtTokenUtil.validateTokenHeader(listClaims.getHeader())) {
                         throw new RuntimeException("Invalid JWT");
                     }
+                    Optional<User> userOptional = userRepository.findById(jwtTokenUtil.getUserIdFromClaims(listClaims.getBody()));
+                    if (userOptional.isEmpty()) {
+                        throw new RuntimeException("Invalid JWT");
+                    }
+                    setSecurityContext(userOptional.get());
+                    filterChain.doFilter(request, response);
                 } catch (SignatureException se) {
                     throw new SignatureException("Invalid JWT signature", se);
                 } catch (IllegalArgumentException iae) {

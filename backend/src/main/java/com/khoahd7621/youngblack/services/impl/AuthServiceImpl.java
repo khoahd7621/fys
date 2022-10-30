@@ -47,20 +47,17 @@ public class AuthServiceImpl implements AuthService {
                     UserDTOLoginResponse userDTOLoginResponse = userMapper.toUserDTOLoginResponse(user);
                     userDTOLoginResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
                     userDTOLoginResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
-                    return new SuccessResponse<>(userDTOLoginResponse, "Login successfully");
+                    return new SuccessResponse<>(userDTOLoginResponse, "Login successfully.");
                 }
                 if (user.getStatus() == EAccountStatus.INACTIVE) {
-                    throw new CustomBadRequestException(ExceptionResponse.builder()
-                            .code(-1).message("The account has not been activated").build());
+                    throw new CustomBadRequestException("The account has not been activated.");
                 }
                 if (user.getStatus() == EAccountStatus.BLOCK) {
-                    throw new CustomBadRequestException(ExceptionResponse.builder()
-                            .code(-1).message("Account has been blocked").build());
+                    throw new CustomBadRequestException("Account has been blocked.");
                 }
             }
         }
-        throw new CustomBadRequestException(ExceptionResponse.builder()
-                .code(-1).message("Email or password is incorrect").build());
+        throw new CustomBadRequestException("Email or password is incorrect.");
     }
 
     @Override
@@ -69,25 +66,22 @@ public class AuthServiceImpl implements AuthService {
         if (principal instanceof CustomUserDetails) {
             return ((CustomUserDetails) principal).getUser();
         }
-        throw new CustomNotFoundException(ExceptionResponse.builder()
-                .code(-1).message("User does not exist").build());
+        throw new CustomNotFoundException("User does not exist.");
     }
 
     @Override
     public SuccessResponse<NoData> userRegister(UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userDTORegisterRequest.getEmail());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("This email already exists").build());
+            throw new CustomBadRequestException("This email already exists.");
         }
         userOpt = userRepository.findByPhone(userDTORegisterRequest.getPhone());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("This phone number already exists").build());
+            throw new CustomBadRequestException("This phone number already exists.");
         }
         User user = userMapper.toUser(userDTORegisterRequest);
         userRepository.save(user);
-        return new SuccessResponse<>(NoData.builder().build(), "Register successfully");
+        return new SuccessResponse<>(NoData.builder().build(), "Register successfully.");
     }
 
 }

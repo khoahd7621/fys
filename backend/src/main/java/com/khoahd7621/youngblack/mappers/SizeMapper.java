@@ -1,6 +1,7 @@
 package com.khoahd7621.youngblack.mappers;
 
 import com.khoahd7621.youngblack.dtos.request.size.CreateNewSizeRequest;
+import com.khoahd7621.youngblack.dtos.request.size.SizeOfCreateNewProduct;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
 import com.khoahd7621.youngblack.entities.Size;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,11 @@ import org.springframework.stereotype.Component;
 public class SizeMapper {
 
     public Size toSize(CreateNewSizeRequest createNewSizeRequest) {
-        return Size.builder().size(createNewSizeRequest.getSize()).build();
+        return Size.builder().size(createNewSizeRequest.getSize()).isDeleted(false).build();
+    }
+
+    public Size toSize(SizeOfCreateNewProduct sizeOfCreateNewProduct) {
+        return Size.builder().id(sizeOfCreateNewProduct.getId()).size(sizeOfCreateNewProduct.getSize()).build();
     }
 
 

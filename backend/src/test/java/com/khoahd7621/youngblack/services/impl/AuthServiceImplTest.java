@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
@@ -66,8 +65,6 @@ class AuthServiceImplTest {
         UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
-        ExceptionResponse expected = ExceptionResponse.builder()
-                .code(-1).message("The account has not been activated").build();
 
         when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
@@ -76,7 +73,7 @@ class AuthServiceImplTest {
         CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
             authServiceImpl.loginHandler(userDTOLoginRequest);
         });
-        assertThat(actual.getError(), is(expected));
+        assertThat(actual.getMessage(), is("The account has not been activated."));
     }
 
     @Test
@@ -84,8 +81,6 @@ class AuthServiceImplTest {
         UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
-        ExceptionResponse expected = ExceptionResponse.builder()
-                .code(-1).message("Account has been blocked").build();
 
         when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
@@ -95,21 +90,19 @@ class AuthServiceImplTest {
             authServiceImpl.loginHandler(userDTOLoginRequest);
         });
 
-        assertThat(actual.getError(), is(expected));
+        assertThat(actual.getMessage(), is("Account has been blocked."));
     }
 
     @Test
     void loginHandler_ShouldReturnData_WhenRequestDataInValid() throws CustomBadRequestException {
         UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
                 .email("email").password("password").build();
-        ExceptionResponse expected = ExceptionResponse.builder()
-                .code(-1).message("Email or password is incorrect").build();
 
         when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.empty());
 
         CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
             authServiceImpl.loginHandler(userDTOLoginRequest);
         });
-        assertThat(actual.getError(), is(expected));
+        assertThat(actual.getMessage(), is("Email or password is incorrect."));
     }
 }

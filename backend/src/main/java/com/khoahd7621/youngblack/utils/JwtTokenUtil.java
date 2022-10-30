@@ -39,14 +39,6 @@ public class JwtTokenUtil {
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
-    public boolean validateTokenClaims(Claims claims, User user) {
-        long userId = Long.parseLong(claims.get("userId").toString());
-        String email = claims.get("email").toString();
-        return userId == user.getId() &&
-                email.equals(user.getEmail()) &&
-                !isTokenExpired(claims.getExpiration());
-    }
-
     public boolean validateTokenHeader(JwsHeader header) {
         return header.getType().equals("JWT") &&
                 header.get("name").equals("ACCESS_TOKEN") &&
@@ -57,13 +49,8 @@ public class JwtTokenUtil {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
     }
 
-
     public long getUserIdFromClaims(Claims claims) {
         return Long.parseLong(claims.get("userId").toString());
-    }
-
-    private boolean isTokenExpired(Date expiredDate) {
-        return expiredDate.before(new Date());
     }
 
 }

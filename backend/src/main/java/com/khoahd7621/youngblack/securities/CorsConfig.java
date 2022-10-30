@@ -14,7 +14,6 @@ public class CorsConfig {
 
     @Bean
     public CorsFilter corsFilter(@Value("${spring.graphql.cors.allowed-origins}") List<String> allowedOrigins) {
-        System.out.println(allowedOrigins);
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedOriginPatterns(allowedOrigins);

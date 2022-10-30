@@ -2,7 +2,6 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.category.CreateNewCategoryRequest;
 import com.khoahd7621.youngblack.dtos.request.category.UpdateNameCategoryRequest;
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import com.khoahd7621.youngblack.dtos.response.category.ListCategoriesResponse;
@@ -26,13 +25,12 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-
     @Override
     public SuccessResponse<CategoryResponse> createNewCategory(CreateNewCategoryRequest createNewCategoryRequest)
             throws CustomBadRequestException {
-        Optional<Category> categoryOptional = categoryRepository.findByName(createNewCategoryRequest.getName());
+        Optional<Category> categoryOptional = categoryRepository.findByNameAndIsDeletedFalse(createNewCategoryRequest.getName());
         if (categoryOptional.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder().code(-1).message("This category already existed.").build());
+            throw new CustomBadRequestException("This category already existed.");
         }
         Category category = categoryMapper.toCategory(createNewCategoryRequest);
         Category result = categoryRepository.save(category);
@@ -41,7 +39,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public SuccessResponse<ListCategoriesResponse> getAllCategory() {
-        List<CategoryResponse> categoryResponseList = categoryRepository.findAll()
+        List<CategoryResponse> categoryResponseList = categoryRepository.findByIsDeletedFalse()
                 .stream().map(categoryMapper::toCategoryResponse).collect(Collectors.toList());
         ListCategoriesResponse listCategoriesResponse =
                 ListCategoriesResponse.builder().categories(categoryResponseList).build();
@@ -52,17 +50,14 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     public SuccessResponse<CategoryResponse> updateNameCategory(UpdateNameCategoryRequest updateNameCategoryRequest) throws CustomBadRequestException {
         Optional<Category> categoryOptionalFindById = categoryRepository.findById(updateNameCategoryRequest.getId());
         if (categoryOptionalFindById.isEmpty()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("Id of category is not exist.").build());
+            throw new CustomBadRequestException("Id of category is not exist.");
         }
         if (categoryOptionalFindById.get().getName().equals(updateNameCategoryRequest.getNewName())) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("New category name is the same with old category name. Nothing update.").build());
+            throw new CustomBadRequestException("New category name is the same with old category name. Nothing update.");
         }
-        Optional<Category> categoryOptionalFindByName = categoryRepository.findByName(updateNameCategoryRequest.getNewName());
+        Optional<Category> categoryOptionalFindByName = categoryRepository.findByNameAndIsDeletedFalse(updateNameCategoryRequest.getNewName());
         if (categoryOptionalFindByName.isPresent()) {
-            throw new CustomBadRequestException(ExceptionResponse.builder()
-                    .code(-1).message("This category name already exist.").build());
+            throw new CustomBadRequestException("This category name already exist.");
         }
         Category category = categoryOptionalFindById.get();
         category.setName(updateNameCategoryRequest.getNewName());
