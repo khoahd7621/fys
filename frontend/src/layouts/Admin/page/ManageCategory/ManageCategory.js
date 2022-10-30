@@ -33,12 +33,7 @@ const ManageCategory = () => {
 
   return (
     <div className="container">
-      <section className="header">
-        <div className="px-6 py-4 h-16">
-          <div className="text-xl font-medium">Manage Category</div>
-        </div>
-      </section>
-      <div className="px-6 py-4 h-[calc(100vh-136px)] overflow-y-auto">
+      <div className="px-6 pt-6 h-[calc(100vh-64px)] overflow-y-auto">
         <div className="body">
           <div className="grid grid-cols-4">
             <div className="col-start-2 col-end-4">
