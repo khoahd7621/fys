@@ -21,4 +21,5 @@ public class ProductResponse {
     private String primaryImageUrl;
     private String secondaryImageUrl;
     private boolean isPromotion;
+    private String categoryName;
 }

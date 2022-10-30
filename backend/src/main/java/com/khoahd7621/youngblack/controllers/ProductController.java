@@ -33,4 +33,13 @@ public class ProductController {
     ) throws CustomBadRequestException {
         return productService.getAllProductsByCategoryNameWithPaginate(categoryName, offset, limit);
     }
+
+    @GetMapping("/search")
+    public SuccessResponse<ListProductWithPaginateResponse> getAllProductsSearchByNameWithPaginate(
+            @RequestParam(name = "query", defaultValue = "") String query,
+            @RequestParam(name = "limit", defaultValue = "20") Integer limit,
+            @RequestParam(name = "offset", defaultValue = "0") Integer offset
+    ) {
+        return productService.getAllProductsSearchByNameWithPaginate(query, offset, limit);
+    }
 }

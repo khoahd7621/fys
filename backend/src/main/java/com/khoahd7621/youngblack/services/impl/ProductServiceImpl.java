@@ -60,4 +60,17 @@ public class ProductServiceImpl implements ProductService {
         return new SuccessResponse<>(listProductWithPaginateResponse, "Get list products success.");
     }
 
+    @Override
+    public SuccessResponse<ListProductWithPaginateResponse> getAllProductsSearchByNameWithPaginate(String query, Integer offset, Integer limit) {
+        Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndNameLikeIgnoreCase("%" + query + "%", PageRequest.of(offset, limit));
+        List<ProductResponse> productResponseList =
+                productPage.stream().map(productMapper::toProductResponse).collect(Collectors.toList());
+        ListProductWithPaginateResponse listProductWithPaginateResponse =
+                ListProductWithPaginateResponse.builder()
+                        .products(productResponseList)
+                        .totalRows(productPage.getTotalElements())
+                        .totalPages(productPage.getTotalPages()).build();
+        return new SuccessResponse<>(listProductWithPaginateResponse, "Get list products success.");
+    }
+
 }
