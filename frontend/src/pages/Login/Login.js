@@ -1,10 +1,67 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { fetchUserLoginSuccess } from '~/redux/slice/userSlice';
+
 import { BreadCrumb } from '~/components';
+import { privateRoutes, publicRoutes } from '~/routes/routes';
+import { postLogin } from '~/services/authApiService';
+import Validation from '~/utils/validation';
+
+import { toast } from 'react-toastify';
 import { AiOutlineGoogle } from 'react-icons/ai';
-import { Link, useLocation } from 'react-router-dom';
-import { privateRoutes } from '~/routes/routes';
 
 const Login = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [account, setAccount] = useState({
+    email: '',
+    password: '',
+  });
+  const [isSending, setIsSending] = useState(false);
+
+  const handleChangeInput = (event) => {
+    setAccount({
+      ...account,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleClearInput = () => {
+    setAccount({
+      email: '',
+      password: '',
+    });
+  };
+
+  const handleSubmitLogin = async (event) => {
+    event.preventDefault();
+
+    if (!Validation.isValidEmail(account.email)) {
+      toast.error('Invalid email');
+      return;
+    } else if (!Validation.isMinLength(account.password, 6)) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    } else if (!Validation.isMaxLength(account.password, 24)) {
+      toast.error('Password must be at most 24 characters');
+      return;
+    }
+
+    setIsSending(true);
+    const response = await postLogin(account.email, account.password);
+    if (response && response.code === 0) {
+      handleClearInput();
+      dispatch(fetchUserLoginSuccess(response.data));
+      navigate(publicRoutes.home);
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+    setIsSending(false);
+  };
 
   return (
     <div className="login">
@@ -25,19 +82,35 @@ const Login = () => {
               <span>Or</span>
             </div>
             <div className="by-account">
-              <form className="form">
+              <form className="form" onSubmit={(event) => handleSubmitLogin(event)}>
                 <div className="form-group">
                   <label htmlFor="email">
                     Email <span>*</span>
                   </label>
-                  <input id="email" className="form-control" type="email" placeholder="Enter email address" />
+                  <input
+                    id="email"
+                    name="email"
+                    className="form-control"
+                    type="email"
+                    placeholder="Enter email address"
+                    value={account.email}
+                    onChange={(event) => handleChangeInput(event)}
+                  />
                   <p className="form-text"></p>
                 </div>
                 <div className="form-group">
                   <label htmlFor="password">
                     Password <span>*</span>
                   </label>
-                  <input id="password" className="form-control" type="password" placeholder="Enter password" />
+                  <input
+                    id="password"
+                    name="password"
+                    className="form-control"
+                    type="password"
+                    placeholder="Enter password"
+                    value={account.password}
+                    onChange={(event) => handleChangeInput(event)}
+                  />
                   <p className="form-text"></p>
                 </div>
                 <div>
@@ -51,7 +124,7 @@ const Login = () => {
                   </Link>
                 </div>
                 <div className="form-action">
-                  <button>Login</button>
+                  <button disabled={isSending}>Login</button>
                 </div>
               </form>
             </div>
@@ -60,7 +133,10 @@ const Login = () => {
               your consent.
             </div>
             <div className="other-action">
-              Don't have an account? Register <Link to={''}>here</Link>
+              Don't have an account? Register{' '}
+              <Link to={privateRoutes.register} state={{ from: location }}>
+                here
+              </Link>
             </div>
           </div>
         </div>

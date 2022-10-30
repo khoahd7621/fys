@@ -1,59 +1,88 @@
 import classNames from 'classnames/bind';
 import styles from './ProductCard.module.scss';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { BsLink45Deg } from 'react-icons/bs';
-import { FaCartArrowDown, FaCartPlus } from 'react-icons/fa';
+// import { FaCartArrowDown, FaCartPlus } from 'react-icons/fa';
 
 import { publicRoutes } from '~/routes/routes';
 
 const cx = classNames.bind(styles);
 
-const ProductCard = () => {
+const ProductCard = ({ product, type }) => {
+  const navigate = useNavigate();
+
+  const formatter = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    // These options are needed to round to whole numbers if that's what you want.
+    // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    // maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+
+  const handleClickOption = () => {
+    navigate(`${publicRoutes.collection}/${type}/${product?.slug}`, {
+      state: {
+        product,
+        type,
+      },
+    });
+  };
+
   return (
     <div className={cx('product-block')} title={'Product'}>
       <div className={cx('thumb')}>
-        <Link className={cx('primary-img')} to={`${publicRoutes.collection}/type/productname`}>
-          <img
-            src={
-              'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/308066421-5438382269603243-2253586239615982651-n.jpg?v=1663678985000'
-            }
-            alt="primary-img"
-          />
+        <Link
+          state={{ product }}
+          className={cx('primary-img')}
+          to={`${publicRoutes.collection}/${type}/${product?.slug}`}
+        >
+          <img src={product?.primaryImageUrl} alt="primary-img" title={product?.name} />
         </Link>
-        <Link className={cx('secondary-img')} to={`${publicRoutes.collection}/type/productname`}>
-          <img
-            src={
-              'https://bizweb.dktcdn.net/thumb/large/100/331/067/products/307980002-5438382122936591-6042481426817014800-n.jpg?v=1663678985000'
-            }
-            alt="secondary-img"
-          />
+        <Link
+          state={{ product }}
+          className={cx('secondary-img')}
+          to={`${publicRoutes.collection}/${type}/${product?.slug}`}
+        >
+          <img src={product?.secondaryImageUrl} alt="secondary-img" title={product?.name} />
         </Link>
-        <div className={cx('label')}>
-          <span className={cx('sale')}>40%</span>
-        </div>
+        {product?.promotion && (
+          <div className={cx('label')}>
+            <span className={cx('sale')}>
+              {Math.round(((+product?.price - +product?.discountPrice) / +product?.price) * 100)}%
+            </span>
+          </div>
+        )}
         <div className={cx('cart-wrap')}>
-          <button className={cx('cart-button')}>
+          <button className={cx('cart-button')} title="Option" onClick={() => handleClickOption()}>
             <BsLink45Deg />
           </button>
-          <button className={cx('cart-button')}>
+          {/* <button className={cx('cart-button')}>
             <FaCartArrowDown />
           </button>
           <button className={cx('cart-button')}>
             <FaCartPlus />
-          </button>
+          </button> */}
         </div>
       </div>
       <div className={cx('content')}>
         <div className={cx('name')}>
           <h4>
-            <Link to={`${publicRoutes.collection}/type/productname`}>Lively & Active Cap</Link>
+            <Link state={{ product }} to={`${publicRoutes.collection}/${type}/${product?.slug}`}>
+              {String(product?.name).toUpperCase()}
+            </Link>
           </h4>
         </div>
         <div className={cx('price')}>
-          <span className={cx('current')}>180.000đ</span>
-          <span className={cx('old')}>280.000đ</span>
+          {product?.promotion ? (
+            <>
+              <span className={cx('current')}>{formatter.format(product?.discountPrice)}</span>
+              <span className={cx('old')}>{formatter.format(product?.price)}</span>
+            </>
+          ) : (
+            <span className={cx('current')}>{formatter.format(product?.price)}</span>
+          )}
         </div>
       </div>
     </div>

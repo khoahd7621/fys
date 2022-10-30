@@ -5,7 +5,6 @@ const publicRoutes = {
   search: '/search',
   checkout: '/checkout',
   checkoutSuccess: '/checkout/thankyou',
-  notFound: '*',
 };
 
 const privateRoutes = {
@@ -18,4 +17,13 @@ const privateRoutes = {
   changePassword: '/account/change-password',
 };
 
-export { publicRoutes, privateRoutes };
+const adminRoutes = {
+  default: '/admin',
+  dashboard: '/admin/dashboard',
+  manageCategory: '/admin/manage-category',
+  manageSize: '/admin/manage-size',
+  manageColor: '/admin/manage-color',
+  manageProduct: '/admin/manage-product',
+};
+
+export { publicRoutes, privateRoutes, adminRoutes };

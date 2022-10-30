@@ -1,6 +1,8 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 
 const UserInfo = () => {
+  const account = useSelector((state) => state.user.account);
+
   return (
     <div className="user-infor">
       <div className="title">
@@ -8,18 +10,21 @@ const UserInfo = () => {
       </div>
       <div className="content">
         <div className="mb-4 font-bold">
-          Fullname: <span className="font-normal">Hoang Dang Khoa</span>
+          First name: <span className="font-normal">{account.firstName}</span>
         </div>
         <div className="mb-4 font-bold">
-          Email: <span className="font-normal">example@gmail.com</span>
+          Last name: <span className="font-normal">{account.lastName}</span>
         </div>
         <div className="mb-4 font-bold">
-          Phone number: <span className="font-normal">0123456789</span>
+          Email: <span className="font-normal">{account.email}</span>
         </div>
         <div className="mb-4 font-bold">
-          Address: <span className="font-normal">123 Le Van Viet, Tp. Thu Duc, Tp. Ho Chi Minh</span>
+          Phone number: <span className="font-normal">{account.phone}</span>
         </div>
-        <div class="form mt-6 mb-4">
+        <div className="mb-4 font-bold">
+          Address: <span className="font-normal">{account.address ? account.address : 'N/a'}</span>
+        </div>
+        <div className="form mt-6 mb-4">
           <div className="form-action max-w-[300px]">
             <button>Update account</button>
           </div>

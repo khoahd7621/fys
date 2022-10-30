@@ -5,23 +5,22 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '~/redux/store';
 
-import GlobalStyle from '~/components/GlobalStyle/GlobalStyle';
-import Router from '~/routes/Router';
+import AppRouter from './routes/AppRouter';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'nprogress/nprogress.css';
 
 import reportWebVitals from './reportWebVitals';
+import './index.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <GlobalStyle>
-          <Router />
-          <ToastContainer />
-        </GlobalStyle>
+        <AppRouter />
+        <ToastContainer />
       </PersistGate>
     </Provider>
   </React.StrictMode>,

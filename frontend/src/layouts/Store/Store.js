@@ -1,4 +1,7 @@
 import { Outlet } from 'react-router-dom';
+
+import './Store.scss';
+
 import { Footer, Header, Navbar } from '~/components';
 
 const Store = () => {

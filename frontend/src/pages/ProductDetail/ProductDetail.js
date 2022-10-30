@@ -14,7 +14,7 @@ const ProductDetail = () => {
   return (
     <div className={'product-detail'}>
       <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] px-3">
-        <BreadCrumb current={productname}>
+        <BreadCrumb current={productname.slice(0, productname.lastIndexOf('-'))}>
           <Nested path={`${publicRoutes.collection}/${type}`} name={type} />
         </BreadCrumb>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 
 import { BreadCrumb } from '~/components';
@@ -6,6 +7,7 @@ import { privateRoutes } from '~/routes/routes';
 import { Nested } from '~/components/BreadCrumb/BreadCrumb';
 
 const Account = () => {
+  const account = useSelector((state) => state.user.account);
   const location = useLocation();
   const nestedOrderRoutes = location.pathname.slice(0, location.pathname.lastIndexOf('/'));
 
@@ -25,7 +27,7 @@ const Account = () => {
             <section className="side-bar">
               <div className="title">
                 <h2 className="text-xl uppercase mb-1">Account page</h2>
-                <p className="font-bold">Welcome, Hoang Dang Khoa!</p>
+                <p className="font-bold">Welcome, {account.firstName + ' ' + account.lastName}!</p>
               </div>
               <ul className="options mt-10 mb-10">
                 <li className={classNames('my-2', { 'font-semibold': location.pathname === privateRoutes.account })}>
