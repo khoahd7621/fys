@@ -2,6 +2,7 @@ package com.khoahd7621.youngblack.mappers;
 
 import com.khoahd7621.youngblack.dtos.request.product.CreateNewProductRequest;
 import com.khoahd7621.youngblack.dtos.response.product.ProductAdminResponse;
+import com.khoahd7621.youngblack.dtos.response.product.ProductResponse;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.utils.SlugUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,31 @@ public class ProductMapper {
                 .primaryImageUrl(product.getPrimaryImageUrl())
                 .isPromotion(isPromotion)
                 .isVisible(product.isVisible()).build();
+    }
+
+    public ProductResponse toProductResponse(Product product) {
+        long discountPrice = 0;
+        Date startDateDiscount = null;
+        Date endDateDiscount = null;
+        boolean isPromotion = false;
+        if (product.getEndDateDiscount() != null && product.getEndDateDiscount().before(new Date())) {
+            discountPrice = product.getDiscountPrice();
+            startDateDiscount = product.getStartDateDiscount();
+            endDateDiscount = product.getEndDateDiscount();
+            isPromotion = true;
+        }
+        return ProductResponse.builder()
+                .productId(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .discountPrice(discountPrice)
+                .startDateDiscount(startDateDiscount)
+                .endDateDiscount(endDateDiscount)
+                .slug(product.getSlug())
+                .primaryImageUrl(product.getPrimaryImageUrl())
+                .secondaryImageUrl(product.getSecondaryImageUrl())
+                .isPromotion(isPromotion)
+                .build();
     }
 }

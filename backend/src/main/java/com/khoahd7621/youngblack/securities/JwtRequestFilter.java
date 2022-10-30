@@ -50,7 +50,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         if (request.getRequestURI().equals("/api/v1/login")
                 || (request.getRequestURI().equals("/api/v1/register"))
-                || (request.getRequestURI().equals("/api/v1/category"))) {
+                || (request.getRequestURI().equals("/api/v1/category"))
+                || (request.getRequestURI().startsWith("/api/v1/product"))) {
             filterChain.doFilter(request, response);
         } else {
             final Optional<String> requestTokenHeaderOpt = getJwtFromRequest(request);
