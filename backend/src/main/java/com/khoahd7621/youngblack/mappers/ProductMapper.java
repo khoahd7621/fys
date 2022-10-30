@@ -1,6 +1,7 @@
 package com.khoahd7621.youngblack.mappers;
 
 import com.khoahd7621.youngblack.dtos.request.product.CreateNewProductRequest;
+import com.khoahd7621.youngblack.dtos.response.product.ProductAdminResponse;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.utils.SlugUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,16 @@ public class ProductMapper {
                 .build();
     }
 
+    public ProductAdminResponse toProductAdminResponse(Product product) {
+        boolean isPromotion = product.getEndDateDiscount() != null && product.getEndDateDiscount().after(new Date());
+        return ProductAdminResponse.builder()
+                .productId(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .slug(product.getSlug())
+                .primaryImageUrl(product.getPrimaryImageUrl())
+                .isPromotion(isPromotion)
+                .isVisible(product.isVisible()).build();
+    }
 }

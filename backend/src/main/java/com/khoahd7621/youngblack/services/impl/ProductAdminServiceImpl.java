@@ -4,6 +4,8 @@ import com.khoahd7621.youngblack.dtos.request.product.CreateNewProductRequest;
 import com.khoahd7621.youngblack.dtos.request.productvariant.ProductVariantOfCreateNewProduct;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
+import com.khoahd7621.youngblack.dtos.response.product.ProductAdminResponse;
 import com.khoahd7621.youngblack.entities.Image;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.entities.ProductVariant;
@@ -19,10 +21,14 @@ import com.khoahd7621.youngblack.repositories.ProductVariantRepository;
 import com.khoahd7621.youngblack.repositories.VariantSizeRepository;
 import com.khoahd7621.youngblack.services.ProductAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductAdminServiceImpl implements ProductAdminService {
@@ -75,5 +81,19 @@ public class ProductAdminServiceImpl implements ProductAdminService {
             variantSizeRepository.saveAll(variantSizeList);
         }
         return new SuccessResponse<>(NoData.builder().build(), "Create new product successfully.");
+    }
+
+    @Override
+    public SuccessResponse<ListProductAdminWithPaginateResponse> getAllProductWithPaginate(int limit, int offset) {
+        Page<Product> productPage = productRepository.findAll(PageRequest.of(offset, limit, Sort.by("id").descending()));
+        List<ProductAdminResponse> productAdminResponseList = productPage.stream()
+                .filter(product -> !product.isDeleted())
+                .map(productMapper::toProductAdminResponse).collect(Collectors.toList());
+        ListProductAdminWithPaginateResponse listProductAdminWithPaginateResponse =
+                ListProductAdminWithPaginateResponse.builder()
+                        .products(productAdminResponseList)
+                        .totalRows(productPage.getTotalElements())
+                        .totalPages(productPage.getTotalPages()).build();
+        return new SuccessResponse<>(listProductAdminWithPaginateResponse, "Get list products success!");
     }
 }
