@@ -12,11 +12,6 @@ const ManageProduct = () => {
 
   return (
     <div className="container">
-      <section className="header">
-        <div className="px-6 py-4 h-16">
-          <div className="text-xl font-medium">Manage Product</div>
-        </div>
-      </section>
       <div className="px-6">
         <div className="body">
           <ul className="flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0">

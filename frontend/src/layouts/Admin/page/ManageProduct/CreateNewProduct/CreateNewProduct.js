@@ -49,6 +49,7 @@ const CreateNewProduct = () => {
     isVisible: '',
     productSku: '',
   });
+  const [isResetField, setIsResetField] = useState(true);
 
   useEffect(() => {
     fetchListSizes();
@@ -57,6 +58,31 @@ const CreateNewProduct = () => {
   useEffect(() => {
     fetchListCategories();
   }, []);
+
+  const clearDataAfterCreate = () => {
+    setProduct({
+      productName: '',
+      productPrice: '',
+      productDescription: '',
+      isVisible: '',
+      productSku: '',
+    });
+    setListColors(initListColors);
+    setPrimaryImage({
+      file: '',
+      previewImage: '',
+    });
+    setSecondaryImage({
+      file: '',
+      previewImage: '',
+    });
+    setSizes([]);
+    setCategory({
+      id: '',
+      name: '',
+    });
+    setIsResetField(!isResetField);
+  };
 
   const fetchListCategories = async () => {
     const response = await getListCategories();
@@ -253,6 +279,7 @@ const CreateNewProduct = () => {
 
       const response = await postCreateNewProduct(payload);
       if (response && +response.code === 0) {
+        clearDataAfterCreate();
         toast.success('Create new product successfully');
       } else {
         toast.error(response.message);
@@ -261,7 +288,7 @@ const CreateNewProduct = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-193px)] overflow-y-auto">
+    <div className="h-[calc(100vh-129px)] overflow-y-auto">
       <div className="content">
         <div className="border rounded-md p-3 mb-6">
           <div className="grid grid-cols-3">
@@ -314,6 +341,7 @@ const CreateNewProduct = () => {
                     Show product after created (<span className="text-red-600">*</span>):
                   </label>
                   <CustomSelect
+                    keyChange={`is-visible-${isResetField}`}
                     options={isVisibleOptions}
                     onChange={handleChangeIsVisibleSelect}
                     placeholder={'Select visible...'}
@@ -350,6 +378,7 @@ const CreateNewProduct = () => {
                     Select size (<span className="text-red-600">*</span>):
                   </label>
                   <CustomSelect
+                    keyChange={`select-size-${isResetField}`}
                     isMulti
                     options={listSizeOptions}
                     onChange={handleChangeSelectSize}
@@ -361,6 +390,7 @@ const CreateNewProduct = () => {
                     Select category (<span className="text-red-600">*</span>):
                   </label>
                   <CustomSelect
+                    keyChange={`select-category-${isResetField}`}
                     options={listCategoryOptions}
                     onChange={handleChangeCategory}
                     placeholder={'Select category...'}

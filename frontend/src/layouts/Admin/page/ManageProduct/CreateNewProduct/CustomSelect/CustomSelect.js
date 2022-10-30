@@ -1,6 +1,6 @@
 import Select from 'react-select';
 
-const CustomSelect = ({ options, onChange, isMulti, placeholder, isOptionDisabled, isClearable }) => {
+const CustomSelect = ({ keyChange, options, onChange, isMulti, placeholder, isOptionDisabled, isClearable }) => {
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -12,6 +12,7 @@ const CustomSelect = ({ options, onChange, isMulti, placeholder, isOptionDisable
 
   return (
     <Select
+      key={keyChange}
       styles={customStyles}
       isMulti={isMulti}
       options={options}
