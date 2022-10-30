@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ColorMapper {
     public Color toColor(CreateNewColorRequest createNewColorRequest) {
-        return Color.builder().name(createNewColorRequest.getName()).build();
+        return Color.builder().name(createNewColorRequest.getName()).isDeleted(false).build();
     }
 
     public Color toColor(ColorOfCreateNewProduct colorOfCreateNewProduct) {

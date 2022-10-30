@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class CategoryMapper {
 
     public Category toCategory(CreateNewCategoryRequest createNewCategoryRequest) {
-        return Category.builder().name(createNewCategoryRequest.getName()).build();
+        return Category.builder().name(createNewCategoryRequest.getName()).isDeleted(false).build();
     }
 
     public Category toCategory(CategoryOfCreateNewProduct categoryOfCreateNewProduct) {

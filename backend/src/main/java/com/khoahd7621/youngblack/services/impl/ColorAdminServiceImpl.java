@@ -27,7 +27,7 @@ public class ColorAdminServiceImpl implements ColorAdminService {
 
     @Override
     public SuccessResponse<ColorResponse> createNewColor(CreateNewColorRequest createNewColorRequest) throws CustomBadRequestException {
-        Optional<Color> colorOptional = colorRepository.findByName(createNewColorRequest.getName());
+        Optional<Color> colorOptional = colorRepository.findByNameAndIsDeletedFalse(createNewColorRequest.getName());
         if (colorOptional.isPresent()) {
             throw new CustomBadRequestException("This color already existed.");
         }
@@ -38,7 +38,7 @@ public class ColorAdminServiceImpl implements ColorAdminService {
 
     @Override
     public SuccessResponse<ListColorsResponse> getAllColors() {
-        List<ColorResponse> sizeResponseList = colorRepository.findAll()
+        List<ColorResponse> sizeResponseList = colorRepository.findByIsDeletedFalse()
                 .stream().map(colorMapper::toColorResponse).collect(Collectors.toList());
         ListColorsResponse listColorsResponse =
                 ListColorsResponse.builder().colors(sizeResponseList).build();
@@ -54,7 +54,7 @@ public class ColorAdminServiceImpl implements ColorAdminService {
         if (colorOptionalFindById.get().getName().equals(updateColorNameRequest.getNewName())) {
             throw new CustomBadRequestException("New color is the same with old color. Nothing update.");
         }
-        Optional<Color> colorOptionalFindByName = colorRepository.findByName(updateColorNameRequest.getNewName());
+        Optional<Color> colorOptionalFindByName = colorRepository.findByNameAndIsDeletedFalse(updateColorNameRequest.getNewName());
         if (colorOptionalFindByName.isPresent()) {
             throw new CustomBadRequestException("This color already exist.");
         }

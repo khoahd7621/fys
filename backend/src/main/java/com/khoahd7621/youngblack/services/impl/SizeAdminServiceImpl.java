@@ -27,7 +27,7 @@ public class SizeAdminServiceImpl implements SizeAdminService {
 
     @Override
     public SuccessResponse<SizeResponse> createNewSize(CreateNewSizeRequest createNewSizeRequest) throws CustomBadRequestException {
-        Optional<Size> sizeOptional = sizeRepository.findBySize(createNewSizeRequest.getSize());
+        Optional<Size> sizeOptional = sizeRepository.findBySizeAndIsDeletedFalse(createNewSizeRequest.getSize());
         if (sizeOptional.isPresent()) {
             throw new CustomBadRequestException("This size already existed.");
         }
@@ -38,7 +38,7 @@ public class SizeAdminServiceImpl implements SizeAdminService {
 
     @Override
     public SuccessResponse<ListSizesResponse> getAllSize() {
-        List<SizeResponse> sizeResponseList = sizeRepository.findAll()
+        List<SizeResponse> sizeResponseList = sizeRepository.findByIsDeletedFalse()
                 .stream().map(sizeMapper::toSizeResponse).collect(Collectors.toList());
         ListSizesResponse listSizesResponse =
                 ListSizesResponse.builder().sizes(sizeResponseList).build();
@@ -54,7 +54,7 @@ public class SizeAdminServiceImpl implements SizeAdminService {
         if (sizeOptionalFindById.get().getSize().equals(updateSizeRequest.getNewSize())) {
             throw new CustomBadRequestException("New size is the same with old size. Nothing update.");
         }
-        Optional<Size> sizeOptionalFindBySize = sizeRepository.findBySize(updateSizeRequest.getNewSize());
+        Optional<Size> sizeOptionalFindBySize = sizeRepository.findBySizeAndIsDeletedFalse(updateSizeRequest.getNewSize());
         if (sizeOptionalFindBySize.isPresent()) {
             throw new CustomBadRequestException("This category name already exist.");
         }

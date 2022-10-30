@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class SizeMapper {
 
     public Size toSize(CreateNewSizeRequest createNewSizeRequest) {
-        return Size.builder().size(createNewSizeRequest.getSize()).build();
+        return Size.builder().size(createNewSizeRequest.getSize()).isDeleted(false).build();
     }
 
     public Size toSize(SizeOfCreateNewProduct sizeOfCreateNewProduct) {

@@ -28,7 +28,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     @Override
     public SuccessResponse<CategoryResponse> createNewCategory(CreateNewCategoryRequest createNewCategoryRequest)
             throws CustomBadRequestException {
-        Optional<Category> categoryOptional = categoryRepository.findByName(createNewCategoryRequest.getName());
+        Optional<Category> categoryOptional = categoryRepository.findByNameAndIsDeletedFalse(createNewCategoryRequest.getName());
         if (categoryOptional.isPresent()) {
             throw new CustomBadRequestException("This category already existed.");
         }
@@ -39,7 +39,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public SuccessResponse<ListCategoriesResponse> getAllCategory() {
-        List<CategoryResponse> categoryResponseList = categoryRepository.findAll()
+        List<CategoryResponse> categoryResponseList = categoryRepository.findByIsDeletedFalse()
                 .stream().map(categoryMapper::toCategoryResponse).collect(Collectors.toList());
         ListCategoriesResponse listCategoriesResponse =
                 ListCategoriesResponse.builder().categories(categoryResponseList).build();
@@ -55,7 +55,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         if (categoryOptionalFindById.get().getName().equals(updateNameCategoryRequest.getNewName())) {
             throw new CustomBadRequestException("New category name is the same with old category name. Nothing update.");
         }
-        Optional<Category> categoryOptionalFindByName = categoryRepository.findByName(updateNameCategoryRequest.getNewName());
+        Optional<Category> categoryOptionalFindByName = categoryRepository.findByNameAndIsDeletedFalse(updateNameCategoryRequest.getNewName());
         if (categoryOptionalFindByName.isPresent()) {
             throw new CustomBadRequestException("This category name already exist.");
         }
