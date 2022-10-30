@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import 'tw-elements';
 
 import './Admin.scss';
 import { Navbar } from './components';
