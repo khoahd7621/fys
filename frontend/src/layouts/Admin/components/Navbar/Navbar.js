@@ -1,11 +1,17 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { FaBars } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+
+import { publicRoutes } from '~/routes/routes';
+import { removeDataUserLogout } from '~/redux/slice/userSlice';
 
 const Navbar = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
 
   useEffect(() => {
@@ -27,6 +33,12 @@ const Navbar = ({ collapsed, setCollapsed }) => {
     }
   }, [location.pathname]);
 
+  const handleLogout = () => {
+    dispatch(removeDataUserLogout());
+    navigate(publicRoutes.home);
+    toast.success('Logout successfully');
+  };
+
   return (
     <nav className="relative w-full flex flex-wrap items-center justify-between bg-gray-100 text-gray-500 shadow h-[72px]">
       <div className="w-full flex flex-wrap items-center justify-between px-6">
@@ -44,7 +56,9 @@ const Navbar = ({ collapsed, setCollapsed }) => {
           <div className="title cursor-default ml-6 text-xl text-black font-bold tracking-wider">{title}</div>
         </div>
         <div className="flex items-center relative">
-          <button className="text-gray-500 hover:text-gray-700">Log out</button>
+          <button className="text-gray-500 hover:text-gray-700" onClick={() => handleLogout()}>
+            Log out
+          </button>
         </div>
       </div>
     </nav>
