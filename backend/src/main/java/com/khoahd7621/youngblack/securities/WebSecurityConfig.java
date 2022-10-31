@@ -31,9 +31,9 @@ public class WebSecurityConfig {
         httpSecurity.authorizeRequests()
                 .antMatchers("/api/v1/login").permitAll()
                 .antMatchers("/api/v1/register").permitAll()
-                .antMatchers("/api/v1/category").permitAll()
-                .antMatchers("/api/v1/product").permitAll()
+                .antMatchers("/api/v1/category/**").permitAll()
                 .antMatchers("/api/v1/product/**").permitAll()
+                .antMatchers("/api/v1/product-detail/**").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority(ERoles.ADMIN.toString())
                 .antMatchers("/api/**").authenticated();
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,5 +1,6 @@
 package com.khoahd7621.youngblack.dtos.response.product;
 
+import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +22,5 @@ public class ProductResponse {
     private String primaryImageUrl;
     private String secondaryImageUrl;
     private boolean isPromotion;
-    private String categoryName;
+    private CategoryResponse category;
 }

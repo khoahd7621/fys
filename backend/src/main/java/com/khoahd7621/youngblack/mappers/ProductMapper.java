@@ -72,7 +72,7 @@ public class ProductMapper {
                 .primaryImageUrl(product.getPrimaryImageUrl())
                 .secondaryImageUrl(product.getSecondaryImageUrl())
                 .isPromotion(isPromotion)
-                .categoryName(product.getCategory().getName())
+                .category(categoryMapper.toCategoryResponse(product.getCategory()))
                 .build();
     }
 }
