@@ -33,7 +33,7 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ExceptionResponse notFoundException(CustomBadRequestException ex) {
+    public ExceptionResponse notFoundException(CustomNotFoundException ex) {
         return ExceptionResponse.builder().code(-1).message(ex.getMessage()).build();
     }
 }
