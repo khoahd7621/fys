@@ -8,7 +8,7 @@ import sizeTableImg from '~/assets/images/product/sizetable.webp';
 
 const cx = classNames.bind(styles);
 
-const Tabs = () => {
+const Tabs = ({ description, listImages }) => {
   const [index, setIndex] = useState(1);
 
   console.log('render');
@@ -41,13 +41,32 @@ const Tabs = () => {
         </div>
       </div>
       <div className="content mb-6">
-        {+index === 1 && <div>Product description ...</div>}
+        {/* Description */}
+        {+index === 1 && (
+          <div>
+            <div className="mb-10">{description}</div>
+            <div className="flex flex-col items-center gap-5">
+              {listImages &&
+                listImages.length > 0 &&
+                listImages.map((image, index) => (
+                  <img
+                    key={`description-image-${image.imageId}-${index}`}
+                    src={image.imageUrl}
+                    alt="Product"
+                    className="w-96"
+                  />
+                ))}
+            </div>
+          </div>
+        )}
+        {/* Size table */}
         {+index === 2 && (
           <div>
             <div className="font-medium uppercase">Note: Size table does not apply to all products</div>
             <img className="max-w-[600px] mx-auto" src={sizeTableImg} alt={'Size chart'} title="size chart" />
           </div>
         )}
+        {/* Rating */}
         {+index === 3 && <ProductRating />}
       </div>
     </>

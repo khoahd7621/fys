@@ -7,9 +7,26 @@
       .slick-list {
         .slick-track {
           .slick-slide {
+            & > div {
+              width: auto;
+              margin: auto;
+              height: 480px;
+              position: relative;
+              border-radius: 3px;
+              transition: all 0.15s ease-in-out;
+            }
+
             img {
-              width: fit-content;
-              margin: 0 auto;
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              width: auto;
+              max-height: 100%;
+              margin: auto;
+              border: 2px solid transparent;
+              border-radius: 3px;
             }
           }
         }
@@ -54,7 +71,6 @@
               position: relative;
               border-radius: 3px;
               border: 1px solid #e6e6e6;
-              position: relative;
               transition: all 0.15s ease-in-out;
             }
 
