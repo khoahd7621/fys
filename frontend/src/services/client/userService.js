@@ -8,4 +8,13 @@ const putChangePassword = (oldPassword, newPassword, confirmPassword) => {
   });
 };
 
-export { putChangePassword };
+const putUpdateUserInformation = (firstName, lastName, phone, address) => {
+  return axios.put(`/api/v1/user`, {
+    firstName,
+    lastName,
+    phone,
+    address,
+  });
+};
+
+export { putChangePassword, putUpdateUserInformation };
