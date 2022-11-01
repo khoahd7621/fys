@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import { useDispatch } from 'react-redux';
-import _ from 'lodash';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
+import _ from 'lodash';
 
 import DetailBlock from './DetailBlock/DetailBlock';
 import ImageBlock from './ImageBlock/ImageBlock';
@@ -16,6 +16,7 @@ import { publicRoutes } from '~/routes/routes';
 
 import { getProductDetailBySlug } from '~/services/client/productDetailService';
 import { addProductToCart } from '~/redux/slice/cartSlice';
+import { formatVietnamMoney } from '~/utils/format';
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -102,11 +103,6 @@ const ProductDetail = () => {
     }
   };
 
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  });
-
   const handleAddToCart = () => {
     if (selectedProduct?.inStock) {
       dispatch(
@@ -164,8 +160,8 @@ const ProductDetail = () => {
                 <span className="text-lg font-medium">
                   {parentProduct?.promotion !== undefined
                     ? parentProduct.promotion
-                      ? formatter.format(parentProduct?.discountPrice)
-                      : formatter.format(parentProduct?.price)
+                      ? formatVietnamMoney.format(parentProduct?.discountPrice)
+                      : formatVietnamMoney.format(parentProduct?.price)
                     : 'Loading...'}
                 </span>
               </div>
