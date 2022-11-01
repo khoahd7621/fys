@@ -27,11 +27,50 @@ export const cartSlice = createSlice({
         });
       }
     },
-    removeProductFromCart: (state, action) => {},
-    clearWholeCart: (state, action) => {},
+    removeProductFromCart: (state, action) => {
+      const payload = action.payload;
+      const currentIndex = state.cart.items
+        .map((item) => item.product.variantSizeId)
+        .indexOf(payload.product.variantSizeId);
+      if (currentIndex !== -1) {
+        state.cart.items.splice(currentIndex, 1);
+      }
+    },
+    inCreaseOneProductInCart: (state, action) => {
+      const payload = action.payload;
+      const currentIndex = state.cart.items
+        .map((item) => item.product.variantSizeId)
+        .indexOf(payload.product.variantSizeId);
+      if (currentIndex !== -1) {
+        state.cart.items[currentIndex] = {
+          product: payload.product,
+          quantity: state.cart.items[currentIndex].quantity + 1,
+        };
+      }
+    },
+    deCreaseOneProductInCart: (state, action) => {
+      const payload = action.payload;
+      const currentIndex = state.cart.items
+        .map((item) => item.product.variantSizeId)
+        .indexOf(payload.product.variantSizeId);
+      if (currentIndex !== -1) {
+        if (state.cart.items[currentIndex].quantity > 1) {
+          state.cart.items[currentIndex] = {
+            product: payload.product,
+            quantity: state.cart.items[currentIndex].quantity - 1,
+          };
+        }
+      }
+    },
   },
 });
 
-export const { addProductToCart, removeProductFromCart, clearWholeCart } = cartSlice.actions;
+export const {
+  addProductToCart,
+  removeProductFromCart,
+  clearWholeCart,
+  inCreaseOneProductInCart,
+  deCreaseOneProductInCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -43,6 +43,11 @@
       top: -22px;
     }
 
+    .list-items {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
     .cart__actions {
       button {
         background-color: #000;
