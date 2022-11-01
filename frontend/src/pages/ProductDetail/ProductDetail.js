@@ -179,7 +179,7 @@ const ProductDetail = () => {
             )}
           </button>
         </div>
-        <RelatedProduct />
+        <RelatedProduct parentProduct={parentProduct} />
       </div>
     </div>
   );
