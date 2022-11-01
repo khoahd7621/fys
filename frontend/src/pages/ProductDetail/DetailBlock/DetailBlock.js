@@ -20,6 +20,7 @@ const DetailBlock = ({
   setQuantity,
   selectedColor,
   selectedProduct,
+  handleAddToCart,
 }) => {
   const formatter = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -201,7 +202,11 @@ const DetailBlock = ({
         </div>
       </div>
       <div className={cx('btn-buy')}>
-        <button className={cx({ disabled: !selectedProduct?.inStock })} disabled={!selectedProduct?.inStock}>
+        <button
+          className={cx({ disabled: !selectedProduct?.inStock })}
+          disabled={!selectedProduct?.inStock}
+          onClick={() => handleAddToCart()}
+        >
           {selectedProduct?.inStock === undefined ? (
             <>
               <span className={cx('txt-main')}>Loading ...</span>

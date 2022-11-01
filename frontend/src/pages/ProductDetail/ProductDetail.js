@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useImmer } from 'use-immer';
+import { useDispatch } from 'react-redux';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
@@ -8,14 +9,16 @@ import classNames from 'classnames/bind';
 import DetailBlock from './DetailBlock/DetailBlock';
 import ImageBlock from './ImageBlock/ImageBlock';
 import Tabs from './Tabs/Tabs';
-import { BreadCrumb, RelatedProduct } from '~/components';
+import { AddToCartModal, BreadCrumb, RelatedProduct } from '~/components';
 import { Nested } from '~/components/BreadCrumb/BreadCrumb';
 
 import { publicRoutes } from '~/routes/routes';
 
 import { getProductDetailBySlug } from '~/services/client/productDetailService';
+import { addProductToCart } from '~/redux/slice/cartSlice';
 
 const ProductDetail = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { type, productname } = useParams();
 
@@ -26,6 +29,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [showAddToCartModal, setShowAddToCartModal] = useState(false);
 
   useEffect(() => {
     fetchProductBySlug(productname);
@@ -103,6 +107,18 @@ const ProductDetail = () => {
     currency: 'VND',
   });
 
+  const handleAddToCart = () => {
+    if (selectedProduct?.inStock) {
+      dispatch(
+        addProductToCart({
+          product: selectedProduct,
+          quantity: quantity,
+        }),
+      );
+      setShowAddToCartModal(true);
+    }
+  };
+
   return (
     <div className={'product-detail'}>
       <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] px-3">
@@ -123,6 +139,7 @@ const ProductDetail = () => {
             setSelectedColor={setSelectedColor}
             selectedProduct={selectedProduct}
             setSelectedProduct={setSelectedProduct}
+            handleAddToCart={handleAddToCart}
           />
         </div>
         <div className="product-tab">
@@ -160,6 +177,7 @@ const ProductDetail = () => {
               { 'opacity-[0.65]': !selectedProduct?.inStock },
             )}
             disabled={!selectedProduct?.inStock}
+            onClick={() => handleAddToCart()}
           >
             {selectedProduct?.inStock === undefined ? (
               <>
@@ -181,6 +199,7 @@ const ProductDetail = () => {
         </div>
         <RelatedProduct parentProduct={parentProduct} />
       </div>
+      <AddToCartModal product={selectedProduct} show={showAddToCartModal} setShow={setShowAddToCartModal} />
     </div>
   );
 };

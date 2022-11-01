@@ -10,6 +10,7 @@ export { default as Service } from './Service/Service';
 export { default as ProductCard } from './ProductCard/ProductCard';
 export { default as ProductRating } from './ProductRating/ProductRating';
 export { default as RelatedProduct } from './RelatedProduct/RelatedProduct';
+export { default as AddToCartModal } from './AddToCartModal/AddToCartModal';
 
 export { default as UserInfo } from './UserInfo/UserInfo';
 export { default as Order } from './Order/Order';
