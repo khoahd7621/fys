@@ -7,6 +7,7 @@ import styles from './Item.module.scss';
 import { VscTrash } from 'react-icons/vsc';
 import { publicRoutes } from '~/routes/routes';
 import { deCreaseOneProductInCart, inCreaseOneProductInCart, removeProductFromCart } from '~/redux/slice/cartSlice';
+import { formatVietnamMoney } from '~/utils/format';
 
 const cx = classNames.bind(styles);
 
@@ -62,7 +63,11 @@ const Item = ({ item }) => {
         >
           {item?.product?.product?.name}
         </Link>
-        <p className={cx('price')}>350.000đ</p>
+        <p className={cx('price')}>
+          {item?.product?.product?.promotion
+            ? formatVietnamMoney.format(item?.product?.product?.discountPrice)
+            : formatVietnamMoney.format(item?.product?.product?.price)}
+        </p>
         <div className={cx('quantity-select')}>
           <button className={cx('decrese')} onClick={() => handleDeCreaseOneProduct(item?.product)}>
             -

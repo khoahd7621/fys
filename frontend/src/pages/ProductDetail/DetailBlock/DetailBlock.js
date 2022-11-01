@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import _ from 'lodash';
 
 import styles from './DetailBlock.module.scss';
 
@@ -6,7 +7,7 @@ import { GiPencilRuler } from 'react-icons/gi';
 import { FaPhoneSquare, FaLocationArrow } from 'react-icons/fa';
 
 import selectImg from '~/assets/images/product/select-pro.webp';
-import _ from 'lodash';
+import { formatVietnamMoney } from '~/utils/format';
 
 const cx = classNames.bind(styles);
 
@@ -22,11 +23,6 @@ const DetailBlock = ({
   selectedProduct,
   handleAddToCart,
 }) => {
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  });
-
   const handleIncreaseQuantity = () => {
     setQuantity(quantity + 1);
   };
@@ -106,15 +102,15 @@ const DetailBlock = ({
           {parentProduct?.promotion !== undefined ? (
             parentProduct.promotion ? (
               <>
-                <span className={cx('special')}>{formatter.format(parentProduct?.discountPrice)}</span>
-                <span className={cx('old')}>{formatter.format(parentProduct?.price)}</span>
+                <span className={cx('special')}>{formatVietnamMoney.format(parentProduct?.discountPrice)}</span>
+                <span className={cx('old')}>{formatVietnamMoney.format(parentProduct?.price)}</span>
                 <span className={cx('save')}>
                   Save:
-                  <span>{formatter.format(parentProduct?.price - parentProduct?.discountPrice)}</span>
+                  <span>{formatVietnamMoney.format(parentProduct?.price - parentProduct?.discountPrice)}</span>
                 </span>
               </>
             ) : (
-              <span className={cx('special')}>{formatter.format(parentProduct?.price)}</span>
+              <span className={cx('special')}>{formatVietnamMoney.format(parentProduct?.price)}</span>
             )
           ) : (
             undefined ?? 'Loading...'
@@ -219,8 +215,8 @@ const DetailBlock = ({
                 <span>
                   {parentProduct?.promotion !== undefined
                     ? parentProduct.promotion
-                      ? formatter.format(parentProduct?.discountPrice)
-                      : formatter.format(parentProduct?.price)
+                      ? formatVietnamMoney.format(parentProduct?.discountPrice)
+                      : formatVietnamMoney.format(parentProduct?.price)
                     : undefined ?? 'Loading...'}
                 </span>
               </span>
