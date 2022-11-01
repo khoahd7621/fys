@@ -29,6 +29,9 @@ const Validation = {
   isHigherThanZero: (stringNumber) => {
     return Number(stringNumber) > 0;
   },
+  isTheSame: (string1, string2) => {
+    return string1 === string2;
+  },
 };
 
 export default Validation;
