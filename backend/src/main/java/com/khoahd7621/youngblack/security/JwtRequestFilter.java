@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.securities;
+package com.khoahd7621.youngblack.security;
 
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.repositories.UserRepository;

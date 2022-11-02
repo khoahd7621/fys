@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.securities;
+package com.khoahd7621.youngblack.security;
 
 import com.khoahd7621.youngblack.constants.ERoles;
 import org.springframework.beans.factory.annotation.Autowired;

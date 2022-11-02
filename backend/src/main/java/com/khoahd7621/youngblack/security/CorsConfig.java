@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.securities;
+package com.khoahd7621.youngblack.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

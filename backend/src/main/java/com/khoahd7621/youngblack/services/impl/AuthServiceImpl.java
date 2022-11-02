@@ -11,7 +11,7 @@ import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
-import com.khoahd7621.youngblack.securities.CustomUserDetails;
+import com.khoahd7621.youngblack.security.CustomUserDetails;
 import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import lombok.AllArgsConstructor;
