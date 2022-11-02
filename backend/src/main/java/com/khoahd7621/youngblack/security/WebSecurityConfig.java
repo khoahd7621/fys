@@ -4,6 +4,7 @@ import com.khoahd7621.youngblack.constants.ERoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +35,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/category/**").permitAll()
                 .antMatchers("/api/v1/product/**").permitAll()
                 .antMatchers("/api/v1/product-detail/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/rating").hasAuthority(ERoles.USER.toString())
                 .antMatchers("/api/v1/admin/**").hasAuthority(ERoles.ADMIN.toString())
                 .antMatchers("/api/**").authenticated();
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
