@@ -182,7 +182,7 @@ const ProductDetail = () => {
               </>
             ) : selectedProduct.inStock ? (
               <>
-                <div className="uppercase font-medium">Buy now</div>
+                <div className="uppercase font-medium">Add to cart</div>
                 <div>Delivery to your place</div>
               </>
             ) : (

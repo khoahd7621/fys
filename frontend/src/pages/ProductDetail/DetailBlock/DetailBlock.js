@@ -211,7 +211,7 @@ const DetailBlock = ({
           ) : selectedProduct.inStock ? (
             <>
               <span className={cx('txt-main')}>
-                Buy now with price{' '}
+                Add to cart now with price{' '}
                 <span>
                   {parentProduct?.promotion !== undefined
                     ? parentProduct.promotion
