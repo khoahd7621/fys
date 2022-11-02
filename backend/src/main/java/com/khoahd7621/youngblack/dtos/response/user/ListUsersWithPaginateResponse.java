@@ -12,5 +12,5 @@ import java.util.List;
 public class ListUsersWithPaginateResponse {
     private long totalRows;
     private int totalPages;
-    private List<UserDTOResponse> listUsers;
+    private List<UserResponse> listUsers;
 }

@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
@@ -40,54 +40,54 @@ class AuthServiceImplTest {
 
     @Test
     void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsActive() throws CustomBadRequestException {
-        UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
-        UserDTOLoginResponse userDTOLoginResponse = mock(UserDTOLoginResponse.class);
-        SuccessResponse<UserDTOLoginResponse> expected = new SuccessResponse<>(userDTOLoginResponse, "Login successfully");
+        UserLoginResponse userLoginResponse = mock(UserLoginResponse.class);
+        SuccessResponse<UserLoginResponse> expected = new SuccessResponse<>(userLoginResponse, "Login successfully");
 
-        when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
+        when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.ACTIVE);
-        when(userMapper.toUserDTOLoginResponse(user)).thenReturn(userDTOLoginResponse);
+        when(userMapper.toUserDTOLoginResponse(user)).thenReturn(userLoginResponse);
         when(jwtTokenUtil.generateAccessToken(user)).thenReturn("Token");
         when(jwtTokenUtil.generateRefreshToken(user)).thenReturn("Refresh_Token");
 
-        SuccessResponse<UserDTOLoginResponse> actual = authServiceImpl.loginHandler(userDTOLoginRequest);
+        SuccessResponse<UserLoginResponse> actual = authServiceImpl.loginHandler(userLoginRequest);
 
-        assertThat(actual.getData(), is(userDTOLoginResponse));
+        assertThat(actual.getData(), is(userLoginResponse));
         assertThat(actual.getCode(), is(expected.getCode()));
         assertThat(actual.getMessage(), is(expected.getMessage()));
     }
 
     @Test
     void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsInActive() throws CustomBadRequestException {
-        UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
 
-        when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
+        when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.INACTIVE);
 
         CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
-            authServiceImpl.loginHandler(userDTOLoginRequest);
+            authServiceImpl.loginHandler(userLoginRequest);
         });
         assertThat(actual.getMessage(), is("The account has not been activated."));
     }
 
     @Test
     void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsBlock() throws CustomBadRequestException {
-        UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
 
-        when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
+        when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.BLOCK);
 
         CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
-            authServiceImpl.loginHandler(userDTOLoginRequest);
+            authServiceImpl.loginHandler(userLoginRequest);
         });
 
         assertThat(actual.getMessage(), is("Account has been blocked."));
@@ -95,13 +95,13 @@ class AuthServiceImplTest {
 
     @Test
     void loginHandler_ShouldReturnData_WhenRequestDataInValid() throws CustomBadRequestException {
-        UserDTOLoginRequest userDTOLoginRequest = UserDTOLoginRequest.builder()
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
 
-        when(userRepository.findByEmail(userDTOLoginRequest.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.empty());
 
         CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
-            authServiceImpl.loginHandler(userDTOLoginRequest);
+            authServiceImpl.loginHandler(userLoginRequest);
         });
         assertThat(actual.getMessage(), is("Email or password is incorrect."));
     }

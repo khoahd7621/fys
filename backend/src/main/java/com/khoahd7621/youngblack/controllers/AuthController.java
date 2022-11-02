@@ -1,11 +1,11 @@
 package com.khoahd7621.youngblack.controllers;
 
-import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +23,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public SuccessResponse<UserDTOLoginResponse> login(@Valid @RequestBody UserDTOLoginRequest userDTOLoginRequest) throws CustomBadRequestException {
-        return authService.loginHandler(userDTOLoginRequest);
+    public SuccessResponse<UserLoginResponse> login(@Valid @RequestBody UserLoginRequest userLoginRequest) throws CustomBadRequestException {
+        return authService.loginHandler(userLoginRequest);
     }
 
     @PostMapping("/register")
-    public SuccessResponse<NoData> userRegister(@Valid @RequestBody UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
-        return authService.userRegister(userDTORegisterRequest);
+    public SuccessResponse<NoData> userRegister(@Valid @RequestBody UserRegisterRequest userRegisterRequest) throws CustomBadRequestException {
+        return authService.userRegister(userRegisterRequest);
     }
 }

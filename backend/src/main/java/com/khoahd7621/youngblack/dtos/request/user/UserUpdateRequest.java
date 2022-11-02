@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
-public class UserDTOUpdateRequest {
+public class UserUpdateRequest {
     @NotBlank(message = "First name is required")
     private String firstName;
     @NotBlank(message = "Last name is required")

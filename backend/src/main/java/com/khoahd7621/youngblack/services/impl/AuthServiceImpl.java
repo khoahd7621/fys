@@ -1,15 +1,14 @@
 package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
+import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTOLoginRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.securities.CustomUserDetails;
@@ -37,17 +36,17 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public SuccessResponse<UserDTOLoginResponse> loginHandler(UserDTOLoginRequest userDTOLoginRequest)
+    public SuccessResponse<UserLoginResponse> loginHandler(UserLoginRequest userLoginRequest)
             throws CustomBadRequestException {
-        Optional<User> userOpt = userRepository.findByEmail(userDTOLoginRequest.getEmail());
+        Optional<User> userOpt = userRepository.findByEmail(userLoginRequest.getEmail());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if (passwordEncoder.matches(userDTOLoginRequest.getPassword(), user.getPassword())) {
+            if (passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
                 if (user.getStatus() == EAccountStatus.ACTIVE) {
-                    UserDTOLoginResponse userDTOLoginResponse = userMapper.toUserDTOLoginResponse(user);
-                    userDTOLoginResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
-                    userDTOLoginResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
-                    return new SuccessResponse<>(userDTOLoginResponse, "Login successfully.");
+                    UserLoginResponse userLoginResponse = userMapper.toUserDTOLoginResponse(user);
+                    userLoginResponse.setAccessToken(jwtTokenUtil.generateAccessToken(user));
+                    userLoginResponse.setRefreshToken(jwtTokenUtil.generateRefreshToken(user));
+                    return new SuccessResponse<>(userLoginResponse, "Login successfully.");
                 }
                 if (user.getStatus() == EAccountStatus.INACTIVE) {
                     throw new CustomBadRequestException("The account has not been activated.");
@@ -70,16 +69,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public SuccessResponse<NoData> userRegister(UserDTORegisterRequest userDTORegisterRequest) throws CustomBadRequestException {
-        Optional<User> userOpt = userRepository.findByEmail(userDTORegisterRequest.getEmail());
+    public SuccessResponse<NoData> userRegister(UserRegisterRequest userRegisterRequest) throws CustomBadRequestException {
+        Optional<User> userOpt = userRepository.findByEmail(userRegisterRequest.getEmail());
         if (userOpt.isPresent()) {
             throw new CustomBadRequestException("This email already exists.");
         }
-        userOpt = userRepository.findByPhone(userDTORegisterRequest.getPhone());
+        userOpt = userRepository.findByPhone(userRegisterRequest.getPhone());
         if (userOpt.isPresent()) {
             throw new CustomBadRequestException("This phone number already exists.");
         }
-        User user = userMapper.toUser(userDTORegisterRequest);
+        User user = userMapper.toUser(userRegisterRequest);
         userRepository.save(user);
         return new SuccessResponse<>(NoData.builder().build(), "Register successfully.");
     }

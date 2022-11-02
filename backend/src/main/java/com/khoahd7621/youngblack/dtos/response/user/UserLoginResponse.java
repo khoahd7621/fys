@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTOLoginResponse {
+public class UserLoginResponse {
     private long id;
     private String email;
     private String firstName;
