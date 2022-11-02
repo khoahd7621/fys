@@ -1,8 +1,62 @@
 import PropTypes from 'prop-types';
 import { Rating } from 'react-simple-star-rating';
 import classNames from 'classnames';
+import { useState } from 'react';
+import Validation from '~/utils/validation';
+import { toast } from 'react-toastify';
+import { postRatingProduct } from '~/services/client/ratingService';
 
-const RatingModal = ({ show, setShow }) => {
+const RatingModal = ({ show, setShow, product }) => {
+  const [comment, setComment] = useState({
+    star: 0,
+    title: '',
+    content: '',
+  });
+
+  const resetComment = () => {
+    setComment({
+      star: 0,
+      title: '',
+      content: '',
+    });
+  };
+
+  const handleRating = (rate) => {
+    setComment({
+      ...comment,
+      star: rate,
+    });
+  };
+
+  const validateData = () => {
+    if (comment.star === 0) {
+      toast.error('Please select number of stars.');
+      return false;
+    }
+    if (Validation.isEmpty(comment.title)) {
+      toast.error('Please write title of rating.');
+      return false;
+    }
+    if (Validation.isEmpty(comment.content)) {
+      toast.error('Please write comment.');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmitRating = async () => {
+    if (validateData()) {
+      const response = await postRatingProduct(product?.productId, comment?.star, comment?.title, comment?.content);
+      if (response && +response?.code === 0) {
+        resetComment();
+        setShow(false);
+        toast.success('Rating product successfully.');
+      } else {
+        toast.error(response?.message);
+      }
+    }
+  };
+
   return (
     <div
       className={classNames(
@@ -17,7 +71,10 @@ const RatingModal = ({ show, setShow }) => {
             <h3 className="text-xl font-semibold text-gray-900 ">Ratings product</h3>
             <button
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-              onClick={() => setShow(false)}
+              onClick={() => {
+                resetComment();
+                setShow(false);
+              }}
             >
               <svg
                 aria-hidden="true"
@@ -27,41 +84,16 @@ const RatingModal = ({ show, setShow }) => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
-              <span className="sr-only">Close modal</span>
             </button>
           </div>
           <div className="p-6 flex flex-col space-y-6">
             <div className="text-center">
-              <Rating />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="name" className="block mb-2 text-base font-medium text-gray-900 ">
-                Your name
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="email" className="block mb-2 text-base font-medium text-gray-900 ">
-                Your email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Enter your email"
-                required
-              />
+              <Rating initialValue={comment.star} onClick={handleRating} />
             </div>
             <div className="mb-6">
               <label htmlFor="title" className="block mb-2 text-base font-medium text-gray-900 ">
@@ -73,6 +105,14 @@ const RatingModal = ({ show, setShow }) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Enter title"
                 required
+                name="title"
+                value={comment.title}
+                onChange={(event) =>
+                  setComment({
+                    ...comment,
+                    [event.target.name]: event.target.value,
+                  })
+                }
               />
             </div>
             <div className="mb-6">
@@ -84,13 +124,21 @@ const RatingModal = ({ show, setShow }) => {
                 rows="4"
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                 placeholder="Leave a comment..."
+                name="content"
+                value={comment.content}
+                onChange={(event) =>
+                  setComment({
+                    ...comment,
+                    [event.target.name]: event.target.value,
+                  })
+                }
               ></textarea>
             </div>
           </div>
           <div className="flex items-center justify-center p-6 space-x-2 rounded-b border-t border-gray-200">
             <button
-              type="button"
-              className="text-white bg-black hover:bg-gray-100 rounded-md border text-sm uppercase font-normal px-6 py-2.5 hover:text-gray-900 focus:z-10"
+              className="text-white bg-black rounded-md border text-sm uppercase font-normal px-6 py-2.5 focus:z-10"
+              onClick={() => handleSubmitRating()}
             >
               Send
             </button>

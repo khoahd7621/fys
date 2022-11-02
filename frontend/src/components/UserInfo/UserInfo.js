@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import UpdateUserInformationModal from '../UpdateUserInformationModal/UpdateUserInformationModal';
 
 const UserInfo = () => {
   const account = useSelector((state) => state.user.account);
+  const [showModalUpdate, setShowModalUpdate] = useState(false);
 
   return (
     <div className="user-infor">
@@ -26,10 +29,11 @@ const UserInfo = () => {
         </div>
         <div className="form mt-6 mb-4">
           <div className="form-action max-w-[300px]">
-            <button>Update account</button>
+            <button onClick={() => setShowModalUpdate(true)}>Update account</button>
           </div>
         </div>
       </div>
+      <UpdateUserInformationModal show={showModalUpdate} setShow={setShowModalUpdate} account={account} />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './MiniAccount.module.scss';
 
 import { AiOutlineUser } from 'react-icons/ai';
-import { adminRoutes, privateRoutes, publicRoutes } from '~/routes/routes';
+import { privateRoutes, publicRoutes } from '~/routes/routes';
 import { removeDataUserLogout } from '~/redux/slice/userSlice';
 import { toast } from 'react-toastify';
 
@@ -40,11 +40,6 @@ const MiniAccount = () => {
           <li>
             <Link to={privateRoutes.account}>Welcome, {account.firstName + ' ' + account.lastName}</Link>
           </li>
-          {account.role && account.role.toLowerCase() === 'admin' && (
-            <li>
-              <Link to={adminRoutes.default}>Manage page</Link>
-            </li>
-          )}
           <li>
             <button onClick={() => handleLogout()}>Logout</button>
           </li>

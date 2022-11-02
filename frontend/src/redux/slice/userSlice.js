@@ -28,6 +28,12 @@ export const userSlice = createSlice({
       };
       state.isAuthenticated = true;
     },
+    updateInformationSlices: (state, action) => {
+      state.account = {
+        ...state.account,
+        ...action.payload,
+      };
+    },
     removeDataUserLogout: (state) => {
       state.account = {
         ...initialState.account,
@@ -37,6 +43,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { fetchUserLoginSuccess, removeDataUserLogout } = userSlice.actions;
+export const { fetchUserLoginSuccess, removeDataUserLogout, updateInformationSlices } = userSlice.actions;
 
 export default userSlice.reducer;

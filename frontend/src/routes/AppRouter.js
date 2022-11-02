@@ -22,76 +22,113 @@ import { Dashboard, ManageCategory, ManageColor, ManageProduct, ManageSize } fro
 import ClientPrivateRoute from './ClientPrivateRoute';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import LoginRegisterProtectRoute from './LoginRegisterProtectRoute';
+import Wrapper from './Wrapper';
+import AuthRoute from './AuthRoute';
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Store */}
-        <Route path={publicRoutes.home} element={<Store />}>
-          <Route index element={<Home />} />
-          <Route path={`${publicRoutes.collection}/:type`} element={<Collection />} />
-          <Route path={`${publicRoutes.collection}/:type/:productname`} element={<ProductDetail />} />
-          <Route path={`${publicRoutes.cart}`} element={<Cart />} />
-          <Route path={publicRoutes.search} element={<SearchResult />} />
+      <Wrapper>
+        <Routes>
+          {/* Store */}
           <Route
-            path={privateRoutes.account}
+            path={publicRoutes.home}
             element={
               <ClientPrivateRoute>
-                <Account />
+                <Store />
               </ClientPrivateRoute>
             }
           >
-            <Route index element={<UserInfo />} />
-            <Route path={privateRoutes.order} element={<Order />} />
-            <Route path={privateRoutes.orderDetail} element={<OrderDetail />} />
-            <Route path={privateRoutes.changePassword} element={<ChangePassword />} />
+            <Route index element={<Home />} />
+            <Route path={`${publicRoutes.collection}/:type`} element={<Collection />} />
+            <Route path={`${publicRoutes.collection}/:type/:productname`} element={<ProductDetail />} />
+            <Route path={`${publicRoutes.cart}`} element={<Cart />} />
+            <Route path={publicRoutes.search} element={<SearchResult />} />
+            <Route
+              path={privateRoutes.account}
+              element={
+                <AuthRoute>
+                  <Account />
+                </AuthRoute>
+              }
+            >
+              <Route index element={<UserInfo />} />
+              <Route path={privateRoutes.order} element={<Order />} />
+              <Route path={privateRoutes.orderDetail} element={<OrderDetail />} />
+              <Route path={privateRoutes.changePassword} element={<ChangePassword />} />
+            </Route>
+            {/* Sign in/Sign up */}
+            <Route
+              path={privateRoutes.login}
+              element={
+                <LoginRegisterProtectRoute>
+                  <Login />
+                </LoginRegisterProtectRoute>
+              }
+            />
+            <Route
+              path={privateRoutes.register}
+              element={
+                <LoginRegisterProtectRoute>
+                  <Register />
+                </LoginRegisterProtectRoute>
+              }
+            />
           </Route>
-          <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
-
-          {/* Sign in/Sign up */}
           <Route
-            path={privateRoutes.login}
+            path={privateRoutes.recoverPassword}
             element={
               <LoginRegisterProtectRoute>
-                <Login />
+                <RecoverPassword />
               </LoginRegisterProtectRoute>
             }
           />
+
+          {/* Checkout */}
           <Route
-            path={privateRoutes.register}
+            path={publicRoutes.checkout}
             element={
-              <LoginRegisterProtectRoute>
-                <Register />
-              </LoginRegisterProtectRoute>
+              <ClientPrivateRoute>
+                <AuthRoute>
+                  <Checkout />
+                </AuthRoute>
+              </ClientPrivateRoute>
             }
           />
-        </Route>
+          <Route
+            path={`${publicRoutes.checkoutSuccess}/:orderId`}
+            element={
+              <ClientPrivateRoute>
+                <AuthRoute>
+                  <CheckoutSuccess />
+                </AuthRoute>
+              </ClientPrivateRoute>
+            }
+          />
 
-        {/* Checkout */}
-        <Route path={publicRoutes.checkout} element={<Checkout />} />
-        <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
+          {/* Admin */}
+          <Route
+            path={adminRoutes.default}
+            element={
+              <AdminPrivateRoute>
+                <AuthRoute>
+                  <Admin />
+                </AuthRoute>
+              </AdminPrivateRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route index path={adminRoutes.dashboard} element={<Dashboard />} />
+            <Route index path={adminRoutes.manageCategory} element={<ManageCategory />} />
+            <Route index path={adminRoutes.manageSize} element={<ManageSize />} />
+            <Route index path={adminRoutes.manageColor} element={<ManageColor />} />
+            <Route index path={adminRoutes.manageProduct} element={<ManageProduct />} />
+          </Route>
 
-        {/* Admin */}
-        <Route
-          path={adminRoutes.default}
-          element={
-            <AdminPrivateRoute>
-              <Admin />
-            </AdminPrivateRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route index path={adminRoutes.dashboard} element={<Dashboard />} />
-          <Route index path={adminRoutes.manageCategory} element={<ManageCategory />} />
-          <Route index path={adminRoutes.manageSize} element={<ManageSize />} />
-          <Route index path={adminRoutes.manageColor} element={<ManageColor />} />
-          <Route index path={adminRoutes.manageProduct} element={<ManageProduct />} />
-        </Route>
-
-        {/* Notfound */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Notfound */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Wrapper>
     </BrowserRouter>
   );
 };

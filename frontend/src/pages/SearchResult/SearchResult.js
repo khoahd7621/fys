@@ -98,7 +98,7 @@ const Search = () => {
               <ProductCard
                 key={`product-${product?.productId}-${index}`}
                 product={product}
-                type={String(product?.categoryName).toLowerCase()}
+                type={String(product?.category?.name).toLowerCase()}
               />
             ))}
         </div>
