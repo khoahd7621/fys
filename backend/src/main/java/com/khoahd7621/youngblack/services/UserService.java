@@ -2,7 +2,6 @@ package com.khoahd7621.youngblack.services;
 
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
-import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
 import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserChangePasswordRequest;
@@ -20,5 +19,4 @@ public interface UserService {
 
     public SuccessResponse<NoData> changePassword(UserChangePasswordRequest userChangePasswordRequest) throws BadRequestException, NotFoundException;
 
-    public SuccessResponse<ListUsersWithPaginateResponse> getListUsers(int limit, int offset);
 }
