@@ -5,7 +5,7 @@ import com.khoahd7621.youngblack.dtos.request.size.UpdateSizeRequest;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.services.SizeAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class SizeAdminController {
     private SizeAdminService sizeAdminService;
 
     @PostMapping
-    public SuccessResponse<SizeResponse> createNewSize(@Valid @RequestBody CreateNewSizeRequest createNewSizeRequest) throws CustomBadRequestException {
+    public SuccessResponse<SizeResponse> createNewSize(@Valid @RequestBody CreateNewSizeRequest createNewSizeRequest) throws BadRequestException {
         return sizeAdminService.createNewSize(createNewSizeRequest);
     }
 
@@ -30,7 +30,7 @@ public class SizeAdminController {
     }
 
     @PutMapping
-    private SuccessResponse<SizeResponse> updateSize(@Valid @RequestBody UpdateSizeRequest updateSizeRequest) throws CustomBadRequestException {
+    private SuccessResponse<SizeResponse> updateSize(@Valid @RequestBody UpdateSizeRequest updateSizeRequest) throws BadRequestException {
         return sizeAdminService.updateSize(updateSizeRequest);
     }
 }

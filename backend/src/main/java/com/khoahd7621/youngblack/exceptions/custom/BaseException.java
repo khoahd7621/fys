@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BaseCustomException extends Exception {
-    public BaseCustomException(String message) {
+public class BaseException extends Exception {
+    public BaseException(String message) {
         super(message);
     }
 }

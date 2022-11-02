@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.securities;
+package com.khoahd7621.youngblack.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

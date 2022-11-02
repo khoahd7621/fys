@@ -1,14 +1,15 @@
 package com.khoahd7621.youngblack.mappers;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOLoginResponse;
-import com.khoahd7621.youngblack.dtos.response.user.UserDTOResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserRatingResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.khoahd7621.youngblack.constants.ERoles;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,13 +21,13 @@ public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
 
-    public User toUser(UserDTORegisterRequest userDTORegisterRequest) {
+    public User toUser(UserRegisterRequest userRegisterRequest) {
         return User.builder()
-                .email(userDTORegisterRequest.getEmail())
-                .phone(userDTORegisterRequest.getPhone())
-                .firstName(userDTORegisterRequest.getFirstName())
-                .lastName(userDTORegisterRequest.getLastName())
-                .password(passwordEncoder.encode(userDTORegisterRequest.getPassword()))
+                .email(userRegisterRequest.getEmail())
+                .phone(userRegisterRequest.getPhone())
+                .firstName(userRegisterRequest.getFirstName())
+                .lastName(userRegisterRequest.getLastName())
+                .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
                 .role(ERoles.USER)
                 .status(EAccountStatus.ACTIVE)
                 .createdAt(new Date())
@@ -34,8 +35,8 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDTOResponse toUserDTOResponse(User user) {
-        return UserDTOResponse.builder()
+    public UserResponse toUserDTOResponse(User user) {
+        return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
@@ -49,8 +50,8 @@ public class UserMapper {
                 .build();
     }
 
-    public UserDTOLoginResponse toUserDTOLoginResponse(User user) {
-        return UserDTOLoginResponse.builder()
+    public UserLoginResponse toUserDTOLoginResponse(User user) {
+        return UserLoginResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
@@ -63,4 +64,10 @@ public class UserMapper {
                 .updatedAt(user.getUpdatedAt()).build();
     }
 
+    public UserRatingResponse toUserRatingResponse(User user) {
+        return UserRatingResponse.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName()).build();
+    }
 }

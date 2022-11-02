@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.dtos.request.user.UserDTORegisterRequest;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.AuthService;
@@ -40,19 +40,19 @@ class UserServiceImplTest {
     }
 
     @Test
-    void userRegister_ShouldReturnData_WhenDataValid() throws CustomBadRequestException {
+    void userRegister_ShouldReturnData_WhenDataValid() throws BadRequestException {
         User user = mock(User.class);
-        UserDTORegisterRequest userDTORegisterRequest = UserDTORegisterRequest.builder()
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .email("email")
                 .phone("0123123")
                 .build();
         NoData noData = NoData.builder().build();
         SuccessResponse<NoData> expected = new SuccessResponse<>(noData, "Register new account successfully.");
-        when(userRepository.findByEmail(userDTORegisterRequest.getEmail())).thenReturn(Optional.empty());
-        when(userRepository.findByPhone(userDTORegisterRequest.getPhone())).thenReturn(Optional.empty());
-        when(userMapper.toUser(userDTORegisterRequest)).thenReturn(user);
+        when(userRepository.findByEmail(userRegisterRequest.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByPhone(userRegisterRequest.getPhone())).thenReturn(Optional.empty());
+        when(userMapper.toUser(userRegisterRequest)).thenReturn(user);
 
-        SuccessResponse<NoData> actual = userServiceImpl.userRegister(userDTORegisterRequest);
+        SuccessResponse<NoData> actual = userServiceImpl.userRegister(userRegisterRequest);
 
         verify(userRepository).save(user);
         assertThat(actual.getData(), is(noData));
@@ -61,32 +61,32 @@ class UserServiceImplTest {
     }
 
     @Test
-    void userRegister_ShouldReturnError_WhenDuplicatedEmail() throws CustomBadRequestException {
+    void userRegister_ShouldReturnError_WhenDuplicatedEmail() throws BadRequestException {
         User user = mock(User.class);
-        UserDTORegisterRequest userDTORegisterRequest = UserDTORegisterRequest.builder()
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .email("email@gmail.com")
                 .build();
 
-        when(userRepository.findByEmail(userDTORegisterRequest.getEmail())).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail(userRegisterRequest.getEmail())).thenReturn(Optional.of(user));
 
-        CustomBadRequestException result = assertThrows(CustomBadRequestException.class, () -> {
-            userServiceImpl.userRegister(userDTORegisterRequest);
+        BadRequestException result = assertThrows(BadRequestException.class, () -> {
+            userServiceImpl.userRegister(userRegisterRequest);
         });
 
         assertThat(result.getMessage(), is("This email already existed."));
     }
 
     @Test
-    void userRegister_ShouldReturnError_WhenDuplicatedPhone() throws CustomBadRequestException {
+    void userRegister_ShouldReturnError_WhenDuplicatedPhone() throws BadRequestException {
         User user = mock(User.class);
-        UserDTORegisterRequest userDTORegisterRequest = UserDTORegisterRequest.builder()
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .phone("0123123")
                 .build();
 
-        when(userRepository.findByPhone(userDTORegisterRequest.getPhone())).thenReturn(Optional.of(user));
+        when(userRepository.findByPhone(userRegisterRequest.getPhone())).thenReturn(Optional.of(user));
 
-        CustomBadRequestException result = assertThrows(CustomBadRequestException.class, () -> {
-            userServiceImpl.userRegister(userDTORegisterRequest);
+        BadRequestException result = assertThrows(BadRequestException.class, () -> {
+            userServiceImpl.userRegister(userRegisterRequest);
         });
         assertThat(result.getMessage(), is("This phone number already existed."));
     }

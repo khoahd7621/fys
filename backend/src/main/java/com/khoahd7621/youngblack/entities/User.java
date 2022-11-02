@@ -1,11 +1,6 @@
 package com.khoahd7621.youngblack.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
@@ -17,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_tbl")
@@ -26,10 +22,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Rating> ratings;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     @Column(unique = true)
     private String email;
     @Column(unique = true)

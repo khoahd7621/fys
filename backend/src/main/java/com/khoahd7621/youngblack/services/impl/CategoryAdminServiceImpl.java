@@ -6,7 +6,7 @@ import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import com.khoahd7621.youngblack.dtos.response.category.ListCategoriesResponse;
 import com.khoahd7621.youngblack.entities.Category;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.mappers.CategoryMapper;
 import com.khoahd7621.youngblack.repositories.CategoryRepository;
 import com.khoahd7621.youngblack.services.CategoryAdminService;
@@ -27,10 +27,10 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public SuccessResponse<CategoryResponse> createNewCategory(CreateNewCategoryRequest createNewCategoryRequest)
-            throws CustomBadRequestException {
+            throws BadRequestException {
         Optional<Category> categoryOptional = categoryRepository.findByNameAndIsDeletedFalse(createNewCategoryRequest.getName());
         if (categoryOptional.isPresent()) {
-            throw new CustomBadRequestException("This category already existed.");
+            throw new BadRequestException("This category already existed.");
         }
         Category category = categoryMapper.toCategory(createNewCategoryRequest);
         Category result = categoryRepository.save(category);
@@ -47,17 +47,17 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     }
 
     @Override
-    public SuccessResponse<CategoryResponse> updateNameCategory(UpdateNameCategoryRequest updateNameCategoryRequest) throws CustomBadRequestException {
+    public SuccessResponse<CategoryResponse> updateNameCategory(UpdateNameCategoryRequest updateNameCategoryRequest) throws BadRequestException {
         Optional<Category> categoryOptionalFindById = categoryRepository.findById(updateNameCategoryRequest.getId());
         if (categoryOptionalFindById.isEmpty()) {
-            throw new CustomBadRequestException("Id of category is not exist.");
+            throw new BadRequestException("Id of category is not exist.");
         }
         if (categoryOptionalFindById.get().getName().equals(updateNameCategoryRequest.getNewName())) {
-            throw new CustomBadRequestException("New category name is the same with old category name. Nothing update.");
+            throw new BadRequestException("New category name is the same with old category name. Nothing update.");
         }
         Optional<Category> categoryOptionalFindByName = categoryRepository.findByNameAndIsDeletedFalse(updateNameCategoryRequest.getNewName());
         if (categoryOptionalFindByName.isPresent()) {
-            throw new CustomBadRequestException("This category name already exist.");
+            throw new BadRequestException("This category name already exist.");
         }
         Category category = categoryOptionalFindById.get();
         category.setName(updateNameCategoryRequest.getNewName());

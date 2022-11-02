@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.securities;
+package com.khoahd7621.youngblack.security;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.entities.User;
@@ -55,5 +55,5 @@ public class CustomUserDetails extends User implements UserDetails {
     public User getUser() {
         return this.user;
     }
-    
+
 }

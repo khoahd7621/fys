@@ -1,12 +1,18 @@
 package com.khoahd7621.youngblack.entities;
 
 import com.khoahd7621.youngblack.entities.compositekey.RatingKey;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "product_rating_tbl")
+@Table(name = "rating_tbl")
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rating {
 
     @EmbeddedId
@@ -17,13 +23,15 @@ public class Rating {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "number_of_stars")
     private int stars;
+    @Column(name = "title")
+    private String title;
     @Column(name = "comment")
     private String comment;
     @Column(name = "created_date")
