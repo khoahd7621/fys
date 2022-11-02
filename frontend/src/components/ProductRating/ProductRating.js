@@ -1,5 +1,8 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames/bind';
 import { Rating } from 'react-simple-star-rating';
+import { toast } from 'react-toastify';
 
 import './FixedStar.scss';
 import styles from './ProductRating.module.scss';
@@ -7,28 +10,30 @@ import styles from './ProductRating.module.scss';
 import { AiFillStar } from 'react-icons/ai';
 import { HiOutlineUserCircle } from 'react-icons/hi';
 import RatingModal from '../RatingModal/RatingModal';
-import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-const ProductRating = () => {
+const ProductRating = ({ product }) => {
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const [showModal, setShowModal] = useState(false);
+
+  const handleShowModalRating = () => {
+    if (!isAuthenticated) {
+      toast.error('Please login before performing rating action.');
+    } else {
+      setShowModal(true);
+    }
+  };
 
   return (
     <div className={cx('product-rating')}>
       <div className={cx('rating')}>
-        <p className={cx('title', 'font-semibold text-2xl')}>Ratings ProductName...</p>
+        <p className={cx('title', 'font-semibold text-2xl')}>Ratings {product?.name}</p>
         <div className={cx('grid grid-cols-2 mt-6 mb-5')}>
           <div className={cx('star', 'left max-w-[260px] p-3 border-r')}>
             <div className={cx('top', 'flex gap-2 items-end mb-4')}>
-              <p className={cx('point', 'font-bold text-2xl leading-6 text-[#fe8c23]')}>4.9</p>
-              <Rating
-                className={cx('list-stars')}
-                fillColorArray={['#f14f45', '#f17a45', '#f19745', '#f1d045', '#f1de45']}
-                initialValue={3}
-                readonly
-                size={20}
-              />
+              <p className={cx('point', 'font-bold text-2xl leading-6 text-black')}>4.9</p>
+              <Rating className={cx('list-stars')} fillColor={'#000'} initialValue={3} readonly size={20} />
               <p className={cx('total', 'text-base')}>7 ratings</p>
             </div>
             <ul className={cx('rating-list')}>
@@ -38,7 +43,7 @@ const ProductRating = () => {
                 </div>
                 <div className={cx('timeline flex-1')}>
                   <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-300">
-                    <div className="bg-[#f1de45] h-1.5 rounded-full" style={{ width: '86%' }}></div>
+                    <div className="bg-black h-1.5 rounded-full" style={{ width: '86%' }}></div>
                   </div>
                 </div>
                 <div className={cx('percent', 'text-sm w-9')}>86%</div>
@@ -49,7 +54,7 @@ const ProductRating = () => {
                 </div>
                 <div className={cx('timeline flex-1')}>
                   <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-300">
-                    <div className="bg-[#f17a45] h-1.5 rounded-full" style={{ width: '10%' }}></div>
+                    <div className="bg-black h-1.5 rounded-full" style={{ width: '10%' }}></div>
                   </div>
                 </div>
                 <div className={cx('percent', 'text-sm w-9')}>10%</div>
@@ -60,7 +65,7 @@ const ProductRating = () => {
                 </div>
                 <div className={cx('timeline flex-1')}>
                   <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-300">
-                    <div className="bg-[#f19745] h-1.5 rounded-full" style={{ width: '1%' }}></div>
+                    <div className="bg-black h-1.5 rounded-full" style={{ width: '1%' }}></div>
                   </div>
                 </div>
                 <div className={cx('percent', 'text-sm w-9')}>1%</div>
@@ -71,7 +76,7 @@ const ProductRating = () => {
                 </div>
                 <div className={cx('timeline flex-1')}>
                   <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-300">
-                    <div className="bg-[#f17a45] h-1.5 rounded-full" style={{ width: '1%' }}></div>
+                    <div className="bg-black h-1.5 rounded-full" style={{ width: '1%' }}></div>
                   </div>
                 </div>
                 <div className={cx('percent', 'text-sm w-9')}>1%</div>
@@ -82,7 +87,7 @@ const ProductRating = () => {
                 </div>
                 <div className={cx('timeline flex-1')}>
                   <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-300">
-                    <div className="bg-[#f14f45] h-1.5 rounded-full" style={{ width: '1%' }}></div>
+                    <div className="bg-black h-1.5 rounded-full" style={{ width: '1%' }}></div>
                   </div>
                 </div>
                 <div className={cx('percent', 'text-sm w-9')}>1%</div>
@@ -90,13 +95,17 @@ const ProductRating = () => {
             </ul>
           </div>
           <div className={cx('right', 'flex justify-end items-start')}>
-            <button
-              className="text-base uppercase p-2 bg-black text-white hover:bg-slate-700"
-              onClick={() => setShowModal(true)}
-            >
-              Write ratings
-            </button>
-            <RatingModal show={showModal} setShow={setShowModal} />
+            {isAuthenticated && (
+              <>
+                <button
+                  className="text-base uppercase p-2 bg-black text-white hover:bg-slate-700"
+                  onClick={() => handleShowModalRating()}
+                >
+                  Write ratings
+                </button>
+                <RatingModal show={showModal} setShow={setShowModal} product={product} />
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -110,12 +119,7 @@ const ProductRating = () => {
               <div className={cx('title')}>Khoa</div>
               <div className={cx('rate', 'flex gap-2 items-end')}>
                 <div className={cx('star')}>
-                  <Rating
-                    fillColorArray={['#f14f45', '#f17a45', '#f19745', '#f1d045', '#f1de45']}
-                    initialValue={2}
-                    readonly
-                    size={20}
-                  />
+                  <Rating fillColor={'#000'} initialValue={2} readonly size={20} />
                 </div>
                 <div className={cx('date')}>22/22/2022</div>
               </div>

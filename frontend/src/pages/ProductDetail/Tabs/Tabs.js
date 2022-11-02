@@ -8,10 +8,9 @@ import sizeTableImg from '~/assets/images/product/sizetable.webp';
 
 const cx = classNames.bind(styles);
 
-const Tabs = ({ description, listImages }) => {
+const Tabs = ({ parentProduct, listImages }) => {
   const [index, setIndex] = useState(1);
 
-  console.log('render');
   return (
     <>
       <div className={cx('tabs')}>
@@ -44,7 +43,7 @@ const Tabs = ({ description, listImages }) => {
         {/* Description */}
         {+index === 1 && (
           <div>
-            <div className="mb-10">{description}</div>
+            <div className="mb-10">{parentProduct.description}</div>
             <div className="flex flex-col items-center gap-5">
               {listImages &&
                 listImages.length > 0 &&
@@ -67,7 +66,7 @@ const Tabs = ({ description, listImages }) => {
           </div>
         )}
         {/* Rating */}
-        {+index === 3 && <ProductRating />}
+        {+index === 3 && <ProductRating product={parentProduct} />}
       </div>
     </>
   );

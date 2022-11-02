@@ -139,7 +139,7 @@ const ProductDetail = () => {
           />
         </div>
         <div className="product-tab">
-          <Tabs description={parentProduct.description} listImages={listImages} />
+          <Tabs parentProduct={parentProduct} listImages={listImages} />
         </div>
         <div className="product-anchor block md:flex items-center p-3 border border-[#f5f5f5]">
           <div className="flex items-center">
