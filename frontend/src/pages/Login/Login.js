@@ -10,7 +10,7 @@ import { postLogin } from '~/services/authApiService';
 import Validation from '~/utils/validation';
 
 import { toast } from 'react-toastify';
-import { AiOutlineGoogle } from 'react-icons/ai';
+// import { AiOutlineGoogle } from 'react-icons/ai';
 
 const Login = () => {
   const location = useLocation();
@@ -74,7 +74,7 @@ const Login = () => {
         <div className="grid grid-cols-12">
           <div className="log-reg-block col-start-1 col-end-12 lg:col-start-4 lg:col-end-10">
             <h1 className="title">Login account</h1>
-            <div className="by-oauth2">
+            {/* <div className="by-oauth2">
               <button className="google">
                 <span className="image">
                   <AiOutlineGoogle />
@@ -84,7 +84,7 @@ const Login = () => {
             </div>
             <div className="devider">
               <span>Or</span>
-            </div>
+            </div> */}
             <div className="by-account">
               <form className="form" onSubmit={(event) => handleSubmitLogin(event)}>
                 <div className="form-group">
