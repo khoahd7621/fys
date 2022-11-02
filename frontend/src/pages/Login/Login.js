@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { fetchUserLoginSuccess } from '~/redux/slice/userSlice';
 
 import { BreadCrumb } from '~/components';
-import { privateRoutes, publicRoutes } from '~/routes/routes';
+import { adminRoutes, privateRoutes, publicRoutes } from '~/routes/routes';
 import { postLogin } from '~/services/authApiService';
 import Validation from '~/utils/validation';
 
@@ -55,7 +55,11 @@ const Login = () => {
     if (response && response.code === 0) {
       handleClearInput();
       dispatch(fetchUserLoginSuccess(response.data));
-      navigate(publicRoutes.home);
+      if (response.data.role === 'ADMIN') {
+        navigate(adminRoutes.dashboard);
+      } else {
+        navigate(publicRoutes.home);
+      }
       toast.success(response.message);
     } else {
       toast.error(response.message);

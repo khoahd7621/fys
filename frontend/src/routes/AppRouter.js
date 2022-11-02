@@ -23,6 +23,7 @@ import ClientPrivateRoute from './ClientPrivateRoute';
 import AdminPrivateRoute from './AdminPrivateRoute';
 import LoginRegisterProtectRoute from './LoginRegisterProtectRoute';
 import Wrapper from './Wrapper';
+import AuthRoute from './AuthRoute';
 
 const AppRouter = () => {
   return (
@@ -30,7 +31,14 @@ const AppRouter = () => {
       <Wrapper>
         <Routes>
           {/* Store */}
-          <Route path={publicRoutes.home} element={<Store />}>
+          <Route
+            path={publicRoutes.home}
+            element={
+              <ClientPrivateRoute>
+                <Store />
+              </ClientPrivateRoute>
+            }
+          >
             <Route index element={<Home />} />
             <Route path={`${publicRoutes.collection}/:type`} element={<Collection />} />
             <Route path={`${publicRoutes.collection}/:type/:productname`} element={<ProductDetail />} />
@@ -39,9 +47,9 @@ const AppRouter = () => {
             <Route
               path={privateRoutes.account}
               element={
-                <ClientPrivateRoute>
+                <AuthRoute>
                   <Account />
-                </ClientPrivateRoute>
+                </AuthRoute>
               }
             >
               <Route index element={<UserInfo />} />
@@ -49,8 +57,6 @@ const AppRouter = () => {
               <Route path={privateRoutes.orderDetail} element={<OrderDetail />} />
               <Route path={privateRoutes.changePassword} element={<ChangePassword />} />
             </Route>
-            <Route path={privateRoutes.recoverPassword} element={<RecoverPassword />} />
-
             {/* Sign in/Sign up */}
             <Route
               path={privateRoutes.login}
@@ -69,17 +75,45 @@ const AppRouter = () => {
               }
             />
           </Route>
+          <Route
+            path={privateRoutes.recoverPassword}
+            element={
+              <LoginRegisterProtectRoute>
+                <RecoverPassword />
+              </LoginRegisterProtectRoute>
+            }
+          />
 
           {/* Checkout */}
-          <Route path={publicRoutes.checkout} element={<Checkout />} />
-          <Route path={`${publicRoutes.checkoutSuccess}/:orderId`} element={<CheckoutSuccess />} />
+          <Route
+            path={publicRoutes.checkout}
+            element={
+              <ClientPrivateRoute>
+                <AuthRoute>
+                  <Checkout />
+                </AuthRoute>
+              </ClientPrivateRoute>
+            }
+          />
+          <Route
+            path={`${publicRoutes.checkoutSuccess}/:orderId`}
+            element={
+              <ClientPrivateRoute>
+                <AuthRoute>
+                  <CheckoutSuccess />
+                </AuthRoute>
+              </ClientPrivateRoute>
+            }
+          />
 
           {/* Admin */}
           <Route
             path={adminRoutes.default}
             element={
               <AdminPrivateRoute>
-                <Admin />
+                <AuthRoute>
+                  <Admin />
+                </AuthRoute>
               </AdminPrivateRoute>
             }
           >
