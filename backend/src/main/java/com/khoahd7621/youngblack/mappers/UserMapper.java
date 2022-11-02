@@ -2,6 +2,7 @@ package com.khoahd7621.youngblack.mappers;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserRatingResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -63,4 +64,10 @@ public class UserMapper {
                 .updatedAt(user.getUpdatedAt()).build();
     }
 
+    public UserRatingResponse toUserRatingResponse(User user) {
+        return UserRatingResponse.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName()).build();
+    }
 }

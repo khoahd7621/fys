@@ -5,6 +5,7 @@ import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,7 +53,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 || (request.getRequestURI().equals("/api/v1/register"))
                 || (request.getRequestURI().startsWith("/api/v1/category"))
                 || (request.getRequestURI().startsWith("/api/v1/product"))
-                || (request.getRequestURI().startsWith("/api/v1/product-detail"))) {
+                || (request.getRequestURI().startsWith("/api/v1/product-detail"))
+                || (request.getRequestURI().startsWith("/api/v1/rating")) && HttpMethod.GET.toString().equals(request.getMethod())) {
             filterChain.doFilter(request, response);
         } else {
             final Optional<String> requestTokenHeaderOpt = getJwtFromRequest(request);

@@ -36,6 +36,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/product/**").permitAll()
                 .antMatchers("/api/v1/product-detail/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/rating").hasAuthority(ERoles.USER.toString())
+                .antMatchers(HttpMethod.GET, "/api/v1/rating").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority(ERoles.ADMIN.toString())
                 .antMatchers("/api/**").authenticated();
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
