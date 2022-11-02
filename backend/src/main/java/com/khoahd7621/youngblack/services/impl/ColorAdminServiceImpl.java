@@ -2,11 +2,13 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.color.CreateNewColorRequest;
 import com.khoahd7621.youngblack.dtos.request.color.UpdateColorNameRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
 import com.khoahd7621.youngblack.entities.Color;
 import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.mappers.ColorMapper;
 import com.khoahd7621.youngblack.repositories.ColorRepository;
 import com.khoahd7621.youngblack.services.ColorAdminService;
@@ -62,5 +64,20 @@ public class ColorAdminServiceImpl implements ColorAdminService {
         color.setName(updateColorNameRequest.getNewName());
         colorRepository.save(color);
         return new SuccessResponse<>(colorMapper.toColorResponse(color), "Update size success.");
+    }
+
+    @Override
+    public SuccessResponse<NoData> deleteColor(int colorId) throws BadRequestException, NotFoundException {
+        Optional<Color> colorOptional = colorRepository.findById(colorId);
+        if (colorOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist color with this id");
+        }
+        if (colorOptional.get().getProductVariants().size() > 0) {
+            throw new BadRequestException("This color had products. Cannot delete!");
+        }
+        Color color = colorOptional.get();
+        color.setDeleted(true);
+        colorRepository.save(color);
+        return new SuccessResponse<>(NoData.builder().build(), "Delete color successfully.");
     }
 }

@@ -2,10 +2,12 @@ package com.khoahd7621.youngblack.controllers.admin;
 
 import com.khoahd7621.youngblack.dtos.request.size.CreateNewSizeRequest;
 import com.khoahd7621.youngblack.dtos.request.size.UpdateSizeRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
 import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.services.SizeAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +34,10 @@ public class SizeAdminController {
     @PutMapping
     private SuccessResponse<SizeResponse> updateSize(@Valid @RequestBody UpdateSizeRequest updateSizeRequest) throws BadRequestException {
         return sizeAdminService.updateSize(updateSizeRequest);
+    }
+
+    @DeleteMapping
+    public SuccessResponse<NoData> deleteSize(@RequestBody Integer sizeId) throws NotFoundException, BadRequestException {
+        return sizeAdminService.deleteSize(sizeId);
     }
 }

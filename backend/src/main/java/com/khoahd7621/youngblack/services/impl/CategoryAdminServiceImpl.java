@@ -2,11 +2,13 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.category.CreateNewCategoryRequest;
 import com.khoahd7621.youngblack.dtos.request.category.UpdateNameCategoryRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import com.khoahd7621.youngblack.dtos.response.category.ListCategoriesResponse;
 import com.khoahd7621.youngblack.entities.Category;
 import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.mappers.CategoryMapper;
 import com.khoahd7621.youngblack.repositories.CategoryRepository;
 import com.khoahd7621.youngblack.services.CategoryAdminService;
@@ -63,5 +65,20 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         category.setName(updateNameCategoryRequest.getNewName());
         categoryRepository.save(category);
         return new SuccessResponse<>(categoryMapper.toCategoryResponse(category), "Update name category success.");
+    }
+
+    @Override
+    public SuccessResponse<NoData> deleteCategory(int categoryId) throws NotFoundException, BadRequestException {
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
+        if (categoryOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist category with this id");
+        }
+        if (categoryOptional.get().getProducts().size() > 0) {
+            throw new BadRequestException("This category had products. Cannot delete!");
+        }
+        Category category = categoryOptional.get();
+        category.setDeleted(true);
+        categoryRepository.save(category);
+        return new SuccessResponse<>(NoData.builder().build(), "Delete category successfully.");
     }
 }

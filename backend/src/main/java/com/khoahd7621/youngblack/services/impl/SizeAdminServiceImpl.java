@@ -2,11 +2,13 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.size.CreateNewSizeRequest;
 import com.khoahd7621.youngblack.dtos.request.size.UpdateSizeRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
 import com.khoahd7621.youngblack.entities.Size;
 import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.mappers.SizeMapper;
 import com.khoahd7621.youngblack.repositories.SizeRepository;
 import com.khoahd7621.youngblack.services.SizeAdminService;
@@ -62,5 +64,20 @@ public class SizeAdminServiceImpl implements SizeAdminService {
         size.setSize(updateSizeRequest.getNewSize());
         sizeRepository.save(size);
         return new SuccessResponse<>(sizeMapper.toSizeResponse(size), "Update size success.");
+    }
+
+    @Override
+    public SuccessResponse<NoData> deleteSize(int sizeId) throws NotFoundException, BadRequestException {
+        Optional<Size> sizeOptional = sizeRepository.findById(sizeId);
+        if (sizeOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist size with this id");
+        }
+        if (sizeOptional.get().getVariantSizes().size() > 0) {
+            throw new BadRequestException("This size had products. Cannot delete!");
+        }
+        Size size = sizeOptional.get();
+        size.setDeleted(true);
+        sizeRepository.save(size);
+        return new SuccessResponse<>(NoData.builder().build(), "Delete size successfully.");
     }
 }
