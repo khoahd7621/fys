@@ -6,8 +6,8 @@ import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SuccessResponse<UserLoginResponse> loginHandler(UserLoginRequest userLoginRequest)
-            throws CustomBadRequestException {
+            throws BadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userLoginRequest.getEmail());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
@@ -49,34 +49,34 @@ public class AuthServiceImpl implements AuthService {
                     return new SuccessResponse<>(userLoginResponse, "Login successfully.");
                 }
                 if (user.getStatus() == EAccountStatus.INACTIVE) {
-                    throw new CustomBadRequestException("The account has not been activated.");
+                    throw new BadRequestException("The account has not been activated.");
                 }
                 if (user.getStatus() == EAccountStatus.BLOCK) {
-                    throw new CustomBadRequestException("Account has been blocked.");
+                    throw new BadRequestException("Account has been blocked.");
                 }
             }
         }
-        throw new CustomBadRequestException("Email or password is incorrect.");
+        throw new BadRequestException("Email or password is incorrect.");
     }
 
     @Override
-    public User getUserLoggedIn() throws CustomNotFoundException {
+    public User getUserLoggedIn() throws NotFoundException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails) {
             return ((CustomUserDetails) principal).getUser();
         }
-        throw new CustomNotFoundException("User does not exist.");
+        throw new NotFoundException("User does not exist.");
     }
 
     @Override
-    public SuccessResponse<NoData> userRegister(UserRegisterRequest userRegisterRequest) throws CustomBadRequestException {
+    public SuccessResponse<NoData> userRegister(UserRegisterRequest userRegisterRequest) throws BadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userRegisterRequest.getEmail());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException("This email already exists.");
+            throw new BadRequestException("This email already exists.");
         }
         userOpt = userRepository.findByPhone(userRegisterRequest.getPhone());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException("This phone number already exists.");
+            throw new BadRequestException("This phone number already exists.");
         }
         User user = userMapper.toUser(userRegisterRequest);
         userRepository.save(user);

@@ -6,7 +6,7 @@ import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
 import com.khoahd7621.youngblack.entities.Color;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.mappers.ColorMapper;
 import com.khoahd7621.youngblack.repositories.ColorRepository;
 import com.khoahd7621.youngblack.services.ColorAdminService;
@@ -26,10 +26,10 @@ public class ColorAdminServiceImpl implements ColorAdminService {
     private ColorMapper colorMapper;
 
     @Override
-    public SuccessResponse<ColorResponse> createNewColor(CreateNewColorRequest createNewColorRequest) throws CustomBadRequestException {
+    public SuccessResponse<ColorResponse> createNewColor(CreateNewColorRequest createNewColorRequest) throws BadRequestException {
         Optional<Color> colorOptional = colorRepository.findByNameAndIsDeletedFalse(createNewColorRequest.getName());
         if (colorOptional.isPresent()) {
-            throw new CustomBadRequestException("This color already existed.");
+            throw new BadRequestException("This color already existed.");
         }
         Color color = colorMapper.toColor(createNewColorRequest);
         Color result = colorRepository.save(color);
@@ -46,17 +46,17 @@ public class ColorAdminServiceImpl implements ColorAdminService {
     }
 
     @Override
-    public SuccessResponse<ColorResponse> updateColorName(UpdateColorNameRequest updateColorNameRequest) throws CustomBadRequestException {
+    public SuccessResponse<ColorResponse> updateColorName(UpdateColorNameRequest updateColorNameRequest) throws BadRequestException {
         Optional<Color> colorOptionalFindById = colorRepository.findById(updateColorNameRequest.getId());
         if (colorOptionalFindById.isEmpty()) {
-            throw new CustomBadRequestException("Id of color is not exist.");
+            throw new BadRequestException("Id of color is not exist.");
         }
         if (colorOptionalFindById.get().getName().equals(updateColorNameRequest.getNewName())) {
-            throw new CustomBadRequestException("New color is the same with old color. Nothing update.");
+            throw new BadRequestException("New color is the same with old color. Nothing update.");
         }
         Optional<Color> colorOptionalFindByName = colorRepository.findByNameAndIsDeletedFalse(updateColorNameRequest.getNewName());
         if (colorOptionalFindByName.isPresent()) {
-            throw new CustomBadRequestException("This color already exist.");
+            throw new BadRequestException("This color already exist.");
         }
         Color color = colorOptionalFindById.get();
         color.setName(updateColorNameRequest.getNewName());

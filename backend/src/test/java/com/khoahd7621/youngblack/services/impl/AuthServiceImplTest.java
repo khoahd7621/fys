@@ -10,7 +10,7 @@ import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
@@ -39,7 +39,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsActive() throws CustomBadRequestException {
+    void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsActive() throws BadRequestException {
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
@@ -61,7 +61,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsInActive() throws CustomBadRequestException {
+    void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsInActive() throws BadRequestException {
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
@@ -70,14 +70,14 @@ class AuthServiceImplTest {
         when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.INACTIVE);
 
-        CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
+        BadRequestException actual = assertThrows(BadRequestException.class, () -> {
             authServiceImpl.loginHandler(userLoginRequest);
         });
         assertThat(actual.getMessage(), is("The account has not been activated."));
     }
 
     @Test
-    void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsBlock() throws CustomBadRequestException {
+    void loginHandler_ShouldReturnData_WhenRequestDataValidAndAccountStatusIsBlock() throws BadRequestException {
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
         User user = mock(User.class);
@@ -86,7 +86,7 @@ class AuthServiceImplTest {
         when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.BLOCK);
 
-        CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
+        BadRequestException actual = assertThrows(BadRequestException.class, () -> {
             authServiceImpl.loginHandler(userLoginRequest);
         });
 
@@ -94,13 +94,13 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void loginHandler_ShouldReturnData_WhenRequestDataInValid() throws CustomBadRequestException {
+    void loginHandler_ShouldReturnData_WhenRequestDataInValid() throws BadRequestException {
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
                 .email("email").password("password").build();
 
         when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.empty());
 
-        CustomBadRequestException actual = assertThrows(CustomBadRequestException.class, () -> {
+        BadRequestException actual = assertThrows(BadRequestException.class, () -> {
             authServiceImpl.loginHandler(userLoginRequest);
         });
         assertThat(actual.getMessage(), is("Email or password is incorrect."));

@@ -6,8 +6,8 @@ import com.khoahd7621.youngblack.dtos.response.product.ListProductWithPaginateRe
 import com.khoahd7621.youngblack.dtos.response.product.ProductResponse;
 import com.khoahd7621.youngblack.entities.Category;
 import com.khoahd7621.youngblack.entities.Product;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
-import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.mappers.ProductMapper;
 import com.khoahd7621.youngblack.repositories.CategoryRepository;
 import com.khoahd7621.youngblack.repositories.ProductRepository;
@@ -48,10 +48,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public SuccessResponse<ListProductWithPaginateResponse> getAllProductsByCategoryNameWithPaginate(
-            String categoryName, Integer offset, Integer limit) throws CustomBadRequestException {
+            String categoryName, Integer offset, Integer limit) throws BadRequestException {
         Optional<Category> categoryOptional = categoryRepository.findByNameAndIsDeletedFalse(categoryName.trim().toUpperCase());
         if (categoryOptional.isEmpty()) {
-            throw new CustomBadRequestException("Category \"" + categoryName + "\" does not exist.");
+            throw new BadRequestException("Category \"" + categoryName + "\" does not exist.");
         }
         Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndCategoryId(categoryOptional.get().getId(), PageRequest.of(offset, limit));
         List<ProductResponse> productResponseList =
@@ -78,10 +78,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public SuccessResponse<ListProductResponse> getNRelatedProductByCategoryId(int categoryId, int numberElements) throws CustomNotFoundException {
+    public SuccessResponse<ListProductResponse> getNRelatedProductByCategoryId(int categoryId, int numberElements) throws NotFoundException {
         Optional<Category> categoryOptional = categoryRepository.findByIdAndIsDeletedFalse(categoryId);
         if (categoryOptional.isEmpty()) {
-            throw new CustomNotFoundException("Don't exist category with this id.");
+            throw new NotFoundException("Don't exist category with this id.");
         }
         List<Product> productList = productRepository.findAllByCategoryId(categoryId);
         List<ProductResponse> productResponseList = new ArrayList<>();

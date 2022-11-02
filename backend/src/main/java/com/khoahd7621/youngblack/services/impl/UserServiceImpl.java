@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
-import com.khoahd7621.youngblack.exceptions.custom.CustomNotFoundException;
+import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import com.khoahd7621.youngblack.dtos.request.user.UserUpdateRequest;
@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
@@ -43,14 +43,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessResponse<NoData> userRegister(UserRegisterRequest userRegisterRequest)
-            throws CustomBadRequestException {
+            throws BadRequestException {
         Optional<User> userOpt = userRepository.findByEmail(userRegisterRequest.getEmail());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException("This email already existed.");
+            throw new BadRequestException("This email already existed.");
         }
         userOpt = userRepository.findByPhone(userRegisterRequest.getPhone());
         if (userOpt.isPresent()) {
-            throw new CustomBadRequestException("This phone number already existed.");
+            throw new BadRequestException("This phone number already existed.");
         }
         User user = userMapper.toUser(userRegisterRequest);
         userRepository.save(user);
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SuccessResponse<UserResponse> getCurrentUser() throws CustomNotFoundException {
+    public SuccessResponse<UserResponse> getCurrentUser() throws NotFoundException {
         User user = authService.getUserLoggedIn();
         return new SuccessResponse<>(userMapper.toUserDTOResponse(user),
                 "Get current user's information successfully.");
@@ -66,11 +66,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessResponse<UserResponse> updateUser(UserUpdateRequest userUpdateRequest)
-            throws CustomBadRequestException, CustomNotFoundException {
+            throws BadRequestException, NotFoundException {
         User user = authService.getUserLoggedIn();
         Optional<User> userOptionalWithPhone = userRepository.findByPhone(userUpdateRequest.getPhone());
         if (userOptionalWithPhone.isPresent() && userOptionalWithPhone.get().getId() != user.getId()) {
-            throw new CustomBadRequestException("This phone number already existed.");
+            throw new BadRequestException("This phone number already existed.");
         }
         user.setFirstName(userUpdateRequest.getFirstName());
         user.setLastName(userUpdateRequest.getLastName());
@@ -83,16 +83,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SuccessResponse<NoData> changePassword(UserChangePasswordRequest userChangePasswordRequest)
-            throws CustomBadRequestException, CustomNotFoundException {
+            throws BadRequestException, NotFoundException {
         if (!userChangePasswordRequest.getNewPassword().equals(userChangePasswordRequest.getConfirmPassword())) {
-            throw new CustomBadRequestException("Confirm password not match new password.");
+            throw new BadRequestException("Confirm password not match new password.");
         }
         User user = authService.getUserLoggedIn();
         if (!passwordEncoder.matches(userChangePasswordRequest.getOldPassword(), user.getPassword())) {
-            throw new CustomBadRequestException("Old password is invalid.");
+            throw new BadRequestException("Old password is invalid.");
         }
         if (passwordEncoder.matches(userChangePasswordRequest.getNewPassword(), user.getPassword())) {
-            throw new CustomBadRequestException("New password is the same with old password. Nothing change.");
+            throw new BadRequestException("New password is the same with old password. Nothing change.");
         }
         user.setPassword(passwordEncoder.encode(userChangePasswordRequest.getNewPassword()));
         user.setUpdatedAt(new Date());

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
@@ -40,7 +40,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void userRegister_ShouldReturnData_WhenDataValid() throws CustomBadRequestException {
+    void userRegister_ShouldReturnData_WhenDataValid() throws BadRequestException {
         User user = mock(User.class);
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .email("email")
@@ -61,7 +61,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void userRegister_ShouldReturnError_WhenDuplicatedEmail() throws CustomBadRequestException {
+    void userRegister_ShouldReturnError_WhenDuplicatedEmail() throws BadRequestException {
         User user = mock(User.class);
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .email("email@gmail.com")
@@ -69,7 +69,7 @@ class UserServiceImplTest {
 
         when(userRepository.findByEmail(userRegisterRequest.getEmail())).thenReturn(Optional.of(user));
 
-        CustomBadRequestException result = assertThrows(CustomBadRequestException.class, () -> {
+        BadRequestException result = assertThrows(BadRequestException.class, () -> {
             userServiceImpl.userRegister(userRegisterRequest);
         });
 
@@ -77,7 +77,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void userRegister_ShouldReturnError_WhenDuplicatedPhone() throws CustomBadRequestException {
+    void userRegister_ShouldReturnError_WhenDuplicatedPhone() throws BadRequestException {
         User user = mock(User.class);
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .phone("0123123")
@@ -85,7 +85,7 @@ class UserServiceImplTest {
 
         when(userRepository.findByPhone(userRegisterRequest.getPhone())).thenReturn(Optional.of(user));
 
-        CustomBadRequestException result = assertThrows(CustomBadRequestException.class, () -> {
+        BadRequestException result = assertThrows(BadRequestException.class, () -> {
             userServiceImpl.userRegister(userRegisterRequest);
         });
         assertThat(result.getMessage(), is("This phone number already existed."));

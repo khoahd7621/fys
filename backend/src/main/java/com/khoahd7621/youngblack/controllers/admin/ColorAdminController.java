@@ -5,7 +5,7 @@ import com.khoahd7621.youngblack.dtos.request.color.UpdateColorNameRequest;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.services.ColorAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class ColorAdminController {
 
     @PostMapping
     public SuccessResponse<ColorResponse> createNewColor(@Valid @RequestBody CreateNewColorRequest createNewColorRequest)
-            throws CustomBadRequestException {
+            throws BadRequestException {
         return colorAdminService.createNewColor(createNewColorRequest);
     }
 
@@ -32,7 +32,7 @@ public class ColorAdminController {
 
     @PutMapping
     private SuccessResponse<ColorResponse> updateColorName(@Valid @RequestBody UpdateColorNameRequest updateColorNameRequest)
-            throws CustomBadRequestException {
+            throws BadRequestException {
         return colorAdminService.updateColorName(updateColorNameRequest);
     }
 }

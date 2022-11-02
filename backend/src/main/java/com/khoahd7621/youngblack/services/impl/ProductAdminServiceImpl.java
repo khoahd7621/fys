@@ -10,7 +10,7 @@ import com.khoahd7621.youngblack.entities.Image;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.entities.ProductVariant;
 import com.khoahd7621.youngblack.entities.VariantSize;
-import com.khoahd7621.youngblack.exceptions.custom.CustomBadRequestException;
+import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.mappers.ImageMapper;
 import com.khoahd7621.youngblack.mappers.ProductMapper;
 import com.khoahd7621.youngblack.mappers.ProductVariantMapper;
@@ -51,14 +51,14 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     private VariantSizeMapper variantSizeMapper;
 
     @Override
-    public SuccessResponse<NoData> createNewProduct(CreateNewProductRequest createNewProductRequest) throws CustomBadRequestException {
+    public SuccessResponse<NoData> createNewProduct(CreateNewProductRequest createNewProductRequest) throws BadRequestException {
         Optional<Product> productDBOptFindByName = productRepository.findByName(createNewProductRequest.getName().toUpperCase());
         if (productDBOptFindByName.isPresent()) {
-            throw new CustomBadRequestException("Product name already exist");
+            throw new BadRequestException("Product name already exist");
         }
         List<VariantSize> listVariantSizeDBOptFindBySku = variantSizeRepository.findBySkuStartsWith(createNewProductRequest.getColors().get(0).getSku());
         if (listVariantSizeDBOptFindBySku.size() > 0) {
-            throw new CustomBadRequestException("Sku already exist");
+            throw new BadRequestException("Sku already exist");
         }
 
         Product product = productMapper.toProduct(createNewProductRequest);
