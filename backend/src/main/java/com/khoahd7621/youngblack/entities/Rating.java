@@ -1,6 +1,6 @@
 package com.khoahd7621.youngblack.entities;
 
-import com.khoahd7621.youngblack.entities.compositekey.RatingKey;
+import com.khoahd7621.youngblack.entities.composite.RatingKey;
 import lombok.*;
 
 import javax.persistence.*;

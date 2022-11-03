@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.entities.compositekey;
+package com.khoahd7621.youngblack.entities.composite;
 
 import lombok.*;
 

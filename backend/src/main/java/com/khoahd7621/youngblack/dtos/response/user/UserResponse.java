@@ -3,15 +3,15 @@ package com.khoahd7621.youngblack.dtos.response.user;
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserResponse {
     private long id;
     private String email;

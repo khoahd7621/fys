@@ -56,7 +56,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 || (request.getRequestURI().startsWith("/api/v1/product-detail"))
                 || (request.getRequestURI().startsWith("/swagger-ui"))
                 || (request.getRequestURI().startsWith("/v3/api-docs"))
-                || (request.getRequestURI().startsWith("/api/v1/rating")) && HttpMethod.GET.toString().equals(request.getMethod())) {
+                || ((request.getRequestURI().startsWith("/api/v1/rating")) && HttpMethod.GET.toString().equals(request.getMethod()))) {
             filterChain.doFilter(request, response);
         } else {
             final Optional<String> requestTokenHeaderOpt = getJwtFromRequest(request);

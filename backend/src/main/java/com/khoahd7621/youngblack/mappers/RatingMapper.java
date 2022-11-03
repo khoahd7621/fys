@@ -5,7 +5,7 @@ import com.khoahd7621.youngblack.dtos.response.rating.RatingResponse;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.entities.Rating;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.entities.compositekey.RatingKey;
+import com.khoahd7621.youngblack.entities.composite.RatingKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

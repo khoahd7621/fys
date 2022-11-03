@@ -9,7 +9,7 @@ import com.khoahd7621.youngblack.dtos.response.rating.StarResponse;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.entities.Rating;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.entities.compositekey.RatingKey;
+import com.khoahd7621.youngblack.entities.composite.RatingKey;
 import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import com.khoahd7621.youngblack.mappers.RatingMapper;
