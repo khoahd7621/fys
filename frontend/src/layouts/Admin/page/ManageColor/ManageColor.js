@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import AddNewColorModal from './AddNewColorModal';
 import UpdateColorModal from './UpdateColorModal';
+import DeleteColorModal from './DeleteColorModal';
 
 const ManageColor = () => {
   const [listColors, setListColors] = useState([]);
@@ -12,6 +13,8 @@ const ManageColor = () => {
   const [showAddNewModal, setShowAddNewModal] = useState(false);
   const [showUpdateColorModal, setShowUpdateColorModal] = useState(false);
   const [dataUpdateColorModal, setDataUpdateColorModal] = useState({});
+  const [showDeleteColorModal, setShowDeleteColorModal] = useState(false);
+  const [dataDeleteColorModal, setDataDeleteColorModal] = useState({});
 
   useEffect(() => {
     fetchListColors();
@@ -29,6 +32,11 @@ const ManageColor = () => {
   const handleShowUpdateColorModal = (color) => {
     setDataUpdateColorModal(color);
     setShowUpdateColorModal(true);
+  };
+
+  const handleShowDeleteColorModal = (color) => {
+    setDataDeleteColorModal(color);
+    setShowDeleteColorModal(true);
   };
 
   return (
@@ -88,6 +96,12 @@ const ManageColor = () => {
                                   >
                                     Update
                                   </button>
+                                  <button
+                                    className="ml-4 px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+                                    onClick={() => handleShowDeleteColorModal(color)}
+                                  >
+                                    Delete
+                                  </button>
                                 </td>
                               </tr>
                             ))}
@@ -113,6 +127,15 @@ const ManageColor = () => {
                   setShow={setShowUpdateColorModal}
                   data={dataUpdateColorModal}
                   setData={setDataUpdateColorModal}
+                  fetchList={fetchListColors}
+                />
+              )}
+              {listColors && listColors.length > 0 && (
+                <DeleteColorModal
+                  show={showDeleteColorModal}
+                  setShow={setShowDeleteColorModal}
+                  data={dataDeleteColorModal}
+                  setData={setDataDeleteColorModal}
                   fetchList={fetchListColors}
                 />
               )}

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import AddNewCategoryModal from './AddNewCategoryModal';
 import UpdateCategoryModal from './UpdateCategoryModal';
+import DeleteCategoryModal from './DeleteCategoryModal';
 
 const ManageCategory = () => {
   const [listCategories, setListCategories] = useState([]);
@@ -12,6 +13,8 @@ const ManageCategory = () => {
   const [showAddNewModal, setShowAddNewModal] = useState(false);
   const [showUpdateCategoryModal, setShowUpdateCategoryModal] = useState(false);
   const [dataUpdateCategoryModal, setDataUpdateCategoryModal] = useState({});
+  const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
+  const [dataDeleteCategoryModal, setDataDeleteCategoryModal] = useState({});
 
   useEffect(() => {
     fetchListCategories();
@@ -29,6 +32,11 @@ const ManageCategory = () => {
   const handleShowUpdateCategoryModal = (category) => {
     setDataUpdateCategoryModal(category);
     setShowUpdateCategoryModal(true);
+  };
+
+  const handleShowDeleteCategoryModal = (category) => {
+    setDataDeleteCategoryModal(category);
+    setShowDeleteCategoryModal(true);
   };
 
   return (
@@ -92,6 +100,12 @@ const ManageCategory = () => {
                                   >
                                     Update
                                   </button>
+                                  <button
+                                    className="ml-4 px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+                                    onClick={() => handleShowDeleteCategoryModal(category)}
+                                  >
+                                    Delete
+                                  </button>
                                 </td>
                               </tr>
                             ))}
@@ -117,6 +131,15 @@ const ManageCategory = () => {
                   setShow={setShowUpdateCategoryModal}
                   data={dataUpdateCategoryModal}
                   setData={setDataUpdateCategoryModal}
+                  fetchList={fetchListCategories}
+                />
+              )}
+              {listCategories && listCategories.length > 0 && (
+                <DeleteCategoryModal
+                  show={showDeleteCategoryModal}
+                  setShow={setShowDeleteCategoryModal}
+                  data={dataDeleteCategoryModal}
+                  setData={setDataDeleteCategoryModal}
                   fetchList={fetchListCategories}
                 />
               )}

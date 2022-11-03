@@ -17,4 +17,8 @@ const postCreateNewSize = (size) => {
   });
 };
 
-export { getListSizes, putUpdateSize, postCreateNewSize };
+const deleteSizeById = (sizeId) => {
+  return axios.delete(`/api/v1/admin/size/${sizeId}`);
+};
+
+export { getListSizes, putUpdateSize, postCreateNewSize, deleteSizeById };
