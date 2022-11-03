@@ -5,7 +5,7 @@ import 'react-pro-sidebar/dist/scss/styles.scss';
 import './SideBar.scss';
 
 import { FaGem, FaGithub, FaLuggageCart, FaTshirt } from 'react-icons/fa';
-import { MdDashboard, MdAccountBox } from 'react-icons/md';
+import { MdDashboard, MdAccountBox, MdVerifiedUser } from 'react-icons/md';
 import { adminRoutes } from '~/routes/routes';
 
 const SideBar = ({ collapsed }) => {
@@ -57,6 +57,12 @@ const SideBar = ({ collapsed }) => {
           <MenuItem icon={<MdAccountBox />}>
             Manage User
             <Link to={adminRoutes.manageUser} />
+          </MenuItem>
+        </Menu>
+        <Menu iconShape="circle">
+          <MenuItem icon={<MdVerifiedUser />}>
+            My Account
+            <Link to={adminRoutes.myAccount} />
           </MenuItem>
         </Menu>
       </SidebarContent>

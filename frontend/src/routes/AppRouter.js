@@ -17,7 +17,15 @@ import {
   Account,
 } from '~/pages';
 import { ChangePassword, Order, OrderDetail, UserInfo } from '~/components';
-import { Dashboard, ManageCategory, ManageColor, ManageProduct, ManageSize, ManageUser } from '~/layouts/Admin/page';
+import {
+  Dashboard,
+  ManageCategory,
+  ManageColor,
+  ManageProduct,
+  ManageSize,
+  ManageUser,
+  MyAccount,
+} from '~/layouts/Admin/page';
 
 import ClientPrivateRoute from './ClientPrivateRoute';
 import AdminPrivateRoute from './AdminPrivateRoute';
@@ -124,6 +132,7 @@ const AppRouter = () => {
             <Route index path={adminRoutes.manageColor} element={<ManageColor />} />
             <Route index path={adminRoutes.manageProduct} element={<ManageProduct />} />
             <Route index path={adminRoutes.manageUser} element={<ManageUser />} />
+            <Route index path={adminRoutes.myAccount} element={<MyAccount />} />
           </Route>
 
           {/* Notfound */}
