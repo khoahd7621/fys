@@ -1,12 +1,14 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import ListActiveUsers from './ListActiveUsers/ListActiveUsers';
+import ListAdmins from './ListAdmins/ListAdmins';
 import ListBlockUsers from './ListBlockUsers/ListBlockUsers';
 
 const ManageAccount = () => {
   const listTabs = [
     { title: 'Active users', content: <ListActiveUsers /> },
     { title: 'Blocked users', content: <ListBlockUsers /> },
+    { title: 'List admins', content: <ListAdmins /> },
   ];
 
   const [currentTab, setCurrentTab] = useState(0);
