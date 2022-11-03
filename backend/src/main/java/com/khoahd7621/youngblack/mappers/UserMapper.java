@@ -1,6 +1,7 @@
 package com.khoahd7621.youngblack.mappers;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
+import com.khoahd7621.youngblack.dtos.request.user.CreateNewAdminUserRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserRatingResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
@@ -29,6 +30,20 @@ public class UserMapper {
                 .lastName(userRegisterRequest.getLastName())
                 .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
                 .role(ERoles.USER)
+                .status(EAccountStatus.ACTIVE)
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
+    }
+
+    public User toUser(CreateNewAdminUserRequest createNewAdminUserRequest) {
+        return User.builder()
+                .email(createNewAdminUserRequest.getEmail())
+                .phone(createNewAdminUserRequest.getPhone())
+                .firstName(createNewAdminUserRequest.getFirstName())
+                .lastName(createNewAdminUserRequest.getLastName())
+                .password(passwordEncoder.encode(createNewAdminUserRequest.getPassword()))
+                .role(ERoles.ADMIN)
                 .status(EAccountStatus.ACTIVE)
                 .createdAt(new Date())
                 .updatedAt(new Date())

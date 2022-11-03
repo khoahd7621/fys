@@ -2,6 +2,7 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
 import com.khoahd7621.youngblack.constants.ERoles;
+import com.khoahd7621.youngblack.dtos.request.user.CreateNewAdminUserRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
@@ -73,5 +74,23 @@ public class UserAdminServiceImpl implements UserAdminService {
         user.setStatus(EAccountStatus.ACTIVE);
         userRepository.save(user);
         return new SuccessResponse<>(NoData.builder().build(), "Un block user success!");
+    }
+
+    @Override
+    public SuccessResponse<NoData> createNewAdminUser(CreateNewAdminUserRequest createNewAdminUserRequest) throws BadRequestException {
+        if (!createNewAdminUserRequest.getPassword().equals(createNewAdminUserRequest.getConfirmPassword())) {
+            throw new BadRequestException("Confirm password not match new password.");
+        }
+        Optional<User> userOptional = userRepository.findByEmail(createNewAdminUserRequest.getEmail());
+        if (userOptional.isPresent()) {
+            throw new BadRequestException("This email already existed.");
+        }
+        userOptional = userRepository.findByPhone(createNewAdminUserRequest.getPhone());
+        if (userOptional.isPresent()) {
+            throw new BadRequestException("This phone number already existed.");
+        }
+        User user = userMapper.toUser(createNewAdminUserRequest);
+        userRepository.save(user);
+        return new SuccessResponse<>(NoData.builder().build(), "Register new account successfully.");
     }
 }
