@@ -2,6 +2,7 @@ package com.khoahd7621.youngblack.dtos.request.product;
 
 import com.khoahd7621.youngblack.dtos.request.category.CategoryOfCreateNewProduct;
 import com.khoahd7621.youngblack.dtos.request.productvariant.ProductVariantOfCreateNewProduct;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 public class CreateNewProductRequest {
     private String name;
     private Long price;

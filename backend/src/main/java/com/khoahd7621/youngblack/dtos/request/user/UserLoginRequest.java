@@ -2,13 +2,15 @@ package com.khoahd7621.youngblack.dtos.request.user;
 
 import com.khoahd7621.youngblack.constants.Constants;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class UserLoginRequest {
     @NotBlank(message = "Email is required")
