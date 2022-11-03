@@ -56,7 +56,7 @@ const SideBar = ({ collapsed }) => {
         <Menu iconShape="circle">
           <MenuItem icon={<MdAccountBox />}>
             Manage Account
-            <Link to={adminRoutes.default} />
+            <Link to={adminRoutes.manageAccount} />
           </MenuItem>
         </Menu>
       </SidebarContent>
