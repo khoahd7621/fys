@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import './Admin.scss';
 import { Navbar } from './components';
 
 import SideBar from './components/SideBar/SideBar';
