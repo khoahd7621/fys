@@ -24,7 +24,7 @@ const adminRoutes = {
   manageSize: '/admin/manage-size',
   manageColor: '/admin/manage-color',
   manageProduct: '/admin/manage-product',
-  manageAccount: '/admin/manage-account',
+  manageUser: '/admin/manage-user',
 };
 
 export { publicRoutes, privateRoutes, adminRoutes };

@@ -4,7 +4,7 @@ import ListActiveUsers from './ListActiveUsers/ListActiveUsers';
 import ListAdmins from './ListAdmins/ListAdmins';
 import ListBlockUsers from './ListBlockUsers/ListBlockUsers';
 
-const ManageAccount = () => {
+const ManageUser = () => {
   const listTabs = [
     { title: 'Active users', content: <ListActiveUsers /> },
     { title: 'Blocked users', content: <ListBlockUsers /> },
@@ -50,4 +50,4 @@ const ManageAccount = () => {
   );
 };
 
-export default ManageAccount;
+export default ManageUser;
