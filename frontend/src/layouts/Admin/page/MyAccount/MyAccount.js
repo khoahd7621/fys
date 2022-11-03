@@ -1,11 +1,12 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import Information from './Information/Information';
+import UpdateInformation from './UpdateInformation/UpdateInformation';
 
 const MyAccount = () => {
   const listTabs = [
     { title: 'My information', content: <Information /> },
-    { title: 'Update information', content: 'Update information' },
+    { title: 'Update information', content: <UpdateInformation /> },
     { title: 'Change password', content: 'Change password' },
   ];
 
