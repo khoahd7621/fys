@@ -36,8 +36,8 @@ public class CategoryAdminController {
         return categoryAdminService.updateNameCategory(updateNameCategoryRequest);
     }
 
-    @DeleteMapping
-    public SuccessResponse<NoData> deleteCategory(@RequestBody Integer categoryId) throws NotFoundException, BadRequestException {
+    @DeleteMapping("/{categoryId}")
+    public SuccessResponse<NoData> deleteCategory(@PathVariable Integer categoryId) throws NotFoundException, BadRequestException {
         return categoryAdminService.deleteCategory(categoryId);
     }
 

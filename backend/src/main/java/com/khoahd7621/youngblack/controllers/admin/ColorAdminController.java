@@ -38,8 +38,8 @@ public class ColorAdminController {
         return colorAdminService.updateColorName(updateColorNameRequest);
     }
 
-    @DeleteMapping
-    public SuccessResponse<NoData> deleteColor(@RequestBody Integer colorId) throws NotFoundException, BadRequestException {
+    @DeleteMapping("/{colorId}")
+    public SuccessResponse<NoData> deleteColor(@PathVariable Integer colorId) throws NotFoundException, BadRequestException {
         return colorAdminService.deleteColor(colorId);
     }
 }

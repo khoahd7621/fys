@@ -36,8 +36,8 @@ public class SizeAdminController {
         return sizeAdminService.updateSize(updateSizeRequest);
     }
 
-    @DeleteMapping
-    public SuccessResponse<NoData> deleteSize(@RequestBody Integer sizeId) throws NotFoundException, BadRequestException {
+    @DeleteMapping("/{sizeId}")
+    public SuccessResponse<NoData> deleteSize(@PathVariable Integer sizeId) throws NotFoundException, BadRequestException {
         return sizeAdminService.deleteSize(sizeId);
     }
 }
