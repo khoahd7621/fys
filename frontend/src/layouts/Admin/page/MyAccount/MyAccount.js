@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useState } from 'react';
+import ChangePassword from './ChangePassword/ChangePassword';
 import Information from './Information/Information';
 import UpdateInformation from './UpdateInformation/UpdateInformation';
 
@@ -7,7 +8,7 @@ const MyAccount = () => {
   const listTabs = [
     { title: 'My information', content: <Information /> },
     { title: 'Update information', content: <UpdateInformation /> },
-    { title: 'Change password', content: 'Change password' },
+    { title: 'Change password', content: <ChangePassword /> },
   ];
 
   const [currentTab, setCurrentTab] = useState(0);
