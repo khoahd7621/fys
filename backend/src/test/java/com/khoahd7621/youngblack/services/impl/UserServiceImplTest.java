@@ -55,7 +55,7 @@ class UserServiceImplTest {
         SuccessResponse<NoData> actual = userServiceImpl.userRegister(userRegisterRequest);
 
         verify(userRepository).save(user);
-        assertThat(actual.getData(), is(noData));
+        assertThat(actual.getData().getNoData(), is(noData.getNoData()));
         assertThat(actual.getCode(), is(expected.getCode()));
         assertThat(actual.getMessage(), is(expected.getMessage()));
     }

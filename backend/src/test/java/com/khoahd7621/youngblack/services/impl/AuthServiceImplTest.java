@@ -44,7 +44,7 @@ class AuthServiceImplTest {
                 .email("email").password("password").build();
         User user = mock(User.class);
         UserLoginResponse userLoginResponse = mock(UserLoginResponse.class);
-        SuccessResponse<UserLoginResponse> expected = new SuccessResponse<>(userLoginResponse, "Login successfully");
+        SuccessResponse<UserLoginResponse> expected = new SuccessResponse<>(userLoginResponse, "Login successfully.");
 
         when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
