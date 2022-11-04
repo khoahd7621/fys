@@ -21,20 +21,24 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/all")
-    public SuccessResponse<ListProductWithPaginateResponse> getAllProductsWithPaginate(
+    public SuccessResponse<ListProductWithPaginateResponse> getAllProductsWithPaginateAndSort(
             @RequestParam(name = "limit", defaultValue = "20") Integer limit,
-            @RequestParam(name = "offset", defaultValue = "0") Integer offset
-    ) {
-        return productService.getAllProductsWithPaginate(offset, limit);
+            @RequestParam(name = "offset", defaultValue = "0") Integer offset,
+            @RequestParam(name = "sort-base", defaultValue = "id") String sortBase,
+            @RequestParam(name = "sort-type", defaultValue = "DESC") String sortType
+    ) throws BadRequestException {
+        return productService.getAllProductsWithPaginateAndSort(offset, limit, sortBase, sortType);
     }
 
     @GetMapping
-    public SuccessResponse<ListProductWithPaginateResponse> getAllProductsByCategoryNameWithPaginate(
+    public SuccessResponse<ListProductWithPaginateResponse> getAllProductsByCategoryNameWithPaginateAndSort(
             @RequestParam(name = "category-name") String categoryName,
             @RequestParam(name = "limit", defaultValue = "20") Integer limit,
-            @RequestParam(name = "offset", defaultValue = "0") Integer offset
+            @RequestParam(name = "offset", defaultValue = "0") Integer offset,
+            @RequestParam(name = "sort-base", defaultValue = "id") String sortBase,
+            @RequestParam(name = "sort-type", defaultValue = "DESC") String sortType
     ) throws BadRequestException {
-        return productService.getAllProductsByCategoryNameWithPaginate(categoryName, offset, limit);
+        return productService.getAllProductsByCategoryNameWithPaginateAndSort(categoryName, offset, limit, sortBase, sortType);
     }
 
     @GetMapping("/search")
