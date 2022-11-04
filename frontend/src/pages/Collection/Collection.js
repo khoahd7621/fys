@@ -13,7 +13,7 @@ import { publicRoutes } from '~/routes/routes';
 const cx = classNames.bind(styles);
 
 const Collection = () => {
-  const LIMIT_PRODUCT = 5;
+  const LIMIT_PRODUCT = 20;
 
   const navigate = useNavigate();
   const { type } = useParams();
