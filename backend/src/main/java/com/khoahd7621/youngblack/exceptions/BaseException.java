@@ -1,4 +1,4 @@
-package com.khoahd7621.youngblack.exceptions.custom;
+package com.khoahd7621.youngblack.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -9,7 +9,7 @@ import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.security.CorsConfig;
 import com.khoahd7621.youngblack.security.WebSecurityConfig;

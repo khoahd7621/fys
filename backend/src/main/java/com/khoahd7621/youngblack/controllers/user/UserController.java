@@ -3,7 +3,7 @@ package com.khoahd7621.youngblack.controllers.user;
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import com.khoahd7621.youngblack.dtos.request.user.UserUpdateRequest;
@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import com.khoahd7621.youngblack.services.UserService;
 
 import javax.validation.Valid;

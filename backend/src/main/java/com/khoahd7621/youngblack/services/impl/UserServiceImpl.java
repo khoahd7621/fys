@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.NoData;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.dtos.request.user.UserChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import com.khoahd7621.youngblack.dtos.request.user.UserUpdateRequest;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;

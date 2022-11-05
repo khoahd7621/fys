@@ -1,7 +1,6 @@
 package com.khoahd7621.youngblack.exceptions;
 
 import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;

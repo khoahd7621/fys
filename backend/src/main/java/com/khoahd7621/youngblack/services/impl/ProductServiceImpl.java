@@ -6,8 +6,8 @@ import com.khoahd7621.youngblack.dtos.response.product.ListProductWithPaginateRe
 import com.khoahd7621.youngblack.dtos.response.product.ProductResponse;
 import com.khoahd7621.youngblack.entities.Category;
 import com.khoahd7621.youngblack.entities.Product;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.mappers.ProductMapper;
 import com.khoahd7621.youngblack.repositories.CategoryRepository;
 import com.khoahd7621.youngblack.repositories.ProductRepository;

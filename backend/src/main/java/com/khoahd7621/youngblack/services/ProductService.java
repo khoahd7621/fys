@@ -3,8 +3,8 @@ package com.khoahd7621.youngblack.services;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductWithPaginateResponse;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 
 public interface ProductService {
 

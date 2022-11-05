@@ -6,8 +6,8 @@ import com.khoahd7621.youngblack.dtos.request.user.CreateNewAdminUserRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 
 public interface UserAdminService {
 

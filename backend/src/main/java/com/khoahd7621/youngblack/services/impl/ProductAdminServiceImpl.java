@@ -10,7 +10,7 @@ import com.khoahd7621.youngblack.entities.Image;
 import com.khoahd7621.youngblack.entities.Product;
 import com.khoahd7621.youngblack.entities.ProductVariant;
 import com.khoahd7621.youngblack.entities.VariantSize;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import com.khoahd7621.youngblack.mappers.ImageMapper;
 import com.khoahd7621.youngblack.mappers.ProductMapper;
 import com.khoahd7621.youngblack.mappers.ProductVariantMapper;
