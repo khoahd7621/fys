@@ -17,6 +17,7 @@ import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -28,6 +29,7 @@ class AuthServiceImplTest {
     private PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
     private JwtTokenUtil jwtTokenUtil;
+    private SecurityContext securityContext;
 
     @BeforeEach
     void beforeEach() {
@@ -35,7 +37,8 @@ class AuthServiceImplTest {
         passwordEncoder = mock(PasswordEncoder.class);
         userMapper = mock(UserMapper.class);
         jwtTokenUtil = mock(JwtTokenUtil.class);
-        authServiceImpl = new AuthServiceImpl(userRepository, passwordEncoder, userMapper, jwtTokenUtil);
+        securityContext = mock(SecurityContext.class);
+        authServiceImpl = new AuthServiceImpl(userRepository, passwordEncoder, userMapper, jwtTokenUtil, securityContext);
     }
 
     @Test
