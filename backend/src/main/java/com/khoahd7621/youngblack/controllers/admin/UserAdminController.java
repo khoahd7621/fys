@@ -42,7 +42,8 @@ public class UserAdminController {
     }
 
     @PostMapping
-    public SuccessResponse<NoData> createNewAdminUser(@Valid @RequestBody CreateNewAdminUserRequest createNewAdminUserRequest) throws BadRequestException {
+    public SuccessResponse<NoData> createNewAdminUser(@Valid @RequestBody CreateNewAdminUserRequest createNewAdminUserRequest)
+            throws BadRequestException {
         return userAdminService.createNewAdminUser(createNewAdminUserRequest);
     }
 }

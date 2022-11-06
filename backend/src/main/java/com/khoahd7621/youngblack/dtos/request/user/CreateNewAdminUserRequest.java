@@ -2,6 +2,7 @@ package com.khoahd7621.youngblack.dtos.request.user;
 
 import com.khoahd7621.youngblack.constants.Constants;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 public class CreateNewAdminUserRequest {
     @NotBlank(message = "First name is required")
     private String firstName;
