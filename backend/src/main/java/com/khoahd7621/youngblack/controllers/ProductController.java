@@ -52,8 +52,8 @@ public class ProductController {
 
     @GetMapping("/related")
     public SuccessResponse<ListProductResponse> getNRelatedProductByCategoryId(
-            @RequestParam(name = "categoryId") @Min(value = 0, message = "Min number of category id is 0") Integer categoryId,
-            @RequestParam(name = "numberElements") @Min(value = 1, message = "Min number of elements is 1") Integer numberElements
+            @RequestParam(name = "category-id") @Min(value = 0, message = "Min number of category id is 0") Integer categoryId,
+            @RequestParam(name = "number-elements") @Min(value = 1, message = "Min number of elements is 1") Integer numberElements
     ) throws NotFoundException {
         return productService.getNRelatedProductByCategoryId(categoryId, numberElements);
     }
