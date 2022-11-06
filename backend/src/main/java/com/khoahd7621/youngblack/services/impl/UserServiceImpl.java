@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.BadRequestException;
-import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.UserService;
@@ -34,22 +33,6 @@ public class UserServiceImpl implements UserService {
     private AuthService authService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Override
-    public SuccessResponse<NoData> userRegister(UserRegisterRequest userRegisterRequest)
-            throws BadRequestException {
-        Optional<User> userOpt = userRepository.findByEmail(userRegisterRequest.getEmail());
-        if (userOpt.isPresent()) {
-            throw new BadRequestException("This email already existed.");
-        }
-        userOpt = userRepository.findByPhone(userRegisterRequest.getPhone());
-        if (userOpt.isPresent()) {
-            throw new BadRequestException("This phone number already existed.");
-        }
-        User user = userMapper.toUser(userRegisterRequest);
-        userRepository.save(user);
-        return new SuccessResponse<>(NoData.builder().build(), "Register new account successfully.");
-    }
 
     @Override
     public SuccessResponse<UserResponse> getCurrentUser() throws NotFoundException {
