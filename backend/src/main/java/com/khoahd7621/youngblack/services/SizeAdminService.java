@@ -12,7 +12,7 @@ import com.khoahd7621.youngblack.exceptions.NotFoundException;
 public interface SizeAdminService {
     public SuccessResponse<SizeResponse> createNewSize(CreateNewSizeRequest createNewSizeRequest) throws BadRequestException;
 
-    public SuccessResponse<ListSizesResponse> getAllSize();
+    public SuccessResponse<ListSizesResponse> getAllSizes();
 
     public SuccessResponse<SizeResponse> updateSize(UpdateSizeRequest updateSizeRequest) throws BadRequestException;
 

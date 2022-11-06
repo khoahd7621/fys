@@ -12,5 +12,5 @@ public interface SizeRepository extends JpaRepository<Size, Integer> {
 
     public Optional<Size> findBySizeAndIsDeletedFalse(String size);
 
-    public List<Size> findByIsDeletedFalse();
+    public List<Size> findAllByIsDeletedFalse();
 }

@@ -28,8 +28,8 @@ public class SizeAdminController {
     }
 
     @GetMapping
-    private SuccessResponse<ListSizesResponse> getAllSize() {
-        return sizeAdminService.getAllSize();
+    private SuccessResponse<ListSizesResponse> getAllSizes() {
+        return sizeAdminService.getAllSizes();
     }
 
     @PutMapping

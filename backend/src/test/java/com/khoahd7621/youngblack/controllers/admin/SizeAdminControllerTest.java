@@ -106,7 +106,7 @@ class SizeAdminControllerTest {
         ListSizesResponse listSizesResponse = ListSizesResponse.builder().sizes(sizeResponseList).build();
         SuccessResponse<ListSizesResponse> expected = new SuccessResponse<>(listSizesResponse, "message");
 
-        when(sizeAdminService.getAllSize()).thenReturn(expected);
+        when(sizeAdminService.getAllSizes()).thenReturn(expected);
 
         MockHttpServletResponse actual = mockMvc.perform(get("/api/v1/admin/size"))
                 .andExpect(status().isOk())
