@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ColorRepository extends JpaRepository<Color, Integer> {
     public Optional<Color> findByNameAndIsDeletedFalse(String name);
 
-    public List<Color> findByIsDeletedFalse();
+    public List<Color> findAllByIsDeletedFalse();
 }
