@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class CreateNewSizeRequest {
     @NotEmpty(message = "Size is required")
     private String size;

@@ -22,7 +22,8 @@ public class SizeAdminController {
     private SizeAdminService sizeAdminService;
 
     @PostMapping
-    public SuccessResponse<SizeResponse> createNewSize(@Valid @RequestBody CreateNewSizeRequest createNewSizeRequest) throws BadRequestException {
+    public SuccessResponse<SizeResponse> createNewSize(@Valid @RequestBody CreateNewSizeRequest createNewSizeRequest)
+            throws BadRequestException {
         return sizeAdminService.createNewSize(createNewSizeRequest);
     }
 
@@ -32,7 +33,8 @@ public class SizeAdminController {
     }
 
     @PutMapping
-    private SuccessResponse<SizeResponse> updateSize(@Valid @RequestBody UpdateSizeRequest updateSizeRequest) throws BadRequestException {
+    private SuccessResponse<SizeResponse> updateSize(@Valid @RequestBody UpdateSizeRequest updateSizeRequest)
+            throws BadRequestException {
         return sizeAdminService.updateSize(updateSizeRequest);
     }
 
