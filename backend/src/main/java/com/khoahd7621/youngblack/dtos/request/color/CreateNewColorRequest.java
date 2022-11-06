@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class CreateNewColorRequest {
     @NotEmpty(message = "Color name is required")
     private String name;
