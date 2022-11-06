@@ -46,6 +46,7 @@ const UpdateInformation = () => {
     const isAllValid = validDate();
     if (isAllValid) {
       const response = await putUpdateUserInformation(
+        account.id,
         updateAccount.firstName.trim(),
         updateAccount.lastName.trim(),
         updateAccount.phone.trim(),

@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { putChangePassword } from '~/services/client/userService';
 import Validation from '~/utils/validation';
 
 const ChangePassword = () => {
+  const account = useSelector((state) => state.user.account);
+
   const [password, setPassword] = useState({
     oldPassword: '',
     newPassword: '',
@@ -47,7 +50,12 @@ const ChangePassword = () => {
     const isValid = formValidation();
     if (isValid) {
       setIsCallAPI(true);
-      const response = await putChangePassword(password.oldPassword, password.newPassword, password.confirmPassword);
+      const response = await putChangePassword(
+        account.id,
+        password.oldPassword,
+        password.newPassword,
+        password.confirmPassword,
+      );
       if (response && +response.code === 0) {
         resetState();
         toast.success('Change password successfully.');
