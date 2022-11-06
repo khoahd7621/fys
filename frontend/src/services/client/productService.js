@@ -11,7 +11,7 @@ const getAllProductByCategoryNameWithPaginateAndSort = (categoryName, offset, li
 };
 
 const getNRelatedProductByCategoryId = (categoryId, numberElements) => {
-  return axios.get(`/api/v1/product/related?categoryId=${categoryId}&numberElements=${numberElements}`);
+  return axios.get(`/api/v1/product/related?category-id=${categoryId}&number-elements=${numberElements}`);
 };
 
 export {
