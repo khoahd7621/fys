@@ -9,6 +9,7 @@ import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import com.khoahd7621.youngblack.dtos.response.category.ListCategoriesResponse;
 import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.security.CorsConfig;
 import com.khoahd7621.youngblack.security.WebSecurityConfig;
@@ -55,11 +56,13 @@ class CategoryAdminControllerTest {
 
     private CategoryResponse categoryResponse;
     private BadRequestException badRequestException;
+    private NotFoundException notFoundException;
 
     @BeforeEach
     void beforeEach() {
         categoryResponse = CategoryResponse.builder().id(1).name("name").build();
         badRequestException = new BadRequestException("message");
+        notFoundException = new NotFoundException("message");
     }
 
     @Test
@@ -167,7 +170,21 @@ class CategoryAdminControllerTest {
     }
 
     @Test
-    void deleteCategory_ShouldThrowException_WhenInValidDataRequest() throws Exception {
+    void deleteCategory_ShouldThrowNotFoundException_WhenInValidDataRequest() throws Exception {
+        int categoryId = 1;
+
+        when(categoryAdminService.deleteCategory(categoryId)).thenThrow(notFoundException);
+
+        MockHttpServletResponse actual = mockMvc.perform(
+                        delete("/api/v1/admin/category/{categoryId}", categoryId))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse();
+
+        assertThat(actual.getContentAsString(), is("{\"code\":-1,\"message\":\"message\"}"));
+    }
+
+    @Test
+    void deleteCategory_ShouldThrowBadRequestException_WhenInValidDataRequest() throws Exception {
         int categoryId = 1;
 
         when(categoryAdminService.deleteCategory(categoryId)).thenThrow(badRequestException);
