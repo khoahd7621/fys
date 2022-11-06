@@ -22,7 +22,8 @@ public class CategoryAdminController {
     private CategoryAdminService categoryAdminService;
 
     @PostMapping
-    public SuccessResponse<CategoryResponse> createNewCategory(@Valid @RequestBody CreateNewCategoryRequest createNewCategoryRequest) throws BadRequestException {
+    public SuccessResponse<CategoryResponse> createNewCategory(@Valid @RequestBody CreateNewCategoryRequest createNewCategoryRequest)
+            throws BadRequestException {
         return categoryAdminService.createNewCategory(createNewCategoryRequest);
     }
 
@@ -32,7 +33,8 @@ public class CategoryAdminController {
     }
 
     @PutMapping
-    public SuccessResponse<CategoryResponse> updateNameCategory(@Valid @RequestBody UpdateNameCategoryRequest updateNameCategoryRequest) throws BadRequestException {
+    public SuccessResponse<CategoryResponse> updateNameCategory(@Valid @RequestBody UpdateNameCategoryRequest updateNameCategoryRequest)
+            throws BadRequestException {
         return categoryAdminService.updateNameCategory(updateNameCategoryRequest);
     }
 
