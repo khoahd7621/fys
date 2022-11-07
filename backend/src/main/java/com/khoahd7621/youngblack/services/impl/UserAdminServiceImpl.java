@@ -14,6 +14,7 @@ import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.UserAdminService;
 import com.khoahd7621.youngblack.utils.PageableUtil;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Builder
 public class UserAdminServiceImpl implements UserAdminService {
 
     @Autowired
@@ -34,7 +36,8 @@ public class UserAdminServiceImpl implements UserAdminService {
     private PageableUtil pageableUtil;
 
     @Override
-    public SuccessResponse<ListUsersWithPaginateResponse> getListUsersByRoleAndStatusWithPaginate(ERoles role, EAccountStatus status, Integer limit, Integer offset) {
+    public SuccessResponse<ListUsersWithPaginateResponse> getListUsersByRoleAndStatusWithPaginate(
+            ERoles role, EAccountStatus status, Integer limit, Integer offset) {
         Pageable pageable = pageableUtil.getPageable(offset, limit);
         Page<User> userPage = userRepository.findAllByRoleAndStatus(role, status, pageable);
         List<UserResponse> userResponseList = userPage.getContent().stream().map(userMapper::toUserDTOResponse).collect(Collectors.toList());
@@ -69,7 +72,7 @@ public class UserAdminServiceImpl implements UserAdminService {
         }
         User user = userOptional.get();
         if (user.getStatus().equals(EAccountStatus.ACTIVE)) {
-            throw new BadRequestException("You cannot active user has been actived.");
+            throw new BadRequestException("You cannot un-block user has been activated.");
         }
         user.setStatus(EAccountStatus.ACTIVE);
         userRepository.save(user);
@@ -91,6 +94,6 @@ public class UserAdminServiceImpl implements UserAdminService {
         }
         User user = userMapper.toUser(createNewAdminUserRequest);
         userRepository.save(user);
-        return new SuccessResponse<>(NoData.builder().build(), "Register new account successfully.");
+        return new SuccessResponse<>(NoData.builder().build(), "Create new admin user successfully.");
     }
 }
