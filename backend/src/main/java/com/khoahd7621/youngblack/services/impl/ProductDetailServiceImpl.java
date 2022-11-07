@@ -7,19 +7,20 @@ import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.mappers.ProductDetailMapper;
 import com.khoahd7621.youngblack.repositories.ProductRepository;
 import com.khoahd7621.youngblack.services.ProductDetailService;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Builder
 public class ProductDetailServiceImpl implements ProductDetailService {
 
     @Autowired
     private ProductRepository productRepository;
     @Autowired
     private ProductDetailMapper productDetailMapper;
-
 
     @Override
     public SuccessResponse<ProductDetailResponse> getProductDetailBySlug(String slug) throws NotFoundException {
