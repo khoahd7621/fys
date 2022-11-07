@@ -60,7 +60,7 @@ public class UploadImageServiceImpl implements UploadImageService {
 
 
     private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("young-black-ecommerce.appspot.com", fileName);
+        BlobId blobId = BlobId.of(FIREBASE_BUCKET_NAME, fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
         Credentials credentials = GoogleCredentials.fromStream(new FileInputStream(FIREBASE_GENERATED_PRIVATE_KEY_URL));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
