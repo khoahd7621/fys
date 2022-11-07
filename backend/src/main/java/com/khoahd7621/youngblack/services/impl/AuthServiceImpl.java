@@ -16,7 +16,7 @@ import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +34,8 @@ public class AuthServiceImpl implements AuthService {
     private UserMapper userMapper;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private SecurityContext securityContext;
 
     @Override
     public SuccessResponse<UserLoginResponse> loginHandler(UserLoginRequest userLoginRequest)
@@ -61,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User getUserLoggedIn() throws NotFoundException {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = securityContext.getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails) {
             return ((CustomUserDetails) principal).getUser();
         }
