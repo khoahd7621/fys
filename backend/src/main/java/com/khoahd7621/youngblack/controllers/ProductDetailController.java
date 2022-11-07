@@ -2,7 +2,7 @@ package com.khoahd7621.youngblack.controllers;
 
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.productdetail.ProductDetailResponse;
-import com.khoahd7621.youngblack.exceptions.custom.NotFoundException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.services.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -2,22 +2,28 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.category.CreateNewCategoryRequest;
 import com.khoahd7621.youngblack.dtos.request.category.UpdateNameCategoryRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import com.khoahd7621.youngblack.dtos.response.category.ListCategoriesResponse;
 import com.khoahd7621.youngblack.entities.Category;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.entities.Product;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.mappers.CategoryMapper;
 import com.khoahd7621.youngblack.repositories.CategoryRepository;
 import com.khoahd7621.youngblack.services.CategoryAdminService;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Builder
 public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Autowired
@@ -39,8 +45,9 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public SuccessResponse<ListCategoriesResponse> getAllCategory() {
-        List<CategoryResponse> categoryResponseList = categoryRepository.findByIsDeletedFalse()
-                .stream().map(categoryMapper::toCategoryResponse).collect(Collectors.toList());
+        List<Category> categories = categoryRepository.findAllByIsDeletedFalse();
+        List<CategoryResponse> categoryResponseList = categories.stream().map(categoryMapper::toCategoryResponse)
+                .collect(Collectors.toList());
         ListCategoriesResponse listCategoriesResponse =
                 ListCategoriesResponse.builder().categories(categoryResponseList).build();
         return new SuccessResponse<>(listCategoriesResponse, "Get list category success.");
@@ -63,5 +70,21 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         category.setName(updateNameCategoryRequest.getNewName());
         categoryRepository.save(category);
         return new SuccessResponse<>(categoryMapper.toCategoryResponse(category), "Update name category success.");
+    }
+
+    @Override
+    public SuccessResponse<NoData> deleteCategory(int categoryId) throws NotFoundException, BadRequestException {
+        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
+        if (categoryOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist category with this id");
+        }
+        Set<Product> productSet = categoryOptional.get().getProducts();
+        if (productSet.size() > 0) {
+            throw new BadRequestException("This category had products. Cannot delete!");
+        }
+        Category category = categoryOptional.get();
+        category.setDeleted(true);
+        categoryRepository.save(category);
+        return new SuccessResponse<>(NoData.builder().build(), "Delete category successfully.");
     }
 }

@@ -2,14 +2,18 @@ package com.khoahd7621.youngblack.dtos.request.user;
 
 import com.khoahd7621.youngblack.constants.Constants;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
 @Builder
+@EqualsAndHashCode
 public class UserLoginRequest {
     @NotBlank(message = "Email is required")
     @Email(regexp = Constants.EMAIL_REGEX, message = "Invalid email")

@@ -2,7 +2,9 @@ package com.khoahd7621.youngblack.dtos.response;
 
 import lombok.*;
 
-@Data
+
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

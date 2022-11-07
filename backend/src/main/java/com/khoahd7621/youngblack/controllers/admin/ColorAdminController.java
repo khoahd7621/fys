@@ -2,10 +2,12 @@ package com.khoahd7621.youngblack.controllers.admin;
 
 import com.khoahd7621.youngblack.dtos.request.color.CreateNewColorRequest;
 import com.khoahd7621.youngblack.dtos.request.color.UpdateColorNameRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.services.ColorAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +36,10 @@ public class ColorAdminController {
     private SuccessResponse<ColorResponse> updateColorName(@Valid @RequestBody UpdateColorNameRequest updateColorNameRequest)
             throws BadRequestException {
         return colorAdminService.updateColorName(updateColorNameRequest);
+    }
+
+    @DeleteMapping("/{colorId}")
+    public SuccessResponse<NoData> deleteColor(@PathVariable Integer colorId) throws NotFoundException, BadRequestException {
+        return colorAdminService.deleteColor(colorId);
     }
 }

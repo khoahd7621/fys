@@ -2,22 +2,28 @@ package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.color.CreateNewColorRequest;
 import com.khoahd7621.youngblack.dtos.request.color.UpdateColorNameRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
 import com.khoahd7621.youngblack.entities.Color;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.entities.ProductVariant;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.mappers.ColorMapper;
 import com.khoahd7621.youngblack.repositories.ColorRepository;
 import com.khoahd7621.youngblack.services.ColorAdminService;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Builder
 public class ColorAdminServiceImpl implements ColorAdminService {
 
     @Autowired
@@ -38,8 +44,9 @@ public class ColorAdminServiceImpl implements ColorAdminService {
 
     @Override
     public SuccessResponse<ListColorsResponse> getAllColors() {
-        List<ColorResponse> sizeResponseList = colorRepository.findByIsDeletedFalse()
-                .stream().map(colorMapper::toColorResponse).collect(Collectors.toList());
+        List<Color> colorList = colorRepository.findAllByIsDeletedFalse();
+        List<ColorResponse> sizeResponseList = colorList.stream().map(colorMapper::toColorResponse)
+                .collect(Collectors.toList());
         ListColorsResponse listColorsResponse =
                 ListColorsResponse.builder().colors(sizeResponseList).build();
         return new SuccessResponse<>(listColorsResponse, "Get list color success.");
@@ -61,6 +68,22 @@ public class ColorAdminServiceImpl implements ColorAdminService {
         Color color = colorOptionalFindById.get();
         color.setName(updateColorNameRequest.getNewName());
         colorRepository.save(color);
-        return new SuccessResponse<>(colorMapper.toColorResponse(color), "Update size success.");
+        return new SuccessResponse<>(colorMapper.toColorResponse(color), "Update name of color success.");
+    }
+
+    @Override
+    public SuccessResponse<NoData> deleteColor(int colorId) throws BadRequestException, NotFoundException {
+        Optional<Color> colorOptional = colorRepository.findById(colorId);
+        if (colorOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist color with this id.");
+        }
+        Set<ProductVariant> productVariantSet = colorOptional.get().getProductVariants();
+        if (productVariantSet.size() > 0) {
+            throw new BadRequestException("This color had products. Cannot delete!");
+        }
+        Color color = colorOptional.get();
+        color.setDeleted(true);
+        colorRepository.save(color);
+        return new SuccessResponse<>(NoData.builder().build(), "Delete color successfully.");
     }
 }

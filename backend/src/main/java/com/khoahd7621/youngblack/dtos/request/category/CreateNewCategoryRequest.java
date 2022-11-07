@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class CreateNewCategoryRequest {
     @NotBlank(message = "Name of category is required")
     private String name;

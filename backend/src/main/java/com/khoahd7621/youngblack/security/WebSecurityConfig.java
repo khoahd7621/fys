@@ -38,6 +38,8 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/v1/rating").hasAuthority(ERoles.USER.toString())
                 .antMatchers(HttpMethod.GET, "/api/v1/rating").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority(ERoles.ADMIN.toString())
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
                 .antMatchers("/api/**").authenticated();
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(exceptionHandlerFilter, JwtRequestFilter.class);

@@ -1,7 +1,7 @@
 package com.khoahd7621.youngblack.repositories;
 
 import com.khoahd7621.youngblack.entities.Rating;
-import com.khoahd7621.youngblack.entities.compositekey.RatingKey;
+import com.khoahd7621.youngblack.entities.composite.RatingKey;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

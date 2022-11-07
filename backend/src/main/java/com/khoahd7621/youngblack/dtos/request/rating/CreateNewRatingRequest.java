@@ -1,6 +1,7 @@
 package com.khoahd7621.youngblack.dtos.request.rating;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 public class CreateNewRatingRequest {
     @Min(0)
     private Integer productId;

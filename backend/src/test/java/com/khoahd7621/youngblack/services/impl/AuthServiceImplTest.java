@@ -2,15 +2,16 @@ package com.khoahd7621.youngblack.services.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
+import com.khoahd7621.youngblack.dtos.request.user.UserRegisterRequest;
+import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.entities.User;
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import com.khoahd7621.youngblack.dtos.request.user.UserLoginRequest;
 import com.khoahd7621.youngblack.mappers.UserMapper;
 import com.khoahd7621.youngblack.repositories.UserRepository;
@@ -44,7 +45,7 @@ class AuthServiceImplTest {
                 .email("email").password("password").build();
         User user = mock(User.class);
         UserLoginResponse userLoginResponse = mock(UserLoginResponse.class);
-        SuccessResponse<UserLoginResponse> expected = new SuccessResponse<>(userLoginResponse, "Login successfully");
+        SuccessResponse<UserLoginResponse> expected = new SuccessResponse<>(userLoginResponse, "Login successfully.");
 
         when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
@@ -104,5 +105,57 @@ class AuthServiceImplTest {
             authServiceImpl.loginHandler(userLoginRequest);
         });
         assertThat(actual.getMessage(), is("Email or password is incorrect."));
+    }
+
+    @Test
+    void userRegister_ShouldReturnData_WhenDataValid() throws BadRequestException {
+        User user = mock(User.class);
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
+                .email("email")
+                .phone("0123123")
+                .build();
+        NoData noData = NoData.builder().build();
+        SuccessResponse<NoData> expected = new SuccessResponse<>(noData, "Register successfully.");
+        when(userRepository.findByEmail(userRegisterRequest.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByPhone(userRegisterRequest.getPhone())).thenReturn(Optional.empty());
+        when(userMapper.toUser(userRegisterRequest)).thenReturn(user);
+
+        SuccessResponse<NoData> actual = authServiceImpl.userRegister(userRegisterRequest);
+
+        verify(userRepository).save(user);
+        assertThat(actual.getData().getNoData(), is(noData.getNoData()));
+        assertThat(actual.getCode(), is(expected.getCode()));
+        assertThat(actual.getMessage(), is(expected.getMessage()));
+    }
+
+    @Test
+    void userRegister_ShouldReturnError_WhenDuplicatedEmail() throws BadRequestException {
+        User user = mock(User.class);
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
+                .email("email@gmail.com")
+                .build();
+
+        when(userRepository.findByEmail(userRegisterRequest.getEmail())).thenReturn(Optional.of(user));
+
+        BadRequestException result = assertThrows(BadRequestException.class, () -> {
+            authServiceImpl.userRegister(userRegisterRequest);
+        });
+
+        assertThat(result.getMessage(), is("This email already exists."));
+    }
+
+    @Test
+    void userRegister_ShouldReturnError_WhenDuplicatedPhone() throws BadRequestException {
+        User user = mock(User.class);
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
+                .phone("0123123")
+                .build();
+
+        when(userRepository.findByPhone(userRegisterRequest.getPhone())).thenReturn(Optional.of(user));
+
+        BadRequestException result = assertThrows(BadRequestException.class, () -> {
+            authServiceImpl.userRegister(userRegisterRequest);
+        });
+        assertThat(result.getMessage(), is("This phone number already exists."));
     }
 }

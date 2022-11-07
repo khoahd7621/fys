@@ -1,6 +1,6 @@
 package com.khoahd7621.youngblack.utils;
 
-import com.khoahd7621.youngblack.exceptions.custom.BadRequestException;
+import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
