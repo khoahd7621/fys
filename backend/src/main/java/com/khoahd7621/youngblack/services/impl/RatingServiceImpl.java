@@ -18,6 +18,7 @@ import com.khoahd7621.youngblack.repositories.RatingRepository;
 import com.khoahd7621.youngblack.services.AuthService;
 import com.khoahd7621.youngblack.services.RatingService;
 import com.khoahd7621.youngblack.utils.PageableUtil;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Builder
 public class RatingServiceImpl implements RatingService {
 
     @Autowired
