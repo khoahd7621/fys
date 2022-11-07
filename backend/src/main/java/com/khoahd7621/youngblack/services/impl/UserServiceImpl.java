@@ -11,7 +11,7 @@ import com.khoahd7621.youngblack.dtos.request.user.UserChangePasswordRequest;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import com.khoahd7621.youngblack.dtos.request.user.UserUpdateRequest;
 import com.khoahd7621.youngblack.services.AuthService;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.services.UserService;
 
 @Service
-@AllArgsConstructor
+@Builder
 public class UserServiceImpl implements UserService {
 
     @Autowired
