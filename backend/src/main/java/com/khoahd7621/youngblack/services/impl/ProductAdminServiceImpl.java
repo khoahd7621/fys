@@ -1,7 +1,6 @@
 package com.khoahd7621.youngblack.services.impl;
 
 import com.khoahd7621.youngblack.dtos.request.product.CreateNewProductRequest;
-import com.khoahd7621.youngblack.dtos.request.productvariant.ProductVariantOfCreateNewProduct;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
@@ -26,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,7 +56,8 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         if (productDBOptFindByName.isPresent()) {
             throw new BadRequestException("Product name already exist");
         }
-        List<VariantSize> listVariantSizeDBOptFindBySku = variantSizeRepository.findBySkuStartsWith(createNewProductRequest.getColors().get(0).getSku());
+        List<VariantSize> listVariantSizeDBOptFindBySku = variantSizeRepository
+                .findBySkuStartsWith(createNewProductRequest.getColors().get(0).getSku());
         if (listVariantSizeDBOptFindBySku.size() > 0) {
             throw new BadRequestException("Sku already exist");
         }
@@ -64,22 +65,28 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         Product product = productMapper.toProduct(createNewProductRequest);
         Product productDB = productRepository.save(product);
 
-        for (ProductVariantOfCreateNewProduct productVariantOfCreateNewProduct : createNewProductRequest.getColors()) {
-            ProductVariant productVariant = productVariantMapper.
-                    toProductVariant(productVariantOfCreateNewProduct.getColor(), productDB);
-            ProductVariant productVariantDB = productVariantRepository.save(productVariant);
+        List<ProductVariant> productVariants = createNewProductRequest.getColors().stream()
+                .map(productVariantOfCreateNewProduct -> productVariantMapper.
+                        toProductVariant(productVariantOfCreateNewProduct.getColor(), productDB))
+                .collect(Collectors.toList());
+        List<ProductVariant> productVariantsDB = productVariantRepository.saveAll(productVariants);
 
-            List<Image> imageList = imageMapper.
-                    toListImagesWithProductVariant(productVariantOfCreateNewProduct.getImages(), productVariantDB);
-            List<VariantSize> variantSizeList = variantSizeMapper.
+        List<Image> images = new ArrayList<>();
+        List<VariantSize> variantSizes = new ArrayList<>();
+        for (int i = 0; i < createNewProductRequest.getColors().size(); i++) {
+            images.addAll(imageMapper.
+                    toListImagesWithProductVariant(
+                            createNewProductRequest.getColors().get(i).getImages(),
+                            productVariantsDB.get(i)));
+            variantSizes.addAll(variantSizeMapper.
                     toListVariantSizeWithProductVariant(
-                            productVariantOfCreateNewProduct.getSizes(),
-                            productVariantDB,
-                            productVariantOfCreateNewProduct.getSku(),
-                            productVariantOfCreateNewProduct.getColor().getName());
-            imageRepository.saveAll(imageList);
-            variantSizeRepository.saveAll(variantSizeList);
+                            createNewProductRequest.getColors().get(i).getSizes(),
+                            productVariantsDB.get(i),
+                            createNewProductRequest.getColors().get(i).getSku(),
+                            createNewProductRequest.getColors().get(i).getColor().getName()));
         }
+        imageRepository.saveAll(images);
+        variantSizeRepository.saveAll(variantSizes);
         return new SuccessResponse<>(NoData.builder().build(), "Create new product successfully.");
     }
 
