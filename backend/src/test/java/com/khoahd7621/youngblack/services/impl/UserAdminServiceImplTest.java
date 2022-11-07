@@ -6,9 +6,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import com.khoahd7621.youngblack.constants.EAccountStatus;
+import com.khoahd7621.youngblack.constants.ERoles;
 import com.khoahd7621.youngblack.dtos.request.user.CreateNewAdminUserRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
+import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.exceptions.BadRequestException;
 import com.khoahd7621.youngblack.exceptions.NotFoundException;
@@ -17,7 +20,14 @@ import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.PageableUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 class UserAdminServiceImplTest {
@@ -28,6 +38,7 @@ class UserAdminServiceImplTest {
     private PageableUtil pageableUtil;
 
     private User user;
+    private UserResponse userResponse;
 
     @BeforeEach
     void beforeEach() {
@@ -39,11 +50,48 @@ class UserAdminServiceImplTest {
                 .userMapper(userMapper)
                 .pageableUtil(pageableUtil).build();
         user = mock(User.class);
+        userResponse = mock(UserResponse.class);
     }
 
     @Test
     void getListUsersByRoleAndStatusWithPaginate_ShouldReturnData() {
-        // Todo
+        ERoles role = ERoles.USER;
+        EAccountStatus status = EAccountStatus.ACTIVE;
+        int limit = 5;
+        int offset = 0;
+
+        Pageable pageable = PageRequest.of(offset, limit);
+        ArgumentCaptor<Pageable> pageableCaptor = ArgumentCaptor.forClass(Pageable.class);
+        ArgumentCaptor<ERoles> roleCaptor = ArgumentCaptor.forClass(ERoles.class);
+        ArgumentCaptor<EAccountStatus> statusCaptor = ArgumentCaptor.forClass(EAccountStatus.class);
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
+        Page<User> userPage = new PageImpl<>(userList);
+        List<UserResponse> expectedUserResponseList = new ArrayList<>();
+        expectedUserResponseList.add(userResponse);
+
+        when(pageableUtil.getPageable(offset, limit)).thenReturn(pageable);
+        when(userRepository.findAllByRoleAndStatus(roleCaptor.capture(), statusCaptor.capture(), pageableCaptor.capture()))
+                .thenReturn(userPage);
+        when(userMapper.toUserDTOResponse(user)).thenReturn(userResponse);
+
+        SuccessResponse<ListUsersWithPaginateResponse> actual =
+                userAdminServiceImpl.getListUsersByRoleAndStatusWithPaginate(role, status, limit, offset);
+
+        Pageable actualPageable = pageableCaptor.getValue();
+        assertThat(actualPageable, is(pageable));
+
+        ERoles actualRole = roleCaptor.getValue();
+        assertThat(actualRole, is(role));
+
+        EAccountStatus actualStatus = statusCaptor.getValue();
+        assertThat(actualStatus, is(status));
+
+        assertThat(actual.getCode(), is(0));
+        assertThat(actual.getData().getListUsers(), is(expectedUserResponseList));
+        assertThat(actual.getData().getTotalPages(), is(1));
+        assertThat(actual.getData().getTotalRows(), is(1L));
+        assertThat(actual.getMessage(), is("Get list users success."));
     }
 
     @Test
@@ -78,8 +126,6 @@ class UserAdminServiceImplTest {
     void blockUserByUserId_ShouldReturnData_WhenValidDataRequest() throws NotFoundException, BadRequestException {
         long userIdRequest = 1L;
         Optional<User> userOptional = Optional.of(user);
-        SuccessResponse<NoData> expected =
-                new SuccessResponse<>(NoData.builder().build(), "Block user success!");
 
         when(userRepository.findById(userIdRequest)).thenReturn(userOptional);
         when(userOptional.get().getStatus()).thenReturn(EAccountStatus.ACTIVE);
@@ -88,9 +134,9 @@ class UserAdminServiceImplTest {
 
         verify(user).setStatus(EAccountStatus.BLOCK);
         verify(userRepository).save(user);
-        assertThat(actual.getCode(), is(expected.getCode()));
-        assertThat(actual.getData().getNoData(), is(expected.getData().getNoData()));
-        assertThat(actual.getMessage(), is(expected.getMessage()));
+        assertThat(actual.getCode(), is(0));
+        assertThat(actual.getData().getNoData(), is(NoData.builder().build().getNoData()));
+        assertThat(actual.getMessage(), is("Block user success!"));
     }
 
     @Test
@@ -125,8 +171,6 @@ class UserAdminServiceImplTest {
     void unBlockUserByUserId_ShouldReturnData_WhenValidDataRequest() throws NotFoundException, BadRequestException {
         long userIdRequest = 1L;
         Optional<User> userOptional = Optional.of(user);
-        SuccessResponse<NoData> expected =
-                new SuccessResponse<>(NoData.builder().build(), "Un block user success!");
 
         when(userRepository.findById(userIdRequest)).thenReturn(userOptional);
         when(userOptional.get().getStatus()).thenReturn(EAccountStatus.BLOCK);
@@ -135,9 +179,9 @@ class UserAdminServiceImplTest {
 
         verify(user).setStatus(EAccountStatus.ACTIVE);
         verify(userRepository).save(user);
-        assertThat(actual.getCode(), is(expected.getCode()));
-        assertThat(actual.getData().getNoData(), is(expected.getData().getNoData()));
-        assertThat(actual.getMessage(), is(expected.getMessage()));
+        assertThat(actual.getCode(), is(0));
+        assertThat(actual.getData().getNoData(), is(NoData.builder().build().getNoData()));
+        assertThat(actual.getMessage(), is("Un block user success!"));
     }
 
     @Test
@@ -188,8 +232,6 @@ class UserAdminServiceImplTest {
                 .firstName("firstName").lastName("lastName")
                 .email("email@gmail.com").phone("0792596123")
                 .password("123456").confirmPassword("123456").build();
-        SuccessResponse<NoData> expected =
-                new SuccessResponse<>(NoData.builder().build(), "Create new admin user successfully.");
 
         when(userRepository.findByEmail(requestData.getEmail())).thenReturn(Optional.empty());
         when(userRepository.findByPhone(requestData.getEmail())).thenReturn(Optional.empty());
@@ -198,8 +240,8 @@ class UserAdminServiceImplTest {
         SuccessResponse<NoData> actual = userAdminServiceImpl.createNewAdminUser(requestData);
 
         verify(userRepository).save(user);
-        assertThat(actual.getCode(), is(expected.getCode()));
-        assertThat(actual.getData().getNoData(), is(expected.getData().getNoData()));
-        assertThat(actual.getMessage(), is(expected.getMessage()));
+        assertThat(actual.getCode(), is(0));
+        assertThat(actual.getData().getNoData(), is(NoData.builder().build().getNoData()));
+        assertThat(actual.getMessage(), is("Create new admin user successfully."));
     }
 }
