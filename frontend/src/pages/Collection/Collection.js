@@ -5,7 +5,10 @@ import classNames from 'classnames/bind';
 import styles from './Collection.module.scss';
 
 import { BreadCrumb, ProductCard } from '~/components';
-import { getAllProductWithPaginate, getAllProductByCategoryNameWithPaginate } from '~/services/client/productService';
+import {
+  getAllProductWithPaginateAndSort,
+  getAllProductByCategoryNameWithPaginateAndSort,
+} from '~/services/client/productService';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import { publicRoutes } from '~/routes/routes';
@@ -13,13 +16,43 @@ import { publicRoutes } from '~/routes/routes';
 const cx = classNames.bind(styles);
 
 const Collection = () => {
-  const LIMIT_PRODUCT = 5;
+  const LIMIT_PRODUCT = 20;
 
   const navigate = useNavigate();
   const { type } = useParams();
 
-  const sortTypes = ['Name A-Z', 'Name Z-A', 'New product', 'Low to high price', 'High to low price'];
-  const [currentSortType, setCurrentSortType] = useState(-1);
+  const sortTypes = [
+    {
+      title: 'Name A-Z',
+      sortBase: 'name',
+      sortType: 'ASC',
+    },
+    {
+      title: 'Name Z-A',
+      sortBase: 'name',
+      sortType: 'DESC',
+    },
+    {
+      title: 'New product',
+      sortBase: 'createdAt',
+      sortType: 'DESC',
+    },
+    {
+      title: 'Low to high price',
+      sortBase: 'price',
+      sortType: 'ASC',
+    },
+    {
+      title: 'High to low price',
+      sortBase: 'price',
+      sortType: 'DESC',
+    },
+  ];
+  const [currentSort, setCurrentSort] = useState({
+    title: '',
+    sortBase: '',
+    sortType: '',
+  });
   const [listProducts, setListProducts] = useState([]);
 
   const [pageCount, setPageCount] = useState(1);
@@ -35,14 +68,19 @@ const Collection = () => {
 
   useEffect(() => {
     if (type.toLowerCase() === 'all') {
-      fetchAllProductsWithPaginate(currentPage);
+      fetchAllProductsWithPaginateAndSort(currentPage, currentSort.sortBase, currentSort.sortType);
     } else {
-      fetchListProductByCategoryNameWithPaginate(type.toUpperCase(), currentPage);
+      fetchListProductByCategoryNameWithPaginateAndSort(
+        type.toUpperCase(),
+        currentPage,
+        currentSort.sortBase,
+        currentSort.sortType,
+      );
     }
-  }, [type]);
+  }, [type, currentSort]);
 
-  const fetchAllProductsWithPaginate = async (page) => {
-    const response = await getAllProductWithPaginate(page - 1, LIMIT_PRODUCT);
+  const fetchAllProductsWithPaginateAndSort = async (page, sortBase, sortType) => {
+    const response = await getAllProductWithPaginateAndSort(page - 1, LIMIT_PRODUCT, sortBase, sortType);
     if (response && +response.code === 0) {
       setListProducts(response?.data?.products);
       setPageCount(response?.data?.totalPages);
@@ -51,8 +89,14 @@ const Collection = () => {
     }
   };
 
-  const fetchListProductByCategoryNameWithPaginate = async (categoryName, page) => {
-    const response = await getAllProductByCategoryNameWithPaginate(categoryName, page - 1, LIMIT_PRODUCT);
+  const fetchListProductByCategoryNameWithPaginateAndSort = async (categoryName, page, sortBase, sortType) => {
+    const response = await getAllProductByCategoryNameWithPaginateAndSort(
+      categoryName,
+      page - 1,
+      LIMIT_PRODUCT,
+      sortBase,
+      sortType,
+    );
     if (response && +response.code === 0) {
       setListProducts(response?.data?.products);
       setPageCount(response?.data?.totalPages);
@@ -62,16 +106,23 @@ const Collection = () => {
     }
   };
 
-  const handleSortProduct = (index, type) => {
-    setCurrentSortType(index);
+  const handleSortProduct = (type) => {
+    setCurrentSort({
+      ...type,
+    });
   };
 
   const handleClickPaginate = (event) => {
     setCurrentPage(+event.selected + 1);
     if (type.toLowerCase() === 'all') {
-      fetchAllProductsWithPaginate(+event.selected + 1);
+      fetchAllProductsWithPaginateAndSort(+event.selected + 1, currentSort.sortBase, currentSort.sortType);
     } else {
-      fetchListProductByCategoryNameWithPaginate(type.toUpperCase(), +event.selected + 1);
+      fetchListProductByCategoryNameWithPaginateAndSort(
+        type.toUpperCase(),
+        +event.selected + 1,
+        currentSort.sortBase,
+        currentSort.sortType,
+      );
     }
   };
 
@@ -88,10 +139,10 @@ const Collection = () => {
               <div className={cx('sort-cate')}>
                 <h3>Sort by:</h3>
                 <ul>
-                  {sortTypes.map((sortType, index) => (
-                    <li key={`sort-type-${sortType}-${index}`} onClick={() => handleSortProduct(index, sortType)}>
-                      <i className={cx({ active: +currentSortType === index })}></i>
-                      <span>{sortType}</span>
+                  {sortTypes.map((sort, index) => (
+                    <li key={`sort-type-${sort.title}-${index}`} onClick={() => handleSortProduct(sort)}>
+                      <i className={cx({ active: currentSort.title === sort.title })}></i>
+                      <span>{sort.title}</span>
                     </li>
                   ))}
                 </ul>

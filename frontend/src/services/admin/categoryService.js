@@ -17,4 +17,8 @@ const postCreateNewCategory = (name) => {
   });
 };
 
-export { getListCategories, putUpdateCategories, postCreateNewCategory };
+const deleteCategoryById = (categoryId) => {
+  return axios.delete(`/api/v1/admin/category/${categoryId}`);
+};
+
+export { getListCategories, putUpdateCategories, postCreateNewCategory, deleteCategoryById };

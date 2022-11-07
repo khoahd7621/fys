@@ -68,7 +68,6 @@ const ProductRating = ({ product }) => {
   const fetchListRatings = async (productId, offset, sortType) => {
     const response = await getAllRatingsOfProductWithPaginate(productId, offset, LIMIT_RATINGS, sortType);
     if (response && +response?.code === 0) {
-      console.log(response.data);
       setListRatings(response?.data?.ratings);
       setTotalPage(response?.data?.totalPages);
       setTotalRow(response?.data?.totalRows);

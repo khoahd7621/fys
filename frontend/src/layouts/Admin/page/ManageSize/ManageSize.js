@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import AddNewSizeModal from './AddNewSizeModal';
 import UpdateSizeModal from './UpdateSizeModal';
+import DeleteSizeModal from './DeleteSizeModal';
 
 const ManageSize = () => {
   const [listSizes, setListSizes] = useState([]);
@@ -12,6 +13,8 @@ const ManageSize = () => {
   const [showAddNewSizeModal, setShowAddNewSizeModal] = useState(false);
   const [showUpdateSizeModal, setShowUpdateSizeModal] = useState(false);
   const [dataUpdateSizeModal, setDataUpdateSizeModal] = useState({});
+  const [showDeleteSizeModal, setShowDeleteSizeModal] = useState(false);
+  const [dataDeleteSizeModal, setDataDeleteSizeModal] = useState({});
 
   useEffect(() => {
     fetchListSizes();
@@ -29,6 +32,11 @@ const ManageSize = () => {
   const handleShowUpdateSizeModal = (size) => {
     setDataUpdateSizeModal(size);
     setShowUpdateSizeModal(true);
+  };
+
+  const handleShowDeleteSizeModal = (size) => {
+    setDataDeleteSizeModal(size);
+    setShowDeleteSizeModal(true);
   };
 
   return (
@@ -92,6 +100,12 @@ const ManageSize = () => {
                                   >
                                     Update
                                   </button>
+                                  <button
+                                    className="ml-4 px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+                                    onClick={() => handleShowDeleteSizeModal(size)}
+                                  >
+                                    Delete
+                                  </button>
                                 </td>
                               </tr>
                             ))}
@@ -117,6 +131,15 @@ const ManageSize = () => {
                   setShow={setShowUpdateSizeModal}
                   data={dataUpdateSizeModal}
                   setData={setDataUpdateSizeModal}
+                  fetchList={fetchListSizes}
+                />
+              )}
+              {listSizes && listSizes.length > 0 && (
+                <DeleteSizeModal
+                  show={showDeleteSizeModal}
+                  setShow={setShowDeleteSizeModal}
+                  data={dataDeleteSizeModal}
+                  setData={setDataDeleteSizeModal}
                   fetchList={fetchListSizes}
                 />
               )}

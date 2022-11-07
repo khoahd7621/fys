@@ -17,4 +17,8 @@ const postCreateNewColor = (name) => {
   });
 };
 
-export { getListColors, putUpdateColor, postCreateNewColor };
+const deleteColorById = (colorId) => {
+  return axios.delete(`/api/v1/admin/color/${colorId}`);
+};
+
+export { getListColors, putUpdateColor, postCreateNewColor, deleteColorById };

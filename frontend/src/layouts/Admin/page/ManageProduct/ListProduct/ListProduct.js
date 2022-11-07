@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import { getListProductsWithPaginate } from '~/services/admin/productService';
 
 const ListProduct = () => {
-  const LIMIT_PRODUCT = 3;
+  const LIMIT_PRODUCT = 10;
 
   const [listProduct, setListProduct] = useState([]);
   const [pageCount, setPageCount] = useState(1);
