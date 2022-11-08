@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class CategoryOfCreateNewProduct {
+public class CategoryRequest {
     private Integer id;
     private String name;
 }

@@ -1,6 +1,6 @@
 package com.khoahd7621.youngblack.dtos.request.product;
 
-import com.khoahd7621.youngblack.dtos.request.category.CategoryOfCreateNewProduct;
+import com.khoahd7621.youngblack.dtos.request.category.CategoryRequest;
 import com.khoahd7621.youngblack.dtos.request.productvariant.ProductVariantOfCreateNewProduct;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +21,6 @@ public class CreateNewProductRequest {
     private String secondaryImageName;
     private String secondaryImageUrl;
 
-    private CategoryOfCreateNewProduct category;
+    private CategoryRequest category;
     private List<ProductVariantOfCreateNewProduct> colors;
 }
