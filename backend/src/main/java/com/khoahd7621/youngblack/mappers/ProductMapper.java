@@ -47,10 +47,17 @@ public class ProductMapper {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
+                .discountPrice(product.getDiscountPrice())
+                .startDateDiscount(product.getStartDateDiscount())
+                .endDateDiscount(product.getEndDateDiscount())
                 .slug(product.getSlug())
+                .primaryImageName(product.getPrimaryImageName())
                 .primaryImageUrl(product.getPrimaryImageUrl())
+                .secondaryImageName(product.getSecondaryImageName())
+                .secondaryImageUrl(product.getSecondaryImageUrl())
+                .isVisible(product.isVisible())
                 .isPromotion(isPromotion)
-                .isVisible(product.isVisible()).build();
+                .category(categoryMapper.toCategoryResponse(product.getCategory())).build();
     }
 
     public ProductResponse toProductResponse(Product product) {
@@ -77,8 +84,11 @@ public class ProductMapper {
                 .startDateDiscount(startDateDiscount)
                 .endDateDiscount(endDateDiscount)
                 .slug(product.getSlug())
+                .primaryImageName(product.getPrimaryImageName())
                 .primaryImageUrl(product.getPrimaryImageUrl())
+                .secondaryImageName(product.getSecondaryImageName())
                 .secondaryImageUrl(product.getSecondaryImageUrl())
+                .isVisible(product.isVisible())
                 .isPromotion(isPromotion)
                 .category(categoryMapper.toCategoryResponse(product.getCategory()))
                 .build();

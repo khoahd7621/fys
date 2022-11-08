@@ -1,6 +1,6 @@
 package com.khoahd7621.youngblack.mappers;
 
-import com.khoahd7621.youngblack.dtos.request.category.CategoryOfCreateNewProduct;
+import com.khoahd7621.youngblack.dtos.request.category.CategoryRequest;
 import com.khoahd7621.youngblack.dtos.request.category.CreateNewCategoryRequest;
 import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
 import com.khoahd7621.youngblack.entities.Category;
@@ -13,10 +13,10 @@ public class CategoryMapper {
         return Category.builder().name(createNewCategoryRequest.getName()).isDeleted(false).build();
     }
 
-    public Category toCategory(CategoryOfCreateNewProduct categoryOfCreateNewProduct) {
+    public Category toCategory(CategoryRequest categoryRequest) {
         return Category.builder()
-                .id(categoryOfCreateNewProduct.getId())
-                .name(categoryOfCreateNewProduct.getName()).build();
+                .id(categoryRequest.getId())
+                .name(categoryRequest.getName()).build();
     }
 
     public CategoryResponse toCategoryResponse(Category category) {
