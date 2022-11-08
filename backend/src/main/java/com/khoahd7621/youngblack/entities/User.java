@@ -24,6 +24,10 @@ import java.util.Set;
 public class User {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Set<Rating> ratings;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Order> orders;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
