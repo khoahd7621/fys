@@ -10,7 +10,7 @@ import { getListCategories } from '~/services/admin/categoryService';
 import { getListSizes } from '~/services/admin/sizeService';
 import { getProductDetailByProductId, putUpdateProductByProductId } from '~/services/admin/productService';
 import Validation from '~/utils/validation';
-import { postUploadMultiImages, postUploadSingleImage } from '~/services/admin/imageService';
+import { postUploadSingleImage } from '~/services/admin/imageService';
 
 const UpdateProductModal = ({ show, setShow, data, setData, fetchListProduct }) => {
   const [isSending, setIsSending] = useState(false);
