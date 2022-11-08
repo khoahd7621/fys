@@ -5,19 +5,12 @@ import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ProductAdminResponse;
-import com.khoahd7621.youngblack.entities.Image;
-import com.khoahd7621.youngblack.entities.Product;
-import com.khoahd7621.youngblack.entities.ProductVariant;
-import com.khoahd7621.youngblack.entities.VariantSize;
+import com.khoahd7621.youngblack.dtos.response.productdetail.ProductDetailAdminResponse;
+import com.khoahd7621.youngblack.entities.*;
 import com.khoahd7621.youngblack.exceptions.BadRequestException;
-import com.khoahd7621.youngblack.mappers.ImageMapper;
-import com.khoahd7621.youngblack.mappers.ProductMapper;
-import com.khoahd7621.youngblack.mappers.ProductVariantMapper;
-import com.khoahd7621.youngblack.mappers.VariantSizeMapper;
-import com.khoahd7621.youngblack.repositories.ImageRepository;
-import com.khoahd7621.youngblack.repositories.ProductRepository;
-import com.khoahd7621.youngblack.repositories.ProductVariantRepository;
-import com.khoahd7621.youngblack.repositories.VariantSizeRepository;
+import com.khoahd7621.youngblack.exceptions.NotFoundException;
+import com.khoahd7621.youngblack.mappers.*;
+import com.khoahd7621.youngblack.repositories.*;
 import com.khoahd7621.youngblack.services.ProductAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,9 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +34,8 @@ public class ProductAdminServiceImpl implements ProductAdminService {
     private ProductVariantRepository productVariantRepository;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private ProductDetailMapper productDetailMapper;
     @Autowired
     private ProductVariantMapper productVariantMapper;
     @Autowired
@@ -102,5 +95,15 @@ public class ProductAdminServiceImpl implements ProductAdminService {
                         .totalRows(productPage.getTotalElements())
                         .totalPages(productPage.getTotalPages()).build();
         return new SuccessResponse<>(listProductAdminWithPaginateResponse, "Get list products success!");
+    }
+
+    @Override
+    public SuccessResponse<ProductDetailAdminResponse> getProductDetailByProductId(Integer productId) throws NotFoundException {
+        Optional<Product> productOptional = productRepository.findByIsDeletedFalseAndId(productId);
+        if (productOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist product with this id.");
+        }
+        ProductDetailAdminResponse productDetailAdminResponse = productDetailMapper.toProductDetailAdminResponse(productOptional.get());
+        return new SuccessResponse<>(productDetailAdminResponse, "Get product detail successfully.");
     }
 }
