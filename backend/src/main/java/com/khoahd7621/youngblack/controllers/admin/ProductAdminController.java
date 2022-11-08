@@ -1,6 +1,7 @@
 package com.khoahd7621.youngblack.controllers.admin;
 
 import com.khoahd7621.youngblack.dtos.request.product.CreateNewProductRequest;
+import com.khoahd7621.youngblack.dtos.request.product.UpdateProductRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
@@ -42,5 +43,12 @@ public class ProductAdminController {
     @DeleteMapping("/{productId}")
     public SuccessResponse<NoData> deleteProductByProductId(@PathVariable Integer productId) throws NotFoundException {
         return productAdminService.deleteProductByProductId(productId);
+    }
+
+    @PutMapping("/{productId}")
+    public SuccessResponse<NoData> updateProductByProductId(
+            @PathVariable Integer productId,
+            @Valid @RequestBody UpdateProductRequest updateProductRequest) throws NotFoundException, BadRequestException {
+        return productAdminService.updateProductByProductId(productId, updateProductRequest);
     }
 }

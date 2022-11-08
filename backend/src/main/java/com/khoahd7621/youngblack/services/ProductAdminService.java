@@ -1,6 +1,7 @@
 package com.khoahd7621.youngblack.services;
 
 import com.khoahd7621.youngblack.dtos.request.product.CreateNewProductRequest;
+import com.khoahd7621.youngblack.dtos.request.product.UpdateProductRequest;
 import com.khoahd7621.youngblack.dtos.response.NoData;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
@@ -16,4 +17,7 @@ public interface ProductAdminService {
     public SuccessResponse<ProductDetailAdminResponse> getProductDetailByProductId(Integer productId) throws NotFoundException;
 
     public SuccessResponse<NoData> deleteProductByProductId(Integer productId) throws NotFoundException;
+
+    public SuccessResponse<NoData> updateProductByProductId(Integer productId, UpdateProductRequest updateProductRequest)
+            throws NotFoundException, BadRequestException;
 }
