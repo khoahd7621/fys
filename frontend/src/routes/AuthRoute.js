@@ -1,12 +1,14 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { publicRoutes } from './routes';
+import { toast } from 'react-toastify';
+import { privateRoutes } from './routes';
 
 const AuthRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   if (isAuthenticated !== true) {
-    return <Navigate to={publicRoutes.home} />;
+    toast.error('You need to login to access this page.');
+    return <Navigate to={privateRoutes.login} />;
   }
 
   return <>{children}</>;
