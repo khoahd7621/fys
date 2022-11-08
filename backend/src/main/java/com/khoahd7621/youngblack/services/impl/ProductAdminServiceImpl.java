@@ -106,4 +106,16 @@ public class ProductAdminServiceImpl implements ProductAdminService {
         ProductDetailAdminResponse productDetailAdminResponse = productDetailMapper.toProductDetailAdminResponse(productOptional.get());
         return new SuccessResponse<>(productDetailAdminResponse, "Get product detail successfully.");
     }
+
+    @Override
+    public SuccessResponse<NoData> deleteProductByProductId(Integer productId) throws NotFoundException {
+        Optional<Product> productOptional = productRepository.findByIsDeletedFalseAndId(productId);
+        if (productOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist product with this id.");
+        }
+        Product product = productOptional.get();
+        product.setDeleted(true);
+        productRepository.save(product);
+        return new SuccessResponse<>(NoData.builder().build(), "Delete product successfully.");
+    }
 }

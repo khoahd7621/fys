@@ -38,4 +38,9 @@ public class ProductAdminController {
             throws NotFoundException {
         return productAdminService.getProductDetailByProductId(productId);
     }
+
+    @DeleteMapping("/{productId}")
+    public SuccessResponse<NoData> deleteProductByProductId(@PathVariable Integer productId) throws NotFoundException {
+        return productAdminService.deleteProductByProductId(productId);
+    }
 }

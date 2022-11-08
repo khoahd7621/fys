@@ -14,4 +14,6 @@ public interface ProductAdminService {
     public SuccessResponse<ListProductAdminWithPaginateResponse> getAllProductWithPaginate(int limit, int offset);
 
     public SuccessResponse<ProductDetailAdminResponse> getProductDetailByProductId(Integer productId) throws NotFoundException;
+
+    public SuccessResponse<NoData> deleteProductByProductId(Integer productId) throws NotFoundException;
 }
