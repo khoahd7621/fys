@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @Builder
 public class UpdateProductRequest {
-    @NotBlank
     private Integer id;
     @NotBlank
     private String name;
@@ -34,11 +33,9 @@ public class UpdateProductRequest {
     private String secondaryImageName;
     @NotBlank
     private String secondaryImageUrl;
-    @NotBlank
     private boolean isVisible;
     @NotBlank
     private String sku;
-    @NotBlank
     private Integer categoryId;
     private List<SizeRequest> sizes;
 }
