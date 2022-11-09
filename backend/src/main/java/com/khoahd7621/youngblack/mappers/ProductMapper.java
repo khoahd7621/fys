@@ -40,8 +40,8 @@ public class ProductMapper {
         Date currentDate = new Date();
         boolean isPromotion = product.getEndDateDiscount() != null
                 && product.getStartDateDiscount() != null
-                && product.getStartDateDiscount().after(currentDate)
-                && product.getEndDateDiscount().before(currentDate);
+                && currentDate.after(product.getStartDateDiscount())
+                && currentDate.before(product.getEndDateDiscount());
         return ProductAdminResponse.builder()
                 .productId(product.getId())
                 .name(product.getName())
@@ -68,8 +68,8 @@ public class ProductMapper {
         Date currentDate = new Date();
         if (product.getEndDateDiscount() != null
                 && product.getStartDateDiscount() != null
-                && product.getStartDateDiscount().after(currentDate)
-                && product.getEndDateDiscount().before(currentDate)) {
+                && currentDate.after(product.getStartDateDiscount())
+                && currentDate.before(product.getEndDateDiscount())) {
             discountPrice = product.getDiscountPrice();
             startDateDiscount = product.getStartDateDiscount();
             endDateDiscount = product.getEndDateDiscount();
