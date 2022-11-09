@@ -137,7 +137,7 @@ class SizeAdminServiceImplTest {
             sizeAdminServiceImpl.updateSize(requestData);
         });
 
-        assertThat(actual.getMessage(), is("This category name already exist."));
+        assertThat(actual.getMessage(), is("This size already exist."));
     }
 
     @Test
