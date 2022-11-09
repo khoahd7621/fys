@@ -4,7 +4,7 @@ import com.khoahd7621.youngblack.dtos.request.order.CreateNewOrderRequest;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.order.CreateNewOrderResponse;
 import com.khoahd7621.youngblack.dtos.response.order.ListOrdersResponse;
-import com.khoahd7621.youngblack.dtos.response.order.OrderResponse;
+import com.khoahd7621.youngblack.dtos.response.order.OrderWithDetailResponse;
 import com.khoahd7621.youngblack.exceptions.ForbiddenException;
 import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.services.OrderService;
@@ -25,7 +25,7 @@ public class OrderController {
     }
 
     @GetMapping("/{code}")
-    public SuccessResponse<OrderResponse> getOrderByCode(@PathVariable String code)
+    public SuccessResponse<OrderWithDetailResponse> getOrderByCode(@PathVariable String code)
             throws NotFoundException, ForbiddenException {
         return orderService.getOrderByCode(code);
     }

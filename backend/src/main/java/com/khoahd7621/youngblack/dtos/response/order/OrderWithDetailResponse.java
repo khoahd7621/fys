@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
-public class OrderResponse {
+public class OrderWithDetailResponse {
     private long id;
     private String code;
     private String fullName;
@@ -26,4 +27,5 @@ public class OrderResponse {
     private EPaymentMethod paymentMethod;
     private EDeliveryStatus deliveryStatus;
     private EPaymentStatus paymentStatus;
+    private List<OrderDetailResponse> orderDetails;
 }

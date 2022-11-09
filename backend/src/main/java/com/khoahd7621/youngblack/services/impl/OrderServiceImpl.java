@@ -6,6 +6,7 @@ import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.order.CreateNewOrderResponse;
 import com.khoahd7621.youngblack.dtos.response.order.ListOrdersResponse;
 import com.khoahd7621.youngblack.dtos.response.order.OrderResponse;
+import com.khoahd7621.youngblack.dtos.response.order.OrderWithDetailResponse;
 import com.khoahd7621.youngblack.entities.Order;
 import com.khoahd7621.youngblack.entities.OrderDetail;
 import com.khoahd7621.youngblack.entities.User;
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public SuccessResponse<OrderResponse> getOrderByCode(String code) throws NotFoundException, ForbiddenException {
+    public SuccessResponse<OrderWithDetailResponse> getOrderByCode(String code) throws NotFoundException, ForbiddenException {
         Optional<Order> orderOptional = orderRepository.findByCode(code);
         if (orderOptional.isEmpty()) {
             throw new NotFoundException("Don't exist order with this code.");
@@ -76,8 +77,8 @@ public class OrderServiceImpl implements OrderService {
         if (userOfOrder.getId() != user.getId()) {
             throw new ForbiddenException("Don't have permission.");
         }
-        OrderResponse orderResponse = orderMapper.toOrderResponse(orderOptional.get());
-        return new SuccessResponse<>(orderResponse, "Get order successfully.");
+        OrderWithDetailResponse orderWithDetailResponse = orderMapper.toOrderWithDetailResponse(orderOptional.get());
+        return new SuccessResponse<>(orderWithDetailResponse, "Get order successfully.");
     }
 
     @Override
