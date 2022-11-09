@@ -10,4 +10,8 @@ const getOrderByCode = (code) => {
   return axios.get(`/api/v1/order/${code}`);
 };
 
-export { postCreateNewOrder, getOrderByCode };
+const getAllOrderOfUser = (userId) => {
+  return axios.get(`/api/v1/order/all?user-id=${userId}`);
+};
+
+export { postCreateNewOrder, getOrderByCode, getAllOrderOfUser };

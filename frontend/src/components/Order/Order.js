@@ -1,7 +1,15 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+
+import { getAllOrderOfUser } from '~/services/client/orderService';
+import { formatVietnamMoney } from '~/utils/format';
 import CustomStatus from '../OrderTable/CustomStatus';
 import OrderTable from '../OrderTable/OrderTable';
 
 const Order = () => {
+  const account = useSelector((state) => state.user.account);
+
   const columns = [
     {
       Header: 'Order',
@@ -30,32 +38,33 @@ const Order = () => {
       Cell: CustomStatus,
     },
   ];
-  const data = [
-    {
-      order: 'WEB14267',
-      date: '15/01/2020',
-      address: 'Chân Phúc Cẩm, Long Thạnh Mỹ, Quận 9, TP Hồ Chí Minh, Vietnam',
-      orderValue: '740.000₫',
-      paymentStatus: 'Paid',
-      transportStatus: 'Shipped',
-    },
-    {
-      order: 'WEB14267',
-      date: '15/01/2020',
-      address: 'Chân Phúc Cẩm, Long Thạnh Mỹ, Quận 9, TP Hồ Chí Minh, Vietnam',
-      orderValue: '740.000₫',
-      paymentStatus: 'Unpay',
-      transportStatus: 'Unship',
-    },
-    {
-      order: 'WEB14267',
-      date: '15/01/2020',
-      address: 'Chân Phúc Cẩm, Long Thạnh Mỹ, Quận 9, TP Hồ Chí Minh, Vietnam',
-      orderValue: '740.000₫',
-      paymentStatus: 'Cancelled',
-      transportStatus: 'Cancelled',
-    },
-  ];
+  const [listOrder, setListOrders] = useState([]);
+
+  useEffect(() => {
+    fetchListOrdersOfUser();
+  }, []);
+
+  const fetchListOrdersOfUser = async () => {
+    const response = await getAllOrderOfUser(account.id);
+    if (response && +response.code === 0) {
+      if (response?.data.orders && response.data.orders.length > 0) {
+        setListOrders(
+          response.data.orders.map((order) => {
+            return {
+              order: `WEB${order.id}`,
+              date: /\d{4}-\d{2}-\d{2}/.exec(order.orderDate)[0],
+              address: order.address,
+              orderValue: formatVietnamMoney.format(order.totalPrice),
+              paymentStatus: order.paymentStatus,
+              transportStatus: order.deliveryStatus,
+            };
+          }),
+        );
+      }
+    } else {
+      toast.error(response.message);
+    }
+  };
 
   return (
     <div className="order-detail">
@@ -63,7 +72,7 @@ const Order = () => {
         <h2 className="text-xl uppercase mb-7">Your order</h2>
       </div>
       <div className="content">
-        <OrderTable columns={columns} data={data} />
+        <OrderTable columns={columns} data={listOrder} />
       </div>
     </div>
   );
