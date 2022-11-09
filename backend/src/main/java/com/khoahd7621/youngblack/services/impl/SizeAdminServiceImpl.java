@@ -62,7 +62,7 @@ public class SizeAdminServiceImpl implements SizeAdminService {
         }
         Optional<Size> sizeOptionalFindBySize = sizeRepository.findBySizeAndIsDeletedFalse(updateSizeRequest.getNewSize());
         if (sizeOptionalFindBySize.isPresent()) {
-            throw new BadRequestException("This category name already exist.");
+            throw new BadRequestException("This size already exist.");
         }
         Size size = sizeOptionalFindById.get();
         size.setSize(updateSizeRequest.getNewSize());
