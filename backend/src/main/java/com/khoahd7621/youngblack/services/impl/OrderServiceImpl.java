@@ -4,6 +4,7 @@ import com.khoahd7621.youngblack.dtos.request.order.CreateNewOrderRequest;
 import com.khoahd7621.youngblack.dtos.request.order.VariantSizeRequest;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.order.CreateNewOrderResponse;
+import com.khoahd7621.youngblack.dtos.response.order.ListOrdersResponse;
 import com.khoahd7621.youngblack.dtos.response.order.OrderResponse;
 import com.khoahd7621.youngblack.entities.Order;
 import com.khoahd7621.youngblack.entities.OrderDetail;
@@ -77,5 +78,18 @@ public class OrderServiceImpl implements OrderService {
         }
         OrderResponse orderResponse = orderMapper.toOrderResponse(orderOptional.get());
         return new SuccessResponse<>(orderResponse, "Get order successfully.");
+    }
+
+    @Override
+    public SuccessResponse<ListOrdersResponse> getAllOrdersOfUser(long userId) throws NotFoundException, ForbiddenException {
+        User user = authService.getUserLoggedIn();
+        if (user.getId() != userId) {
+            throw new ForbiddenException("Don't have permission.");
+        }
+        List<Order> orders = orderRepository.findAllByUserId(userId);
+        List<OrderResponse> orderResponses = orders.stream()
+                .map(orderMapper::toOrderResponse).collect(Collectors.toList());
+        ListOrdersResponse listOrdersResponse = ListOrdersResponse.builder().orders(orderResponses).build();
+        return new SuccessResponse<>(listOrdersResponse, "Get list orders successfully.");
     }
 }
