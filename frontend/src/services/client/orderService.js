@@ -14,4 +14,8 @@ const getAllOrderOfUser = (userId) => {
   return axios.get(`/api/v1/order/all?user-id=${userId}`);
 };
 
-export { postCreateNewOrder, getOrderByCode, getAllOrderOfUser };
+const getOrderWithDetailOfUser = (orderId) => {
+  return axios.get(`/api/v1/order/detail?order-id=${orderId}`);
+};
+
+export { postCreateNewOrder, getOrderByCode, getAllOrderOfUser, getOrderWithDetailOfUser };

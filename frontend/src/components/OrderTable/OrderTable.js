@@ -34,7 +34,10 @@ const OrderTable = ({ columns, data }) => {
                   return (
                     <td {...cell.getCellProps()} className="px-4 py-2 text-sm border border-gray-200">
                       {cell.column.id === 'order' ? (
-                        <Link className="hover:text-[#ff0000]" to={`/account/order/${cell.value}`}>
+                        <Link
+                          className="hover:text-[#ff0000]"
+                          to={`/account/order/${String(cell.value).toLowerCase()}`}
+                        >
                           {cell.render('Cell')}
                         </Link>
                       ) : (
