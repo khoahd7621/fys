@@ -6,6 +6,7 @@ import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
 import com.khoahd7621.youngblack.dtos.response.productdetail.ProductDetailAdminResponse;
+import com.khoahd7621.youngblack.dtos.response.rating.ListRatingsWithPaginateResponse;
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
 import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
@@ -33,7 +34,8 @@ public class SuccessResponse<T> {
             ListColorsResponse.class,
             CategoryResponse.class,
             ListCategoriesResponse.class,
-            UserLoginResponse.class
+            UserLoginResponse.class,
+            ListRatingsWithPaginateResponse.class
     })
     private T data;
     private String message;
