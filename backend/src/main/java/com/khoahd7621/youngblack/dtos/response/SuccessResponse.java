@@ -1,5 +1,7 @@
 package com.khoahd7621.youngblack.dtos.response;
 
+import com.khoahd7621.youngblack.dtos.response.category.CategoryResponse;
+import com.khoahd7621.youngblack.dtos.response.category.ListCategoriesResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ColorResponse;
 import com.khoahd7621.youngblack.dtos.response.color.ListColorsResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPaginateResponse;
@@ -27,7 +29,9 @@ public class SuccessResponse<T> {
             ListProductAdminWithPaginateResponse.class,
             ProductDetailAdminResponse.class,
             ColorResponse.class,
-            ListColorsResponse.class
+            ListColorsResponse.class,
+            CategoryResponse.class,
+            ListCategoriesResponse.class
     })
     private T data;
     private String message;
