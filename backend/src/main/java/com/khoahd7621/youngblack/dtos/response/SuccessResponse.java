@@ -9,6 +9,7 @@ import com.khoahd7621.youngblack.dtos.response.productdetail.ProductDetailAdminR
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
 import com.khoahd7621.youngblack.dtos.response.user.ListUsersWithPaginateResponse;
+import com.khoahd7621.youngblack.dtos.response.user.UserLoginResponse;
 import com.khoahd7621.youngblack.dtos.response.user.UserResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -31,7 +32,8 @@ public class SuccessResponse<T> {
             ColorResponse.class,
             ListColorsResponse.class,
             CategoryResponse.class,
-            ListCategoriesResponse.class
+            ListCategoriesResponse.class,
+            UserLoginResponse.class
     })
     private T data;
     private String message;
