@@ -104,7 +104,7 @@ const AppRouter = () => {
             }
           />
           <Route
-            path={`${publicRoutes.checkoutSuccess}/:orderId`}
+            path={`${publicRoutes.checkoutSuccess}/:orderCode`}
             element={
               <ClientPrivateRoute>
                 <AuthRoute>
