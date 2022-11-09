@@ -4,10 +4,12 @@ import com.khoahd7621.youngblack.dtos.request.order.CreateNewOrderRequest;
 import com.khoahd7621.youngblack.dtos.request.order.VariantSizeRequest;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.order.CreateNewOrderResponse;
+import com.khoahd7621.youngblack.dtos.response.order.OrderResponse;
 import com.khoahd7621.youngblack.entities.Order;
 import com.khoahd7621.youngblack.entities.OrderDetail;
 import com.khoahd7621.youngblack.entities.User;
 import com.khoahd7621.youngblack.entities.VariantSize;
+import com.khoahd7621.youngblack.exceptions.ForbiddenException;
 import com.khoahd7621.youngblack.exceptions.NotFoundException;
 import com.khoahd7621.youngblack.mappers.OrderDetailMapper;
 import com.khoahd7621.youngblack.mappers.OrderMapper;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,5 +62,20 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
         orderDetailRepository.saveAll(orderDetails);
         return new SuccessResponse<>(CreateNewOrderResponse.builder().code(orderDB.getCode()).build(), "Order successfully.");
+    }
+
+    @Override
+    public SuccessResponse<OrderResponse> getOrderByCode(String code) throws NotFoundException, ForbiddenException {
+        Optional<Order> orderOptional = orderRepository.findByCode(code);
+        if (orderOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist order with this code.");
+        }
+        User user = authService.getUserLoggedIn();
+        User userOfOrder = orderOptional.get().getUser();
+        if (userOfOrder.getId() != user.getId()) {
+            throw new ForbiddenException("Don't have permission.");
+        }
+        OrderResponse orderResponse = orderMapper.toOrderResponse(orderOptional.get());
+        return new SuccessResponse<>(orderResponse, "Get order successfully.");
     }
 }
