@@ -12,6 +12,7 @@ import com.khoahd7621.youngblack.dtos.response.product.ListProductAdminWithPagin
 import com.khoahd7621.youngblack.dtos.response.product.ListProductResponse;
 import com.khoahd7621.youngblack.dtos.response.product.ListProductWithPaginateResponse;
 import com.khoahd7621.youngblack.dtos.response.productdetail.ProductDetailAdminResponse;
+import com.khoahd7621.youngblack.dtos.response.productdetail.ProductDetailResponse;
 import com.khoahd7621.youngblack.dtos.response.rating.ListRatingsWithPaginateResponse;
 import com.khoahd7621.youngblack.dtos.response.size.ListSizesResponse;
 import com.khoahd7621.youngblack.dtos.response.size.SizeResponse;
@@ -47,7 +48,9 @@ public class SuccessResponse<T> {
             ListOrdersResponse.class,
             UploadImageResponse.class,
             ListProductWithPaginateResponse.class,
-            ListProductResponse.class
+            ListProductResponse.class,
+            ProductDetailResponse.class,
+            ListCategoriesResponse.class
     })
     private T data;
     private String message;

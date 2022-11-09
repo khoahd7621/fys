@@ -1,6 +1,5 @@
 package com.khoahd7621.youngblack.controllers.admin;
 
-import com.khoahd7621.youngblack.dtos.response.ExceptionResponse;
 import com.khoahd7621.youngblack.dtos.response.SuccessResponse;
 import com.khoahd7621.youngblack.dtos.response.image.UploadImageResponse;
 import com.khoahd7621.youngblack.services.UploadImageService;
