@@ -53,7 +53,7 @@ class AuthServiceImplTest {
         when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.ACTIVE);
-        when(userMapper.toUserDTOLoginResponse(user)).thenReturn(userLoginResponse);
+        when(userMapper.toUserLoginResponse(user)).thenReturn(userLoginResponse);
         when(jwtTokenUtil.generateAccessToken(user)).thenReturn("Token");
         when(jwtTokenUtil.generateRefreshToken(user)).thenReturn("Refresh_Token");
 
