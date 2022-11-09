@@ -46,6 +46,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/category/**").permitAll()
                 .antMatchers("/api/v1/product/**").permitAll()
                 .antMatchers("/api/v1/product-detail/**").permitAll()
+                .antMatchers("/api/v1/order/**").hasAuthority(ERoles.USER.toString())
                 .antMatchers(HttpMethod.POST, "/api/v1/rating").hasAuthority(ERoles.USER.toString())
                 .antMatchers(HttpMethod.GET, "/api/v1/rating").permitAll()
                 .antMatchers("/api/v1/admin/**").hasAuthority(ERoles.ADMIN.toString())
