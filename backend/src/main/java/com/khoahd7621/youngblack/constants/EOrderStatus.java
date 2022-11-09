@@ -5,5 +5,5 @@ public enum EOrderStatus {
     CONFIRM,
     DELIVERY,
     SUCCESS,
-    CANCELED
+    CANCELLED
 }
