@@ -92,11 +92,12 @@ class ProductDetailControllerTest {
 
         assertThat(actual.getContentAsString(), is(
                 "{\"code\":0," +
-                        "\"data\":" +
-                        "{\"product\":{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1," +
+                        "\"data\":{" +
+                        "\"product\":{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1," +
                         "\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\"," +
-                        "\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageUrl\":\"secondaryImageUrl\"," +
-                        "\"category\":{\"id\":1,\"name\":\"name\"},\"promotion\":false}," +
+                        "\"primaryImageName\":null,\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageName\":null," +
+                        "\"secondaryImageUrl\":\"secondaryImageUrl\",\"category\":{\"id\":1,\"name\":\"name\"}," +
+                        "\"promotion\":false,\"visible\":false}," +
                         "\"colors\":[{\"variantId\":1,\"color\":{\"id\":1,\"name\":\"color\"}," +
                         "\"images\":[{\"imageId\":1,\"imageName\":\"imageName\",\"imageUrl\":\"imageUrl\"}]," +
                         "\"sizes\":[{\"variantSizeId\":1,\"sku\":\"sku\",\"size\":{\"id\":1,\"size\":\"size\"},\"inStock\":true}]}]}," +
