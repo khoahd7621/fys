@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
@@ -10,6 +11,10 @@ const Account = () => {
   const account = useSelector((state) => state.user.account);
   const location = useLocation();
   const nestedOrderRoutes = location.pathname.slice(0, location.pathname.lastIndexOf('/'));
+
+  useEffect(() => {
+    document.title = 'Account';
+  }, []);
 
   return (
     <div className="account-page">

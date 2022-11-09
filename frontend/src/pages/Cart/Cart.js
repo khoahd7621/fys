@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './Cart.module.scss';
@@ -14,6 +15,10 @@ const cx = classNames.bind(styles);
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = 'Cart';
+  }, []);
 
   const handleInCreaseOneProduct = (product) => {
     dispatch(

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import _ from 'lodash';
@@ -65,6 +65,10 @@ const Checkout = () => {
                 </ul>`,
     },
   ]);
+
+  useEffect(() => {
+    document.title = 'Checkout';
+  }, []);
 
   if (cart?.items.length === 0) {
     toast.error("You don't have any item in cart.");

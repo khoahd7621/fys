@@ -33,6 +33,10 @@ const ProductDetail = () => {
   const [showAddToCartModal, setShowAddToCartModal] = useState(false);
 
   useEffect(() => {
+    document.title = 'Product';
+  }, []);
+
+  useEffect(() => {
     fetchProductBySlug(productname);
   }, [productname]);
 

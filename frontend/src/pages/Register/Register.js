@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { useImmer } from 'use-immer';
@@ -36,6 +36,10 @@ const Register = () => {
   const navigate = useNavigate();
   const [account, setAccount] = useImmer({ ...initialState });
   const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Register';
+  }, []);
 
   const onBlurHandler = (event) => {
     switch (event.target.name) {

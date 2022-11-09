@@ -17,6 +17,7 @@ const CheckoutSuccess = () => {
   const [orderInfor, setOrderInfor] = useState({});
 
   useEffect(() => {
+    document.title = 'Checkout - Thank you';
     fetchCheckoutOrderResult();
   }, []);
 
