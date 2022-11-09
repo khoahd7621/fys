@@ -14,4 +14,6 @@ public interface OrderService {
     public SuccessResponse<OrderWithDetailResponse> getOrderByCode(String code) throws NotFoundException, ForbiddenException;
 
     public SuccessResponse<ListOrdersResponse> getAllOrdersOfUser(long userId) throws NotFoundException, ForbiddenException;
+
+    public SuccessResponse<OrderWithDetailResponse> getOrderWithDetail(Long orderId) throws NotFoundException, ForbiddenException;
 }

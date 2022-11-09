@@ -93,4 +93,19 @@ public class OrderServiceImpl implements OrderService {
         ListOrdersResponse listOrdersResponse = ListOrdersResponse.builder().orders(orderResponses).build();
         return new SuccessResponse<>(listOrdersResponse, "Get list orders successfully.");
     }
+
+    @Override
+    public SuccessResponse<OrderWithDetailResponse> getOrderWithDetail(Long orderId) throws NotFoundException, ForbiddenException {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        if (orderOptional.isEmpty()) {
+            throw new NotFoundException("Don't exist order with this id.");
+        }
+        User userLoggedIn = authService.getUserLoggedIn();
+        User user = orderOptional.get().getUser();
+        if (user.getId() != userLoggedIn.getId()) {
+            throw new ForbiddenException("Don't have permission.");
+        }
+        OrderWithDetailResponse orderWithDetailResponse = orderMapper.toOrderWithDetailResponse(orderOptional.get());
+        return new SuccessResponse<>(orderWithDetailResponse, "Get order with detail success.");
+    }
 }

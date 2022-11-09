@@ -35,4 +35,10 @@ public class OrderController {
             throws ForbiddenException, NotFoundException {
         return orderService.getAllOrdersOfUser(userId);
     }
+
+    @GetMapping("/detail")
+    public SuccessResponse<OrderWithDetailResponse> getOrderWithDetail(@RequestParam(name = "order-id") Long orderId)
+            throws ForbiddenException, NotFoundException {
+        return orderService.getOrderWithDetail(orderId);
+    }
 }
