@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 import styles from './Checkout.module.scss';
 
@@ -17,10 +18,12 @@ import imgPayment from '~/assets/images/payment/payment1.svg';
 
 import { formatVietnamMoney } from '~/utils/format';
 import Validation from '~/utils/validation';
+import { postCreateNewOrder } from '~/services/client/orderService';
 
 const cx = classNames.bind(styles);
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const account = useSelector((state) => state.user.account);
   const cart = useSelector((state) => state.cart.cart);
 
@@ -36,6 +39,7 @@ const Checkout = () => {
     {
       id: 1,
       name: 'YB Fast same price',
+      value: 'YB_FAST_SAME_PRICE',
       price: 30000,
     },
   ]);
@@ -45,6 +49,7 @@ const Checkout = () => {
       id: 1,
       name: 'Cash on delivery (COD)',
       image: imgPayment,
+      value: 'CASH',
       content: `<p>You only have to pay after receiving the goods.</p>
                 <i className="block font-bold my-2">Viewing is allowed, not testing.</i>`,
     },
@@ -52,6 +57,7 @@ const Checkout = () => {
       id: 2,
       name: 'Bank transfer',
       image: imgPayment,
+      value: 'BANKING',
       content: `<div>Chủ tài khoản: Hoang Dang Khoa</div>
                 <ul>
                   <li>Vietcombank - Hồ Chí Minh: <b>1234 56789 1234</b></li>
@@ -122,9 +128,36 @@ const Checkout = () => {
     return true;
   };
 
-  const handleCheckoutOrder = () => {
+  const handleCheckoutOrder = async () => {
     if (validateDataSubmit()) {
-      const response = '';
+      const payload = {
+        code: uuidv4(),
+        fullName: purchaseInfo.fullName,
+        phone: purchaseInfo.phone,
+        address: purchaseInfo.address,
+        note: purchaseInfo.note ? purchaseInfo.note : 'none',
+        totalPrice: totalMoney,
+        deliveryFee: transportMethod.price,
+        deliveryMethod: transportMethod.value,
+        paymentMethod: paymentMethod.value,
+        products:
+          cart?.items &&
+          cart?.items.length > 0 &&
+          cart.items.map((item) => {
+            return {
+              variantSizeId: item.product.variantSizeId,
+              quantity: item.quantity,
+              price: item.product.product.promotion ? item.product.product.discountPrice : item.product.product.price,
+            };
+          }),
+      };
+      const response = await postCreateNewOrder(payload);
+      if (response && +response.code === 0) {
+        navigate(`${publicRoutes.checkoutSuccess}/${response.data.code}`);
+        toast.success('Order successfully.');
+      } else {
+        toast.error(response.message);
+      }
     }
   };
 
