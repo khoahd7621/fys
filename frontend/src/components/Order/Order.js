@@ -72,7 +72,8 @@ const Order = () => {
         <h2 className="text-xl uppercase mb-7">Your order</h2>
       </div>
       <div className="content">
-        <OrderTable columns={columns} data={listOrder} />
+        {listOrder && listOrder.length > 0 && <OrderTable columns={columns} data={listOrder} />}
+        {listOrder && listOrder.length === 0 && <div>You don't have any order yet!</div>}
       </div>
     </div>
   );
