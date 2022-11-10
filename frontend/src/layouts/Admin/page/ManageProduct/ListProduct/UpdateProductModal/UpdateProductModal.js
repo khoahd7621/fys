@@ -210,11 +210,6 @@ const UpdateProductModal = ({ show, setShow, data, setData, fetchListProduct }) 
   };
 
   const handleSubmitUpdateProduct = async () => {
-    console.log('>>> PrimaryImage: ', primaryImage);
-    console.log('>>> SecondaryImage: ', secondaryImage);
-    console.log('>>> ListSizes: ', listSizes);
-    console.log('>>> Category: ', category);
-    console.log('>>> Product: ', product);
     if (validateDataBeforeSubmit()) {
       const payload = {
         id: product.productId,

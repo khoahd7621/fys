@@ -24,7 +24,6 @@ const CheckoutSuccess = () => {
   const fetchCheckoutOrderResult = async () => {
     const response = await getOrderByCode(orderCode);
     if (response && +response.code === 0) {
-      console.log('>>> Checkout success: ', response);
       dispatch(clearAllProductInCart());
       setOrderInfor(response.data);
     } else {
