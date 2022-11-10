@@ -4,7 +4,7 @@ import styles from './Tabs.module.scss';
 
 import { ProductRating } from '~/components';
 
-import sizeTableImg from '~/assets/images/product/sizetable.webp';
+import sizeTableImg from '~/assets/images/product/sizetable.png';
 
 const cx = classNames.bind(styles);
 

@@ -6,7 +6,7 @@ import styles from './DetailBlock.module.scss';
 import { GiPencilRuler } from 'react-icons/gi';
 import { FaPhoneSquare, FaLocationArrow } from 'react-icons/fa';
 
-import selectImg from '~/assets/images/product/select-pro.webp';
+import selectImg from '~/assets/images/product/select-pro.png';
 import { formatVietnamMoney } from '~/utils/format';
 
 const cx = classNames.bind(styles);
@@ -241,7 +241,7 @@ const DetailBlock = ({
         <FaLocationArrow />
         <span>
           See a list of store
-          <a href="https://google.com" title="YG Shop store system here" target={'_blank'} rel="noreferrer">
+          <a href="https://google.com" title="YB Shop store system here" target={'_blank'} rel="noreferrer">
             here
           </a>
         </span>

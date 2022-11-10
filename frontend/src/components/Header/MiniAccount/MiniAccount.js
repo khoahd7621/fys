@@ -8,6 +8,7 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { privateRoutes, publicRoutes } from '~/routes/routes';
 import { removeDataUserLogout } from '~/redux/slice/userSlice';
 import { toast } from 'react-toastify';
+import { clearAllProductInCart } from '~/redux/slice/cartSlice';
 
 const cx = classNames.bind(styles);
 
@@ -18,6 +19,7 @@ const MiniAccount = () => {
 
   const handleLogout = () => {
     dispatch(removeDataUserLogout());
+    dispatch(clearAllProductInCart());
     navigate(publicRoutes.home);
     toast.success('Logout successfully');
   };

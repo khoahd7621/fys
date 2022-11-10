@@ -12,7 +12,7 @@ import MiniCart from './MiniCart/MiniCart';
 
 import { BsSearch, BsTextLeft } from 'react-icons/bs';
 
-import logo from '~/assets/images/logo.webp';
+import logo from '~/assets/images/logo.png';
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +32,7 @@ const Header = () => {
           </div>
           <div className="flex items-center justify-center">
             <Link to={publicRoutes.home}>
-              <img className="h-[20px] md:h-[24px] lg:h-[30px]" src={logo} alt="logo" />
+              <img className="h-[20px] md:h-[24px] lg:h-[26px]" src={logo} alt="logo" />
             </Link>
           </div>
           <div className="flex items-center justify-end">

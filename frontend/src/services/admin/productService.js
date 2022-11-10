@@ -32,4 +32,24 @@ const getListProductsWithPaginate = (limit, offset) => {
   return axios.get(`/api/v1/admin/product?limit=${limit}&offset=${offset}`);
 };
 
-export { postCreateNewProduct, getListProductsWithPaginate };
+const deleteProductByProductId = (productId) => {
+  return axios.delete(`/api/v1/admin/product/${productId}`);
+};
+
+const getProductDetailByProductId = (productId) => {
+  return axios.get(`/api/v1/admin/product/${productId}`);
+};
+
+const putUpdateProductByProductId = (productId, payload) => {
+  return axios.put(`/api/v1/admin/product/${productId}`, {
+    ...payload,
+  });
+};
+
+export {
+  postCreateNewProduct,
+  getListProductsWithPaginate,
+  deleteProductByProductId,
+  getProductDetailByProductId,
+  putUpdateProductByProductId,
+};

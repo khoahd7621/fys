@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,10 @@ const Login = () => {
     password: '',
   });
   const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Login';
+  }, []);
 
   const handleChangeInput = (event) => {
     setAccount({

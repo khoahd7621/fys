@@ -17,7 +17,12 @@ const ContentBox = () => {
   const totalMoney =
     cart?.items &&
     cart?.items.length > 0 &&
-    cart.items.reduce((previous, current) => previous + current.quantity * current.product.product.price, 0);
+    cart.items.reduce((previous, current) => {
+      if (current.product.product.promotion) {
+        return previous + current.quantity * current.product.product.discountPrice;
+      }
+      return previous + current.quantity * current.product.product.price;
+    }, 0);
 
   return (
     <div className={cx('cart__items')}>

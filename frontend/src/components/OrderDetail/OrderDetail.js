@@ -1,8 +1,20 @@
 import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { publicRoutes } from '~/routes/routes';
+import { getOrderWithDetailOfUser } from '~/services/client/orderService';
+import { formatVietnamMoney } from '~/utils/format';
 import CustomProduct from './CustomProduct';
 import Table from './Table';
 
 const OrderDetail = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const orderIdFromPath = location.pathname.slice(
+    location.pathname.toLowerCase().indexOf('web') + 3,
+    location.pathname.length,
+  );
   const columns = [
     {
       Header: 'Product',
@@ -22,6 +34,8 @@ const OrderDetail = () => {
       accessor: 'total',
     },
   ];
+  const [order, setOrder] = useState({});
+  const [listProducts, setListProducts] = useState([]);
 
   const data = [
     {
@@ -39,22 +53,93 @@ const OrderDetail = () => {
     },
   ];
 
+  useEffect(() => {
+    fetchOrderDetail();
+  }, []);
+
+  const fetchOrderDetail = async () => {
+    const response = await getOrderWithDetailOfUser(orderIdFromPath);
+    if (response && +response.code === 0) {
+      setOrder({
+        ...response.data,
+      });
+      setListProducts(
+        response.data.orderDetails.length > 0 &&
+          response.data.orderDetails.map((product) => {
+            return {
+              product: {
+                image: product.imageUrl,
+                name: product.name,
+                size: product.size.size,
+                color: product.color.name,
+                code: 'none',
+                slug: product.slug,
+                category: product.category.name.toLowerCase(),
+              },
+              price: formatVietnamMoney.format(product.price),
+              quantity: product.quantity,
+              total: formatVietnamMoney.format(product.price * product.quantity),
+            };
+          }),
+      );
+    } else {
+      navigate(publicRoutes.home);
+      toast.error(response.message);
+    }
+  };
+
   return (
     <div className="order-detail">
       <div className="title">
         <div className="block lg:flex justify-between">
-          <h2 className="text-xl uppercase mb-5 lg:mb-7">Order details #WEB1234</h2>
-          <p className="order-date mb-4 lg:mb-0">Order date: 15/01/2020</p>
+          <h2 className="text-xl uppercase mb-5 lg:mb-7">Order details #WEB{orderIdFromPath}</h2>
+          <p className="order-date mb-4 lg:mb-0">
+            Order date: {order.orderDate && /\d{4}-\d{2}-\d{2}/.exec(order.orderDate)[0]}
+          </p>
         </div>
       </div>
       <div className="content">
         <div className="status">
           <div className="flex gap-6">
             <p>
-              Payment status: <span className={classNames('font-bold italic text-blue-700')}>Paid</span>
+              Payment status:{' '}
+              <span
+                className={classNames(
+                  'font-bold italic',
+                  {
+                    'text-blue-700': order.paymentStatus === 'PAID',
+                  },
+                  {
+                    'text-yellow-700': order.paymentStatus === 'UNPAID',
+                  },
+
+                  {
+                    'text-red-700': order.paymentStatus === 'CANCELLED',
+                  },
+                )}
+              >
+                {order.paymentStatus}
+              </span>
             </p>
             <p>
-              Shipping status: <span className={classNames('font-bold italic text-blue-700')}>Unship</span>
+              Shipping status:{' '}
+              <span
+                className={classNames(
+                  'font-bold italic',
+                  {
+                    'text-blue-700': order.deliveryStatus === 'DELIVERED',
+                  },
+                  {
+                    'text-yellow-700': order.deliveryStatus === 'UNDELIVERED',
+                  },
+
+                  {
+                    'text-red-700': order.deliveryStatus === 'CANCELLED',
+                  },
+                )}
+              >
+                {order.deliveryStatus}
+              </span>
             </p>
           </div>
         </div>
@@ -66,11 +151,9 @@ const OrderDetail = () => {
                   <h3 className="mt-5 mb-2 uppercase">Delivery address</h3>
                 </div>
                 <div className="border border-slate-300 rounded-md pt-3 px-6 pb-3">
-                  <h3 className="name text-base font-bold">Hoang Dang Khoa</h3>
-                  <p className="text-sm">
-                    Address: 33 Đường số 12B, Chân Phúc Cẩm, Long Thạnh Mỹ, Quận 9, TP Hồ Chí Minh
-                  </p>
-                  <p className="text-sm">Phone number: 0792596763</p>
+                  <h3 className="name text-base font-bold">{order.fullName}</h3>
+                  <p className="text-sm">{order.address}</p>
+                  <p className="text-sm">Phone number: {order.phone}</p>
                 </div>
               </div>
             </div>
@@ -80,7 +163,7 @@ const OrderDetail = () => {
                   <h3 className="mt-5 mb-2 uppercase">Payment</h3>
                 </div>
                 <div className="border border-slate-300 rounded-md pt-3 px-6 pb-3">
-                  <p className="text-sm">Cash on delivery (COD)</p>
+                  <p className="text-sm">{order.paymentMethod === 'CASH' ? 'Cash on delivery (COD)' : 'Banking'}</p>
                 </div>
               </div>
             </div>
@@ -90,7 +173,7 @@ const OrderDetail = () => {
                   <h3 className="mt-5 mb-2 uppercase">Note</h3>
                 </div>
                 <div className="border border-slate-300 rounded-md pt-3 px-6 pb-3">
-                  <p className="text-sm">N/a</p>
+                  <p className="text-sm">{order.note}</p>
                 </div>
               </div>
             </div>
@@ -98,7 +181,7 @@ const OrderDetail = () => {
         </div>
         <div className="table-products">
           <div className="mt-4">
-            <Table columns={columns} data={data} />
+            <Table columns={columns} data={listProducts} />
           </div>
         </div>
         <div className="total-order">
@@ -106,11 +189,22 @@ const OrderDetail = () => {
             <tbody>
               <tr>
                 <td className="border border-slate-300 px-2 py-2">Transportation cost</td>
-                <td className="border border-slate-300 px-2 py-2">40.000đ</td>
+                <td className="border border-slate-300 px-2 py-2">
+                  {order.deliveryFee ? formatVietnamMoney.format(order.deliveryFee) : 'Loading...'}
+                </td>
               </tr>
               <tr>
                 <td className="border border-slate-300 px-2 py-2">Total money</td>
-                <td className="border border-slate-300 px-2 py-2">740.000đ</td>
+                <td className="border border-slate-300 px-2 py-2">
+                  {order.orderDetails &&
+                    order.orderDetails.length > 0 &&
+                    formatVietnamMoney.format(
+                      order.orderDetails.reduce(
+                        (prev, current) => prev + current.quantity * current.price,
+                        order.deliveryFee,
+                      ),
+                    )}
+                </td>
               </tr>
             </tbody>
           </table>

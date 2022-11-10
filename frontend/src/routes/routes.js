@@ -20,6 +20,7 @@ const privateRoutes = {
 const adminRoutes = {
   default: '/admin',
   dashboard: '/admin/dashboard',
+  manageOrder: '/admin/manage-order',
   manageCategory: '/admin/manage-category',
   manageSize: '/admin/manage-size',
   manageColor: '/admin/manage-color',

@@ -18,7 +18,7 @@ const Admin = () => {
           <div className="header">
             <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
           </div>
-          <div className="content">
+          <div className="content relative">
             <Outlet />
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './Cart.module.scss';
@@ -14,6 +15,10 @@ const cx = classNames.bind(styles);
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = 'Cart';
+  }, []);
 
   const handleInCreaseOneProduct = (product) => {
     dispatch(
@@ -42,7 +47,12 @@ const Cart = () => {
   const totalMoney =
     cart?.items &&
     cart?.items.length > 0 &&
-    cart.items.reduce((previous, current) => previous + current.quantity * current.product.product.price, 0);
+    cart.items.reduce((previous, current) => {
+      if (current.product.product.promotion) {
+        return previous + current.quantity * current.product.product.discountPrice;
+      }
+      return previous + current.quantity * current.product.product.price;
+    }, 0);
   const totalItems = cart?.items?.reduce((previous, current) => previous + current.quantity, 0);
 
   return (
@@ -90,7 +100,7 @@ const Cart = () => {
                             <p className={cx('name', 'text-sm lg:text-base font-semibold uppercase')}>
                               {`${item?.product?.product?.name} - ${item?.product?.size?.size} / ${item?.product?.color?.name}`}
                             </p>
-                            <p className={cx('brands', 'text-sm font-medium text-[#a9a9a9] my-1')}>Brand: YG Shop</p>
+                            <p className={cx('brands', 'text-sm font-medium text-[#a9a9a9] my-1')}>Brand: YB Shop</p>
                             <div className="mobile-price block lg:hidden text-sm font-normal">
                               Price:{' '}
                               {item?.product?.product?.promotion

@@ -21,6 +21,7 @@ import {
   Dashboard,
   ManageCategory,
   ManageColor,
+  ManageOrder,
   ManageProduct,
   ManageSize,
   ManageUser,
@@ -104,7 +105,7 @@ const AppRouter = () => {
             }
           />
           <Route
-            path={`${publicRoutes.checkoutSuccess}/:orderId`}
+            path={`${publicRoutes.checkoutSuccess}/:orderCode`}
             element={
               <ClientPrivateRoute>
                 <AuthRoute>
@@ -126,13 +127,14 @@ const AppRouter = () => {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route index path={adminRoutes.dashboard} element={<Dashboard />} />
-            <Route index path={adminRoutes.manageCategory} element={<ManageCategory />} />
-            <Route index path={adminRoutes.manageSize} element={<ManageSize />} />
-            <Route index path={adminRoutes.manageColor} element={<ManageColor />} />
-            <Route index path={adminRoutes.manageProduct} element={<ManageProduct />} />
-            <Route index path={adminRoutes.manageUser} element={<ManageUser />} />
-            <Route index path={adminRoutes.myAccount} element={<MyAccount />} />
+            <Route path={adminRoutes.dashboard} element={<Dashboard />} />
+            <Route path={adminRoutes.manageOrder} element={<ManageOrder />} />
+            <Route path={adminRoutes.manageCategory} element={<ManageCategory />} />
+            <Route path={adminRoutes.manageSize} element={<ManageSize />} />
+            <Route path={adminRoutes.manageColor} element={<ManageColor />} />
+            <Route path={adminRoutes.manageProduct} element={<ManageProduct />} />
+            <Route path={adminRoutes.manageUser} element={<ManageUser />} />
+            <Route path={adminRoutes.myAccount} element={<MyAccount />} />
           </Route>
 
           {/* Notfound */}

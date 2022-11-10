@@ -28,7 +28,7 @@ const SideBar = ({ collapsed }) => {
         <Menu iconShape="circle">
           <MenuItem icon={<FaLuggageCart />}>
             Manage Order
-            <Link to={adminRoutes.default} />
+            <Link to={adminRoutes.manageOrder} />
           </MenuItem>
         </Menu>
         <Menu iconShape="circle">

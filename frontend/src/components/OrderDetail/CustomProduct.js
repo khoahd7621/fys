@@ -9,12 +9,14 @@ const CustomProduct = ({ value }) => {
         size: '',
         color: '',
         code: '',
+        slug: '',
+        category: '',
       };
 
   return (
     <div className="product block">
       <div className="image w-20 h-20">
-        <Link to={`/collection/type/${product.name}`}>
+        <Link to={`/collection/${product.category}/${product.slug}`}>
           <img src={product.image} alt="Product" />
         </Link>
       </div>
@@ -23,7 +25,7 @@ const CustomProduct = ({ value }) => {
           <Link to={`/collection/type/${product.name}`}>{product.name}</Link>
         </div>
         <div className="size-color text-xs text-slate-400">
-          {product.size}/{product.color}
+          {product.size} / {product.color}
         </div>
         <div className="product-id text-xs">Product code: {product.code}</div>
       </div>

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { BsTruck } from 'react-icons/bs';
 import { GiCardboardBox } from 'react-icons/gi';
 import { FiPhoneCall } from 'react-icons/fi';
@@ -6,6 +8,10 @@ import { BiStoreAlt } from 'react-icons/bi';
 import { Carousel, Service } from '~/components';
 
 const Home = () => {
+  useEffect(() => {
+    document.title = 'Home';
+  }, []);
+
   return (
     <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] px-3">
       <div className="home-slider">

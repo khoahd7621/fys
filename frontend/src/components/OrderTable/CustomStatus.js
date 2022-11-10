@@ -6,9 +6,9 @@ const CustomStatus = ({ value }) => {
     <span
       className={classNames(
         'px-3 py-1 uppercase leading-wide font-bold text-xs rounded-full shadow-sm',
-        status.startsWith('paid') || status.startsWith('shipped') ? 'bg-green-100 text-green-700' : null,
-        status.startsWith('unpay') || status.startsWith('unship') ? 'bg-yellow-100 text-yellow-700' : null,
-        status.startsWith('cancelled') ? 'bg-red-100 text-red-700' : null,
+        status.startsWith('paid') || status.startsWith('delivered') ? 'bg-green-200 text-green-700' : null,
+        status.startsWith('unpaid') || status.startsWith('undelivered') ? 'bg-yellow-200 text-yellow-700' : null,
+        status.startsWith('cancelled') ? 'bg-red-200 text-red-700' : null,
       )}
     >
       {status}
