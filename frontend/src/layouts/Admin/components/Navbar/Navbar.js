@@ -19,6 +19,9 @@ const Navbar = ({ collapsed, setCollapsed }) => {
     if (currentLocation === 'admin' || currentLocation === 'dashboard') {
       setTitle('Dashboard');
     }
+    if (currentLocation === 'manage-order') {
+      setTitle('Manage Order');
+    }
     if (currentLocation === 'manage-product') {
       setTitle('Manage Product');
     }
@@ -30,6 +33,12 @@ const Navbar = ({ collapsed, setCollapsed }) => {
     }
     if (currentLocation === 'manage-color') {
       setTitle('Manage Color');
+    }
+    if (currentLocation === 'manage-user') {
+      setTitle('Manage User');
+    }
+    if (currentLocation === 'my-account') {
+      setTitle('My Account');
     }
   }, [location.pathname]);
 
