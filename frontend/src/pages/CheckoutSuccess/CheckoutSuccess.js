@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BiCheck } from 'react-icons/bi';
 
-import logo from '~/assets/images/logo.webp';
+import logo from '~/assets/images/logo.png';
 import { publicRoutes } from '~/routes/routes';
 import { getOrderByCode } from '~/services/client/orderService';
 import { clearAllProductInCart } from '~/redux/slice/cartSlice';
@@ -36,7 +36,7 @@ const CheckoutSuccess = () => {
     <div className="checkout-thankyou bg-[#e6e8ea]">
       <div className="container mx-auto max-w-[730px] lg:max-w-[970px] xl:max-w-[1150px] min-h-screen px-3">
         <div className="logo pt-7 pb-5">
-          <img src={logo} alt="YB Shop" title="Young Black Shop" />
+          <img src={logo} alt="Young Black Shop" title="Young Black Shop" className="h-10" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="primary">

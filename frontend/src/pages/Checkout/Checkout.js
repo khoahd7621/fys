@@ -13,7 +13,7 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 
 import { publicRoutes } from '~/routes/routes';
 
-import logo from '~/assets/images/logo.webp';
+import logo from '~/assets/images/logo.png';
 import imgPayment from '~/assets/images/payment/payment1.svg';
 
 import { formatVietnamMoney } from '~/utils/format';
@@ -177,7 +177,7 @@ const Checkout = () => {
           <div className="main">
             <div className="my-6">
               <Link to={publicRoutes.home}>
-                <img src={logo} alt="" title="Young Black Shop" />
+                <img className="h-10" src={logo} alt="Young Black Shop" title="Young Black Shop" />
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

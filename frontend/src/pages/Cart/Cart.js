@@ -100,7 +100,7 @@ const Cart = () => {
                             <p className={cx('name', 'text-sm lg:text-base font-semibold uppercase')}>
                               {`${item?.product?.product?.name} - ${item?.product?.size?.size} / ${item?.product?.color?.name}`}
                             </p>
-                            <p className={cx('brands', 'text-sm font-medium text-[#a9a9a9] my-1')}>Brand: YG Shop</p>
+                            <p className={cx('brands', 'text-sm font-medium text-[#a9a9a9] my-1')}>Brand: YB Shop</p>
                             <div className="mobile-price block lg:hidden text-sm font-normal">
                               Price:{' '}
                               {item?.product?.product?.promotion
