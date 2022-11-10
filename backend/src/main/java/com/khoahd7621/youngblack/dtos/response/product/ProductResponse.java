@@ -19,8 +19,11 @@ public class ProductResponse {
     private Date startDateDiscount;
     private Date endDateDiscount;
     private String slug;
+    private String primaryImageName;
     private String primaryImageUrl;
+    private String secondaryImageName;
     private String secondaryImageUrl;
+    private boolean isVisible;
     private boolean isPromotion;
     private CategoryResponse category;
 }

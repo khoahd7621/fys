@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         if (user.getId() != userId) {
             throw new ForbiddenException("Don't have permission to do this action.");
         }
-        return new SuccessResponse<>(userMapper.toUserDTOResponse(user),
+        return new SuccessResponse<>(userMapper.toUserResponse(user),
                 "Get current user's information successfully.");
     }
 
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         user.setAddress(userUpdateRequest.getAddress());
         user.setUpdatedAt(new Date());
         userRepository.save(user);
-        return new SuccessResponse<>(userMapper.toUserDTOResponse(user), "Update information successfully.");
+        return new SuccessResponse<>(userMapper.toUserResponse(user), "Update information successfully.");
     }
 
     @Override

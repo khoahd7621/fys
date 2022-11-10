@@ -40,7 +40,7 @@ public class UserAdminServiceImpl implements UserAdminService {
             ERoles role, EAccountStatus status, Integer limit, Integer offset) {
         Pageable pageable = pageableUtil.getPageable(offset, limit);
         Page<User> userPage = userRepository.findAllByRoleAndStatus(role, status, pageable);
-        List<UserResponse> userResponseList = userPage.getContent().stream().map(userMapper::toUserDTOResponse)
+        List<UserResponse> userResponseList = userPage.getContent().stream().map(userMapper::toUserResponse)
                 .collect(Collectors.toList());
         ListUsersWithPaginateResponse listUsersWithPaginateResponse =
                 ListUsersWithPaginateResponse.builder()

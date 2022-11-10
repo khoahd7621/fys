@@ -18,6 +18,7 @@ import com.khoahd7621.youngblack.repositories.UserRepository;
 import com.khoahd7621.youngblack.utils.JwtTokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ class AuthServiceImplTest {
     private PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
     private JwtTokenUtil jwtTokenUtil;
+    private SecurityContext securityContext;
 
     @BeforeEach
     void beforeEach() {
@@ -36,7 +38,8 @@ class AuthServiceImplTest {
         passwordEncoder = mock(PasswordEncoder.class);
         userMapper = mock(UserMapper.class);
         jwtTokenUtil = mock(JwtTokenUtil.class);
-        authServiceImpl = new AuthServiceImpl(userRepository, passwordEncoder, userMapper, jwtTokenUtil);
+        securityContext = mock(SecurityContext.class);
+        authServiceImpl = new AuthServiceImpl(userRepository, passwordEncoder, userMapper, jwtTokenUtil, securityContext);
     }
 
     @Test
@@ -50,7 +53,7 @@ class AuthServiceImplTest {
         when(userRepository.findByEmail(userLoginRequest.getEmail())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(user.getStatus()).thenReturn(EAccountStatus.ACTIVE);
-        when(userMapper.toUserDTOLoginResponse(user)).thenReturn(userLoginResponse);
+        when(userMapper.toUserLoginResponse(user)).thenReturn(userLoginResponse);
         when(jwtTokenUtil.generateAccessToken(user)).thenReturn("Token");
         when(jwtTokenUtil.generateRefreshToken(user)).thenReturn("Refresh_Token");
 

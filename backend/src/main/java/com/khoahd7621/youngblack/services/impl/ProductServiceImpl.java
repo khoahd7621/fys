@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     public SuccessResponse<ListProductWithPaginateResponse> getAllProductsWithPaginateAndSort(Integer offset, Integer limit, String sortBase, String sorType)
             throws BadRequestException {
         Pageable pageable = pageableUtil.getPageable(offset, limit, sortBase, sorType);
-        Page<Product> productPage = productRepository.findAllByIsDeletedFalse(pageable);
+        Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndIsVisibleTrue(pageable);
         List<ProductResponse> productResponseList =
                 productPage.stream().map(productMapper::toProductResponse).collect(Collectors.toList());
         ListProductWithPaginateResponse listProductWithPaginateResponse =
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
             throw new BadRequestException("Category \"" + categoryName + "\" does not exist.");
         }
         Pageable pageable = pageableUtil.getPageable(offset, limit, sortBase, sorType);
-        Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndCategoryId(categoryOptional.get().getId(), pageable);
+        Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndIsVisibleTrueAndCategoryId(categoryOptional.get().getId(), pageable);
         List<ProductResponse> productResponseList =
                 productPage.stream().map(productMapper::toProductResponse).collect(Collectors.toList());
         ListProductWithPaginateResponse listProductWithPaginateResponse =
@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public SuccessResponse<ListProductWithPaginateResponse> getAllProductsSearchByNameWithPaginate(String query, Integer offset, Integer limit) {
-        Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndNameLikeIgnoreCase("%" + query + "%", PageRequest.of(offset, limit));
+        Page<Product> productPage = productRepository.findAllByIsDeletedFalseAndIsVisibleTrueAndNameLikeIgnoreCase("%" + query + "%", PageRequest.of(offset, limit));
         List<ProductResponse> productResponseList =
                 productPage.stream().map(productMapper::toProductResponse).collect(Collectors.toList());
         ListProductWithPaginateResponse listProductWithPaginateResponse =

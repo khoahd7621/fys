@@ -50,7 +50,7 @@ public class UserMapper {
                 .build();
     }
 
-    public UserResponse toUserDTOResponse(User user) {
+    public UserResponse toUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -65,7 +65,7 @@ public class UserMapper {
                 .build();
     }
 
-    public UserLoginResponse toUserDTOLoginResponse(User user) {
+    public UserLoginResponse toUserLoginResponse(User user) {
         return UserLoginResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())

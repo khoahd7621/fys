@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class SizeOfCreateNewProduct {
+public class SizeRequest {
     private Integer id;
     private String size;
 }

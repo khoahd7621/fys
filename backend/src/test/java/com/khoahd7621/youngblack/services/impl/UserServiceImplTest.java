@@ -75,7 +75,7 @@ class UserServiceImplTest {
 
         when(authService.getUserLoggedIn()).thenReturn(user);
         when(user.getId()).thenReturn(1L);
-        when(userMapper.toUserDTOResponse(user)).thenReturn(userResponse);
+        when(userMapper.toUserResponse(user)).thenReturn(userResponse);
 
         SuccessResponse<UserResponse> actual = userServiceImpl.getCurrentUserInformation(userIdRequest);
 
@@ -132,7 +132,7 @@ class UserServiceImplTest {
         when(authService.getUserLoggedIn()).thenReturn(user);
         when(user.getId()).thenReturn(1L);
         when(userRepository.findByPhone(userUpdateRequest.getPhone())).thenReturn(Optional.empty());
-        when(userMapper.toUserDTOResponse(user)).thenReturn(userResponse);
+        when(userMapper.toUserResponse(user)).thenReturn(userResponse);
 
         SuccessResponse<UserResponse> actual = userServiceImpl.updateCurrentUserInformation(userIdRequest, userUpdateRequest);
 

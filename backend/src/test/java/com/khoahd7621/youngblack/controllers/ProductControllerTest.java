@@ -95,7 +95,11 @@ class ProductControllerTest {
         assertThat(actual.getContentAsString(), is(
                 "{\"code\":0," +
                         "\"data\":{" +
-                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1,\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\",\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageUrl\":\"secondaryImageUrl\",\"category\":{\"id\":1,\"name\":\"name\"},\"promotion\":false}]," +
+                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1," +
+                        "\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\"," +
+                        "\"primaryImageName\":null,\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageName\":null," +
+                        "\"secondaryImageUrl\":\"secondaryImageUrl\",\"category\":{\"id\":1,\"name\":\"name\"}," +
+                        "\"promotion\":false,\"visible\":false}]," +
                         "\"totalRows\":1," +
                         "\"totalPages\":1}," +
                         "\"message\":\"message\"}"));
@@ -146,7 +150,12 @@ class ProductControllerTest {
         assertThat(actual.getContentAsString(), is(
                 "{\"code\":0," +
                         "\"data\":{" +
-                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1,\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\",\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageUrl\":\"secondaryImageUrl\",\"category\":{\"id\":1,\"name\":\"name\"},\"promotion\":false}]," +
+                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1," +
+                        "\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\"," +
+                        "\"primaryImageName\":null,\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageName\":null," +
+                        "\"secondaryImageUrl\":\"secondaryImageUrl\"," +
+                        "\"category\":{\"id\":1,\"name\":\"name\"}," +
+                        "\"promotion\":false,\"visible\":false}]," +
                         "\"totalRows\":1," +
                         "\"totalPages\":1}," +
                         "\"message\":\"message\"}"));
@@ -194,7 +203,12 @@ class ProductControllerTest {
         assertThat(actual.getContentAsString(), is(
                 "{\"code\":0," +
                         "\"data\":{" +
-                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1,\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\",\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageUrl\":\"secondaryImageUrl\",\"category\":{\"id\":1,\"name\":\"name\"},\"promotion\":false}]," +
+                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1," +
+                        "\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\"," +
+                        "\"primaryImageName\":null,\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageName\":null," +
+                        "\"secondaryImageUrl\":\"secondaryImageUrl\"," +
+                        "\"category\":{\"id\":1,\"name\":\"name\"}," +
+                        "\"promotion\":false,\"visible\":false}]," +
                         "\"totalRows\":1," +
                         "\"totalPages\":1}," +
                         "\"message\":\"message\"}"));
@@ -217,7 +231,12 @@ class ProductControllerTest {
         assertThat(actual.getContentAsString(), is(
                 "{\"code\":0," +
                         "\"data\":{" +
-                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1,\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\",\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageUrl\":\"secondaryImageUrl\",\"category\":{\"id\":1,\"name\":\"name\"},\"promotion\":false}]}," +
+                        "\"products\":[{\"productId\":1,\"name\":\"name\",\"description\":\"description\",\"price\":1," +
+                        "\"discountPrice\":0,\"startDateDiscount\":null,\"endDateDiscount\":null,\"slug\":\"slug\"," +
+                        "\"primaryImageName\":null,\"primaryImageUrl\":\"primaryImageUrl\",\"secondaryImageName\":null," +
+                        "\"secondaryImageUrl\":\"secondaryImageUrl\"," +
+                        "\"category\":{\"id\":1,\"name\":\"name\"}," +
+                        "\"promotion\":false,\"visible\":false}]}," +
                         "\"message\":\"message\"}"));
     }
 

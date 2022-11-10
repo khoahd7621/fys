@@ -37,16 +37,27 @@ public class ProductMapper {
     }
 
     public ProductAdminResponse toProductAdminResponse(Product product) {
-        boolean isPromotion = product.getEndDateDiscount() != null && product.getEndDateDiscount().after(new Date());
+        Date currentDate = new Date();
+        boolean isPromotion = product.getEndDateDiscount() != null
+                && product.getStartDateDiscount() != null
+                && currentDate.after(product.getStartDateDiscount())
+                && currentDate.before(product.getEndDateDiscount());
         return ProductAdminResponse.builder()
                 .productId(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
+                .discountPrice(product.getDiscountPrice())
+                .startDateDiscount(product.getStartDateDiscount())
+                .endDateDiscount(product.getEndDateDiscount())
                 .slug(product.getSlug())
+                .primaryImageName(product.getPrimaryImageName())
                 .primaryImageUrl(product.getPrimaryImageUrl())
+                .secondaryImageName(product.getSecondaryImageName())
+                .secondaryImageUrl(product.getSecondaryImageUrl())
+                .isVisible(product.isVisible())
                 .isPromotion(isPromotion)
-                .isVisible(product.isVisible()).build();
+                .category(categoryMapper.toCategoryResponse(product.getCategory())).build();
     }
 
     public ProductResponse toProductResponse(Product product) {
@@ -54,7 +65,11 @@ public class ProductMapper {
         Date startDateDiscount = null;
         Date endDateDiscount = null;
         boolean isPromotion = false;
-        if (product.getEndDateDiscount() != null && product.getEndDateDiscount().before(new Date())) {
+        Date currentDate = new Date();
+        if (product.getEndDateDiscount() != null
+                && product.getStartDateDiscount() != null
+                && currentDate.after(product.getStartDateDiscount())
+                && currentDate.before(product.getEndDateDiscount())) {
             discountPrice = product.getDiscountPrice();
             startDateDiscount = product.getStartDateDiscount();
             endDateDiscount = product.getEndDateDiscount();
@@ -69,8 +84,11 @@ public class ProductMapper {
                 .startDateDiscount(startDateDiscount)
                 .endDateDiscount(endDateDiscount)
                 .slug(product.getSlug())
+                .primaryImageName(product.getPrimaryImageName())
                 .primaryImageUrl(product.getPrimaryImageUrl())
+                .secondaryImageName(product.getSecondaryImageName())
                 .secondaryImageUrl(product.getSecondaryImageUrl())
+                .isVisible(product.isVisible())
                 .isPromotion(isPromotion)
                 .category(categoryMapper.toCategoryResponse(product.getCategory()))
                 .build();

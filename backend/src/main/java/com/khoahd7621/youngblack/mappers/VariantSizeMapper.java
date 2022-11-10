@@ -1,8 +1,9 @@
 package com.khoahd7621.youngblack.mappers;
 
-import com.khoahd7621.youngblack.dtos.request.size.SizeOfCreateNewProduct;
+import com.khoahd7621.youngblack.dtos.request.size.SizeRequest;
 import com.khoahd7621.youngblack.dtos.response.variantsize.VariantSizeResponse;
 import com.khoahd7621.youngblack.entities.ProductVariant;
+import com.khoahd7621.youngblack.entities.Size;
 import com.khoahd7621.youngblack.entities.VariantSize;
 import com.khoahd7621.youngblack.utils.SkuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,22 @@ public class VariantSizeMapper {
     @Autowired
     private SkuUtil skuUtil;
 
-    public List<VariantSize> toListVariantSizeWithProductVariant(List<SizeOfCreateNewProduct> sizes, ProductVariant productVariant, String rootSku, String colorName) {
-        return sizes.stream().map(sizeOfCreateNewProduct ->
+    public List<VariantSize> toListVariantSizeWithProductVariant(List<SizeRequest> sizes, ProductVariant productVariant, String rootSku, String colorName) {
+        return sizes.stream().map(sizeRequest ->
                         VariantSize.builder()
-                                .sku(skuUtil.getProductSku(rootSku, colorName, sizeOfCreateNewProduct.getSize()))
+                                .sku(skuUtil.getProductSku(rootSku, colorName, sizeRequest.getSize()))
                                 .isInStock(true)
-                                .size(sizeMapper.toSize(sizeOfCreateNewProduct))
+                                .size(sizeMapper.toSize(sizeRequest))
+                                .productVariant(productVariant).build())
+                .collect(Collectors.toList());
+    }
+
+    public List<VariantSize> toListVariantSizeWithProductVariant(Size size, Set<ProductVariant> productVariants, String rootSku) {
+        return productVariants.stream().map(productVariant ->
+                        VariantSize.builder()
+                                .sku(skuUtil.getProductSku(rootSku, productVariant.getColor().getName(), size.getSize()))
+                                .isInStock(true)
+                                .size(size)
                                 .productVariant(productVariant).build())
                 .collect(Collectors.toList());
     }

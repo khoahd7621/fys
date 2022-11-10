@@ -73,7 +73,7 @@ class UserAdminServiceImplTest {
         when(pageableUtil.getPageable(offset, limit)).thenReturn(pageable);
         when(userRepository.findAllByRoleAndStatus(roleCaptor.capture(), statusCaptor.capture(), pageableCaptor.capture()))
                 .thenReturn(userPage);
-        when(userMapper.toUserDTOResponse(user)).thenReturn(userResponse);
+        when(userMapper.toUserResponse(user)).thenReturn(userResponse);
 
         SuccessResponse<ListUsersWithPaginateResponse> actual =
                 userAdminServiceImpl.getListUsersByRoleAndStatusWithPaginate(role, status, limit, offset);
