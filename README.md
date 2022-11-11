@@ -53,7 +53,7 @@
 -| - | -
 1| [Back-end](https://github.com/khoahd7621/young-black-ecommerce/tree/main/backend) | Main backend source code
 2| [Front-end](https://github.com/khoahd7621/young-black-ecommerce/tree/main/frontend) | Main frontend source code
-3| [Database]() | ERD diagram, script
+3| [Database](https://github.com/khoahd7621/young-black-ecommerce/tree/main/database) | ERD diagram, script
 
 ## Reference
 - [Spring.io](https://spring.io)
