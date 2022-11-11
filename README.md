@@ -56,6 +56,7 @@
 3| [Database](https://github.com/khoahd7621/young-black-ecommerce/tree/main/database) | ERD diagram, script
 
 ## Reference
+- [Design by Young Green](https://ygshop.vn)
 - [Spring.io](https://spring.io)
 - [Baeldung](https://www.baeldung.com)
 - [Testing controller layer](https://spring.io/guides/gs/testing-web/)
