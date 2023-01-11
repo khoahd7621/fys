@@ -24,13 +24,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.text.SimpleDateFormat;
-
-import static org.mockito.Mockito.when;
-import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
 @ContextConfiguration(classes = {App.class, WebSecurityConfig.class, CorsConfig.class})
@@ -61,8 +59,8 @@ class AuthControllerTest {
                 .address("address")
                 .role(ERoles.USER)
                 .status(EAccountStatus.ACTIVE)
-                .createdAt(new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01"))
-                .updatedAt(new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01")).build();
+                .createdAt(null)
+                .updatedAt(null).build();
         SuccessResponse<UserLoginResponse> expected =
                 new SuccessResponse<>(responseData, "Login successfully.");
 
@@ -85,8 +83,8 @@ class AuthControllerTest {
                         "\"address\":\"address\"," +
                         "\"role\":\"USER\"," +
                         "\"status\":\"ACTIVE\"," +
-                        "\"createdAt\":\"2010-12-31T17:00:00.000+00:00\"," +
-                        "\"updatedAt\":\"2010-12-31T17:00:00.000+00:00\"," +
+                        "\"createdAt\":null," +
+                        "\"updatedAt\":null," +
                         "\"accessToken\":null," +
                         "\"refreshToken\":null}," +
                         "\"message\":\"Login successfully.\"}"));

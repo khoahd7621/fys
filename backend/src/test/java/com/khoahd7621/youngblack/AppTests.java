@@ -1,25 +1,20 @@
 package com.khoahd7621.youngblack;
 
-import com.khoahd7621.youngblack.repositories.UserRepository;
-import com.khoahd7621.youngblack.security.CorsConfig;
-import com.khoahd7621.youngblack.security.WebSecurityConfig;
-import com.khoahd7621.youngblack.utils.JwtTokenUtil;
+import com.khoahd7621.youngblack.controllers.AuthController;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@WebMvcTest(App.class)
-@ContextConfiguration(classes = {App.class, WebSecurityConfig.class, CorsConfig.class})
+@SpringBootTest
 class AppTests {
 
-    @MockBean
-    private JwtTokenUtil jwtTokenUtil;
-    @MockBean
-    private UserRepository userRepository;
+    @Autowired
+    private AuthController authController;
 
     @Test
     void contextLoads() {
+        Assertions.assertThat(authController).isNotNull();
     }
 
 }
