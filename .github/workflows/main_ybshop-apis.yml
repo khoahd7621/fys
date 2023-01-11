@@ -22,7 +22,7 @@ jobs:
           java-version: '11'
 
       - name: Build with Maven
-        working-directory: '${{ github.workspace }}/backend/pom.xml'
+        working-directory: '${{ github.workspace }}/backend'
         run: mvn clean install
 
       - name: Upload artifact for deployment job
