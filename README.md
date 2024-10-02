@@ -1,7 +1,6 @@
-# :face_with_spiral_eyes: Young Black E-commerce
+# :face_with_spiral_eyes: FYS - Furever Young Shop
 
-- Video Demo: [Updating...]()
-- Live Demo: [Updating...]()
+- Migrating ...
 
 ## Table of Contents
 
@@ -65,6 +64,6 @@
 
 ## License & Copyright
 
-&copy; 2022 Khoa Dang Hoang khoahd7621 Licensed under the [GPL-3.0 LICENSE](https://github.com/khoahd7621/young-black-ecommerce/blob/main/LICENSE).
+&copy; 2022 Khoa Dang Hoang khoahd7621 Licensed under the [GPL-3.0 LICENSE](https://github.com/khoahd7621/fys/blob/main/LICENSE).
 
 > :love_you_gesture: Feel free to use my repository and star it if you find something interesting :love_you_gesture:
